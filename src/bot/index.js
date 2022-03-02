@@ -9,7 +9,7 @@ export default function bot(data, end) {
   const randomNumber = Math.round(Math.random() * 100);
 
   const options = {
-    message: `Я пока что немного тупой, поэтому держи рандомное число: ${randomNumber}%`,
+    message: `Ты Ивашка на ${randomNumber}%`,
     to: data.object.message.peer_id,
   };
 
