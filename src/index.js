@@ -9,7 +9,6 @@ const HOST = '0.0.0.0';
 
 const server = createServer((req, res) => {
   let _data = '';
-  let data = null;
 
   req.on('data', chunk => {
     _data += chunk;
