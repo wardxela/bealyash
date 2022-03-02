@@ -1,0 +1,13 @@
+{
+  "name": "bealyash",
+  "version": "1.0.0",
+  "description": "bealyash - a great chat bot developed with love",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Alexander Ward",
+  "license": "ISC"
+}
