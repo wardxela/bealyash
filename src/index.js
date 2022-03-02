@@ -1,7 +1,7 @@
-import http from 'http';
+import { createServer } from 'http';
 
 const server = createServer((req, res) => {
-  res.send('hello');
+  res.end('hello');
 });
 
 server.listen(8000);
