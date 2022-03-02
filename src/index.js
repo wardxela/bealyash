@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { createServer } from 'http';
 import { CONFIRMATION_STRING } from './config.js';
+import { CONFIRMATION } from './vk/types.js';
 import bot from './bot/index.js';
 
 const PORT = process.env.PORT || 8080;
@@ -28,11 +29,11 @@ const server = createServer((req, res) => {
     res.setHeader('Content-Type', 'text/plain');
     res.writeHead(200);
 
-    if (data.type === 'confirmation') {
+    if (data.type === CONFIRMATION) {
       return res.end(CONFIRMATION_STRING);
     }
 
-    bot(data, message => {
+    return bot(data, message => {
       res.end(message);
     });
   });
