@@ -1,6 +1,7 @@
+import 'dotenv/config';
 import { createServer } from 'http';
-import bot from './bot.js';
 import { CONFIRMATION_STRING } from './config.js';
+import bot from './bot/index.js';
 
 const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
@@ -31,8 +32,8 @@ const server = createServer((req, res) => {
       return res.end(CONFIRMATION_STRING);
     }
 
-    bot(data, () => {
-      res.end('ok');
+    bot(data, message => {
+      res.end(message);
     });
   });
 });
