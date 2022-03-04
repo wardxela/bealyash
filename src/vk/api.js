@@ -1,10 +1,9 @@
 import { request } from 'https';
 import { stringify } from 'querystring';
 import { VK_API, VK_API_TOKEN, VK_API_VER } from '../config.js';
-import { SEND_MESSAGE } from '../vk/types.js';
 
 export function sendMessage({ to, message }, callback) {
-  const randomId = Math.round(Math.random() * 1000000000000);
+  const randomId = Math.round(Math.random() * 10000000000);
 
   const query = stringify({
     access_token: VK_API_TOKEN,
@@ -15,11 +14,11 @@ export function sendMessage({ to, message }, callback) {
   });
 
   const req = request(
-    `${VK_API}/method/${SEND_MESSAGE}/?${query}`,
+    `${VK_API}/method/messages.send/?${query}`,
     {
       method: 'POST',
     },
-    res => {
+    () => {
       callback();
     }
   );

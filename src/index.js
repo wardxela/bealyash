@@ -7,33 +7,33 @@ import bot from './bot/index.js';
 const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
 
-const server = createServer((req, res) => {
-  let _data = '';
+const server = createServer((request, response) => {
+  let __requestBody = '';
 
-  req.on('data', chunk => {
-    _data += chunk;
+  request.on('data', chunk => {
+    __requestBody += chunk;
   });
 
-  req.on('end', () => {
+  request.on('end', () => {
+    response.setHeader('Content-Type', 'text/plain');
+
     let data = null;
 
-    if (_data) {
-      data = JSON.parse(_data);
+    if (__requestBody) {
+      data = JSON.parse(__requestBody);
     } else {
-      data = {
-        error: 'Empty JSON',
-      };
+      response.statusCode = 400;
+      return response.end('Empty JSON');
     }
-
-    res.setHeader('Content-Type', 'text/plain');
-    res.writeHead(200);
 
     if (data.type === CONFIRMATION) {
-      return res.end(CONFIRMATION_STRING);
+      response.statusCode = 200;
+      return response.end(CONFIRMATION_STRING);
     }
 
-    return bot(data, message => {
-      res.end(message);
+    return bot(data, (code, message) => {
+      response.statusCode = code;
+      response.end(message);
     });
   });
 });

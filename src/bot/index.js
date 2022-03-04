@@ -1,25 +1,17 @@
-import { sendMessage } from '../vk/api.js';
 import { NEW_MESSAGE } from '../vk/types.js';
+import { isCallToBot } from './utilities/regexp.js';
+import dispatcher from './dispatcher.js';
 
 export default function bot(data, end) {
-  if (data.error) {
-    return end(data.error);
+  if (data.type !== NEW_MESSAGE) {
+    return end(400, 'Not Callback API call');
   }
 
-  const randomNumber = Math.round(Math.random() * 100);
-
-  const options = {
-    message: `Ты Ивашка на ${randomNumber}%`,
-    to: data.object.message.peer_id,
-  };
-
-  if (data.type === NEW_MESSAGE) {
-    if (data.object.message.text.toLowerCase().startsWith('беляш ')) {
-      return sendMessage(options, () => {
-        end('ok');
-      });
-    }
+  if (isCallToBot(data.object.message.text)) {
+    return dispatcher(data, () => {
+      return end(200, 'ok');
+    });
   }
 
-  return end('ok');
+  return end(200, 'ok');
 }
