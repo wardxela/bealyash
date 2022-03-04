@@ -7,11 +7,11 @@ export default function dispatcher(data, end) {
   const command = commands[call.command];
 
   if (typeof command === 'function') {
-    command(call.value, result => {
+    command(call.value, data, result => {
       sendMessage(
         {
-          to: data.object.message.peer_id,
-          message: result,
+          peer_id: data.object.message.peer_id,
+          result: result,
         },
         end
       );

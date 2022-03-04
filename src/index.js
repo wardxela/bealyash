@@ -8,10 +8,10 @@ const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
 
 const server = createServer((request, response) => {
-  let __requestBody = '';
+  let __responseBody = '';
 
   request.on('data', chunk => {
-    __requestBody += chunk;
+    __responseBody += chunk;
   });
 
   request.on('end', () => {
@@ -19,8 +19,8 @@ const server = createServer((request, response) => {
 
     let data = null;
 
-    if (__requestBody) {
-      data = JSON.parse(__requestBody);
+    if (__responseBody) {
+      data = JSON.parse(__responseBody);
     } else {
       response.statusCode = 400;
       return response.end('Empty JSON');
