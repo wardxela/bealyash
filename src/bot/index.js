@@ -7,7 +7,7 @@ export default function bot(data, end) {
     return end(400, 'Not Callback API call');
   }
 
-  if (isCallToBot(data.object.message.text.toLowerCase())) {
+  if (isCallToBot(data.object.message.text)) {
     return dispatcher(data, () => {
       return end(200, 'ok');
     });

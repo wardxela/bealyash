@@ -1,6 +1,9 @@
 import { BOT_NAME } from '../../config.js';
 
-export const CALL_TEMPLATE = new RegExp(`${BOT_NAME}\\s[а-я]+\\s?[а-я0-9]*`);
+export const CALL_TEMPLATE = new RegExp(
+  `^${BOT_NAME}\\s[а-я]+\\s?[а-я0-9]*$`,
+  'i'
+);
 
 export function isCallToBot(message) {
   return CALL_TEMPLATE.test(message);
