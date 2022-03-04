@@ -31,6 +31,7 @@ export function getConversationMembers({ peer_id }, callback) {
     access_token: VK_API_TOKEN,
     peer_id: peer_id,
     v: VK_API_VER,
+    lang: 0,
   });
 
   const req = request(

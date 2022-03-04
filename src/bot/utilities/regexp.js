@@ -10,7 +10,7 @@ export function splitMessage(message) {
   const call = message.split(' ');
   return {
     botName: call[0],
-    command: call[1],
+    command: call[1].toLowerCase(),
     value: call[2] ?? null,
   };
 }
