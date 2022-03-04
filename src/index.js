@@ -1,6 +1,5 @@
 import 'dotenv/config';
 import { createServer } from 'http';
-import { CONFIRMATION_STRING } from './config.js';
 import { CONFIRMATION } from './vk/types.js';
 import bot from './bot/index.js';
 
@@ -26,14 +25,19 @@ const server = createServer((request, response) => {
       return response.end('Empty JSON');
     }
 
-    if (data.type === CONFIRMATION) {
-      response.statusCode = 200;
-      return response.end(CONFIRMATION_STRING);
+    if (data.secret !== process.env.SECRET_KEY) {
+      response.statusCode = 403;
+      return response.end('Not VK Callback API call');
     }
 
-    return bot(data, (code, message) => {
-      response.statusCode = code;
-      response.end(message);
+    if (data.type === CONFIRMATION) {
+      response.statusCode = 200;
+      return response.end(process.env.CONFIRMATION_STRING);
+    }
+
+    return bot(data, () => {
+      response.statusCode = 200;
+      response.end('ok');
     });
   });
 });
