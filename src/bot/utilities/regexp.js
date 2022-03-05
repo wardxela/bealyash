@@ -11,9 +11,12 @@ export function isCallToBot(message) {
 
 export function splitMessage(message) {
   const call = message.split(' ');
-  return {
-    botName: call[0],
-    command: call[1].toLowerCase(),
-    value: call[2] ?? null,
-  };
+
+  const request = {};
+
+  request.botName = call[0];
+  request.command = call[1];
+  request.value = call.slice(2);
+
+  return request;
 }
