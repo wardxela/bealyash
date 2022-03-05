@@ -1,7 +1,7 @@
 import { BOT_NAME } from '../../config.js';
 
 export const CALL_TEMPLATE = new RegExp(
-  `^${BOT_NAME}\\s[а-я]+\\s?[а-я0-9]*$`,
+  `^${BOT_NAME}\\s[а-я]+(\\s[а-я0-9]+)*$`,
   'i'
 );
 
