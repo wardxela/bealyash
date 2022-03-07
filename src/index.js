@@ -19,7 +19,12 @@ const server = createServer((request, response) => {
     let data = null;
 
     if (__responseBody) {
-      data = JSON.parse(__responseBody);
+      try {
+        data = JSON.parse(__responseBody);
+      } catch (e) {
+        response.statusCode = 400;
+        return response.end('Incorrect JSON');
+      }
     } else {
       response.statusCode = 400;
       return response.end('Empty JSON');

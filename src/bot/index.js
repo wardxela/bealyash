@@ -1,11 +1,14 @@
+// actions
+import newMessage from './actions/newMessage.js';
+
+// types
 import { NEW_MESSAGE } from '../vk/types.js';
-import { isCallToBot } from './utilities/regexp.js';
-import dispatcher from './dispatcher.js';
 
 export default function bot(data, end) {
-  if (data.type === NEW_MESSAGE && isCallToBot(data.object.message.text)) {
-    return dispatcher(data, end);
+  switch (data.type) {
+    case NEW_MESSAGE:
+      return newMessage(data, end);
+    default:
+      return end();
   }
-
-  return end();
 }

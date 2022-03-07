@@ -2,13 +2,13 @@ import { request } from 'https';
 import { stringify } from 'querystring';
 import { VK_API, VK_API_TOKEN, VK_API_VER } from '../config.js';
 
-export function sendMessage({ peer_id, result }, callback) {
+export function sendMessage(botResponse, data, end) {
   const randomId = Math.round(Math.random() * 10000000000);
 
   const query = stringify({
     access_token: VK_API_TOKEN,
-    peer_id: peer_id,
-    message: result.text,
+    peer_id: data.object.message.peer_id,
+    message: botResponse.text,
     v: VK_API_VER,
     random_id: randomId,
   });
@@ -19,7 +19,7 @@ export function sendMessage({ peer_id, result }, callback) {
       method: 'POST',
     },
     () => {
-      callback();
+      end();
     }
   );
 

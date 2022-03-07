@@ -1,6 +1,6 @@
 import { getConversationMembers } from '../../vk/api.js';
 
-export default function pidor(value, data, callback) {
+export default function whoIsGay(request, data, callback) {
   return getConversationMembers(
     { peer_id: data.object.message.peer_id },
     ({ response }) => {

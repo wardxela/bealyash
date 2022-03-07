@@ -5,18 +5,18 @@ export const CALL_TEMPLATE = new RegExp(
   'i'
 );
 
-export function isCallToBot(message) {
+export function checkRequest(message) {
   return CALL_TEMPLATE.test(message);
 }
 
-export function splitMessage(message) {
+export function getRequest(message) {
   const call = message.split(' ');
 
   const request = {};
 
   request.botName = call[0];
-  request.command = call[1];
-  request.value = call.slice(2);
+  request.command = call[1].toLowerCase();
+  request.values = call.slice(2);
 
   return request;
 }

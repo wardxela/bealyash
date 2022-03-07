@@ -5,3 +5,4 @@ export const VK_API_TOKEN = process.env.VK_API_TOKEN;
 
 // Bot settings
 export const BOT_NAME = 'беляш';
+export const MAX_LENGTH = 4096;
