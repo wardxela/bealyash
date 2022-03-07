@@ -11,6 +11,7 @@ export function sendMessage(botResponse, data, end) {
     message: botResponse.text,
     v: VK_API_VER,
     random_id: randomId,
+    attachment: botResponse.attachment ?? '',
   });
 
   const req = request(
