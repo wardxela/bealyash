@@ -23,7 +23,7 @@ export function sendMessage(botResponse, data, end) {
   req.end();
 }
 
-export function getConversationMembers(params, callback) {
+export function getVkConversationMembers(params, callback) {
   const query = vkQuery({
     lang: 0,
     ...params,
@@ -38,7 +38,7 @@ export function getConversationMembers(params, callback) {
   );
 }
 
-export function getUser(params, callback) {
+export function getVkUsers(params, callback) {
   const query = vkQuery(params);
 
   get(

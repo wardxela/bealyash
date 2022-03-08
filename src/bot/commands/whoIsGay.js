@@ -1,7 +1,7 @@
-import { getConversationMembers } from '../../vk/api.js';
+import { getVkConversationMembers } from '../../vk/api.js';
 
 export default function whoIsGay(request, data, callback) {
-  return getConversationMembers(
+  return getVkConversationMembers(
     { peer_id: data.object.message.peer_id },
     ({ response }) => {
       const randomIndex = Math.floor(Math.random() * response.profiles.length);
