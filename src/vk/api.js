@@ -24,10 +24,7 @@ export function sendMessage(botResponse, data, end) {
 }
 
 export function getVkConversationMembers(params, callback) {
-  const query = vkQuery({
-    lang: 0,
-    ...params,
-  });
+  const query = vkQuery(params);
 
   get(
     {
