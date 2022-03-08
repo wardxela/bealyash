@@ -7,7 +7,7 @@ export default function whoIsGay(request, data, callback) {
       const randomIndex = Math.floor(Math.random() * response.profiles.length);
       const randomPerson = response.profiles[randomIndex];
       const text = `Пидор в беседе - [id${randomPerson.id}|${randomPerson.first_name} ${randomPerson.last_name}]`;
-      callback({ text });
+      callback({ message: text });
     }
   );
 }

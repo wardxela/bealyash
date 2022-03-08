@@ -1,8 +1,8 @@
 import { checkRequest } from '../utilities/regexp.js';
 import { getRequest } from '../utilities/regexp.js';
 import { sendMessage } from '../../vk/api.js';
+import BotResponse from '../utilities/BotResponse.js';
 import commands from '../commands.js';
-import filterResponse from '../utilities/filters.js';
 
 export default function newMessage(data, end) {
   if (checkRequest(data.object.message.text)) {
@@ -10,8 +10,8 @@ export default function newMessage(data, end) {
     const command = commands[request.command];
 
     if (typeof command === 'function') {
-      return command(request, data, botResponse => {
-        filterResponse(botResponse);
+      return command(request, data, weakBotResponse => {
+        const botResponse = new BotResponse(weakBotResponse);
         sendMessage(botResponse, data, end);
       });
     }
