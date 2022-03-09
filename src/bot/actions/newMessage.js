@@ -1,20 +1,21 @@
-import { checkRequest } from '../utilities/regexp.js';
-import { getRequest } from '../utilities/regexp.js';
-import { sendMessage } from '../../vk/api.js';
-import BotResponse from '../utilities/BotResponse.js';
+import { checkRequestMessage } from '../utilities/regexp.js';
+import { getRequestMessage } from '../utilities/regexp.js';
+import { sendVkMessage } from '../../vk/api.js';
 import commands from '../commands.js';
 
-export default function newMessage(data, end) {
-  if (checkRequest(data.object.message.text)) {
-    const request = getRequest(data.object.message.text);
-    const command = commands[request.command];
-
-    if (typeof command === 'function') {
-      return command(request, data, weakBotResponse => {
-        const botResponse = new BotResponse(weakBotResponse);
-        sendMessage(botResponse, data, end);
-      });
-    }
+export default async function newMessage(vkRequest) {
+  if (!checkRequestMessage(vkRequest.object.message.text)) {
+    return;
   }
-  return end();
+
+  const requestMessage = getRequestMessage(vkRequest.object.message.text);
+  const command = commands[requestMessage.command];
+
+  if (typeof command !== 'function') {
+    return;
+  }
+
+  const botResponse = await command(requestMessage, vkRequest);
+
+  return await sendVkMessage(botResponse, vkRequest);
 }

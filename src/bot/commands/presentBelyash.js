@@ -1,24 +1,30 @@
 import { getVkUsers } from '../../vk/api.js';
+import BotResponse from '../utilities/BotResponse.js';
 
-export default function presentBelyash(request, data, callback) {
-  if (!data.object.message.reply_message) {
-    return callback({ message: 'Эта команда работает только на ответ' });
+export default async function presentBelyash(requestMessage, vkRequest) {
+  if (!vkRequest.object.message.reply_message) {
+    return new BotResponse({
+      message: 'Вызывай команду в ответ на сообщение',
+    });
   }
 
-  getVkUsers(
-    {
-      user_ids: `${data.object.message.from_id},${data.object.message.reply_message.from_id}`,
-    },
-    ({ response }) => {
-      if (response.length !== 2) {
-        return callback({ message: 'Пошел нахуй' });
-      }
-      const user1 = response[0];
-      const user2 = response[1];
-      return callback({
-        message: `[id${user1.id}|${user1.first_name} ${user1.last_name}] подарил беляш [id${user2.id}|${user2.first_name} ${user2.last_name}]`,
-        attachment: 'photo-210983855_457239017%2Falbum-210983855_0%2Frev',
-      });
-    }
-  );
+  const fromUser = await getVkUsers({
+    user_ids: vkRequest.object.message.from_id,
+  });
+
+  const toUser = await getVkUsers({
+    user_ids: vkRequest.object.message.reply_message.from_id,
+    name_case: 'dat',
+  });
+
+  if (toUser.response.length === 0) {
+    return new BotResponse({
+      message: `Я не делюсь с роботами :(`,
+    });
+  }
+
+  return new BotResponse({
+    message: `[id${fromUser.response[0].id}|${fromUser.response[0].first_name} ${fromUser.response[0].last_name}] подарил беляш [id${toUser.response[0].id}|${toUser.response[0].first_name} ${toUser.response[0].last_name}]`,
+    attachment: 'photo-210983855_457239017%2Falbum-210983855_0%2Frev',
+  });
 }

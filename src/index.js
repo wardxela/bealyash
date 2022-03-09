@@ -6,45 +6,42 @@ import bot from './bot/index.js';
 const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
 
-const server = createServer((request, response) => {
-  let __responseBody = '';
+const server = createServer(async (request, response) => {
+  let __requestBody = '';
+  let vkRequest = null;
 
-  request.on('data', chunk => {
-    __responseBody += chunk;
-  });
+  response.setHeader('Content-Type', 'text/plain');
 
-  request.on('end', () => {
-    response.setHeader('Content-Type', 'text/plain');
+  for await (const chunk of request) {
+    __requestBody += chunk;
+  }
 
-    let data = null;
-
-    if (__responseBody) {
-      try {
-        data = JSON.parse(__responseBody);
-      } catch (e) {
-        response.statusCode = 400;
-        return response.end('Incorrect JSON');
-      }
-    } else {
+  if (__requestBody) {
+    try {
+      vkRequest = JSON.parse(__requestBody);
+    } catch (e) {
       response.statusCode = 400;
-      return response.end('Empty JSON');
+      return response.end('Incorrect JSON');
     }
+  } else {
+    response.statusCode = 400;
+    return response.end('Empty JSON');
+  }
 
-    if (data.secret !== process.env.SECRET_KEY) {
-      response.statusCode = 403;
-      return response.end('Not VK Callback API call');
-    }
+  if (vkRequest.secret !== process.env.SECRET_KEY) {
+    response.statusCode = 403;
+    return response.end('Not VK Callback API call');
+  }
 
-    if (data.type === CONFIRMATION) {
-      response.statusCode = 200;
-      return response.end(process.env.CONFIRMATION_STRING);
-    }
+  if (vkRequest.type === CONFIRMATION) {
+    response.statusCode = 200;
+    return response.end(process.env.CONFIRMATION_STRING);
+  }
 
-    return bot(data, () => {
-      response.statusCode = 200;
-      response.end('ok');
-    });
-  });
+  await bot(vkRequest);
+
+  response.statusCode = 200;
+  response.end('ok');
 });
 
 server.listen(PORT, HOST);

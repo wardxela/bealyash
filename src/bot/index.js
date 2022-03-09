@@ -4,11 +4,11 @@ import newMessage from './actions/newMessage.js';
 // types
 import { NEW_MESSAGE } from '../vk/types.js';
 
-export default function bot(data, end) {
-  switch (data.type) {
+export default async function bot(vkRequest) {
+  switch (vkRequest.type) {
     case NEW_MESSAGE:
-      return newMessage(data, end);
+      return await newMessage(vkRequest);
     default:
-      return end();
+      return;
   }
 }

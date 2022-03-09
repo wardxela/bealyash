@@ -1,13 +1,24 @@
+import BotResponse from '../utilities/BotResponse.js';
 import { getVkConversationMembers } from '../../vk/api.js';
+import { anyElement } from '../utilities/random.js';
 
-export default function whoIsGay(request, data, callback) {
-  return getVkConversationMembers(
-    { peer_id: data.object.message.peer_id },
-    ({ response }) => {
-      const randomIndex = Math.floor(Math.random() * response.profiles.length);
-      const randomPerson = response.profiles[randomIndex];
-      const text = `Пидор в беседе - [id${randomPerson.id}|${randomPerson.first_name} ${randomPerson.last_name}]`;
-      callback({ message: text });
-    }
-  );
+const INTRODUCTION_TEMPLATES = [
+  'Что-то мне подсказывает, что пидор -',
+  'Говорят, главный фанат ЛГБТ движения -',
+  'Улицы говорят, что пидор -',
+  'Белоснежка нашептала мне, что пидор -',
+  'Хоть ты лопни, хоть ты тресни, пидор -',
+];
+
+export default async function whoIsGay(requestMessage, vkRequest) {
+  const json = await getVkConversationMembers({
+    peer_id: vkRequest.object.message.peer_id,
+  });
+
+  const randomUser = anyElement(json.response.profiles);
+  const introduction = anyElement(INTRODUCTION_TEMPLATES);
+
+  return new BotResponse({
+    message: `${introduction} [id${randomUser.id}|${randomUser.first_name} ${randomUser.last_name}]`,
+  });
 }

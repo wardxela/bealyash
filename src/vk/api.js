@@ -1,48 +1,42 @@
-import { request, get } from 'https';
+import { httpGet, httpPost } from '../fetch.js';
+import { vkQuery } from './helpers.js';
 import { VK_API } from '../config.js';
-import { vkQuery, getJSONbody } from './helpers.js';
 
-export function sendMessage(botResponse, data, end) {
-  const randomId = Math.round(Math.random() * 10000000000);
+export async function sendVkMessage(botResponse, vkRequest) {
+  const random_id = Math.round(Math.random() * 10000000000);
 
   const query = vkQuery({
-    peer_id: data.object.message.peer_id,
-    random_id: randomId,
+    peer_id: vkRequest.object.message.peer_id,
+    random_id,
     ...botResponse,
   });
 
-  const req = request(
-    {
-      hostname: VK_API,
-      path: `/method/messages.send?${query}`,
-      method: 'POST',
-    },
-    end
-  );
+  const response = await httpPost({
+    hostname: VK_API,
+    path: `/method/messages.send?${query}`,
+  });
 
-  req.end();
+  return response;
 }
 
-export function getVkConversationMembers(params, callback) {
+export async function getVkConversationMembers(params) {
   const query = vkQuery(params);
 
-  get(
-    {
-      hostname: VK_API,
-      path: `/method/messages.getConversationMembers?${query}`,
-    },
-    res => getJSONbody(res, callback)
-  );
+  const data = await httpGet({
+    hostname: VK_API,
+    path: `/method/messages.getConversationMembers?${query}`,
+  });
+
+  return JSON.parse(data);
 }
 
-export function getVkUsers(params, callback) {
+export async function getVkUsers(params) {
   const query = vkQuery(params);
 
-  get(
-    {
-      hostname: VK_API,
-      path: `/method/users.get?${query}`,
-    },
-    res => getJSONbody(res, callback)
-  );
+  const data = await httpGet({
+    hostname: VK_API,
+    path: `/method/users.get?${query}`,
+  });
+
+  return JSON.parse(data);
 }

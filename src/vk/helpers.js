@@ -9,15 +9,3 @@ export function vkQuery(params) {
     ...params,
   });
 }
-
-export function getJSONbody(responseStream, callback) {
-  let __responseBody = '';
-
-  responseStream.on('data', chunk => {
-    __responseBody += chunk;
-  });
-
-  responseStream.on('end', () => {
-    callback(JSON.parse(__responseBody));
-  });
-}
