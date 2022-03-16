@@ -22,7 +22,3 @@ export default class BotResponse {
     }
   }
 }
-
-console.log(new BotResponse({ a: 'asdf' }));
-console.log(new BotResponse({ a: 234, b: '234' }));
-console.log(new BotResponse({ message: 'asd;lfk;alsd' }));
