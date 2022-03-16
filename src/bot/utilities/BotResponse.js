@@ -8,7 +8,11 @@ export default class BotResponse {
   constructor(params) {
     for (const key in params) {
       this[key] = params[key];
-      this[`filter${capitalize(key)}`](key);
+      const filter = this[`filter${capitalize(key)}`];
+
+      if (typeof filter === 'function') {
+        filter(key);
+      }
     }
   }
 
@@ -17,5 +21,4 @@ export default class BotResponse {
       this[key] = this[key].slice(0, MAX_LENGTH);
     }
   }
-  filterAttachment() {}
 }
