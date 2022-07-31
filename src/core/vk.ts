@@ -15,7 +15,7 @@ export async function sendMessage() {
 
   form.append('peer_id', 671443259);
   form.append('message', 'hello world');
-  form.append('random_id', 354635632);
+  form.append('random_id', Math.random() * 10000000);
 
   return vkAxios.post('/method/messages.send', form, {
     headers: form.getHeaders(),
