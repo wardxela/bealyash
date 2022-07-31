@@ -13,5 +13,5 @@ export function sendVkMessage(options: SendOptions) {
   formData.append('peer_id', options.peer_id);
   formData.append('message', options.message);
 
-  return vkAxios.post('/method/messages.send');
+  return vkAxios.post('/method/messages.send', formData, formData.getHeaders());
 }
