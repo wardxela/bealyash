@@ -15,9 +15,11 @@ export interface VkMessageBody {
   v: string;
   secret: string;
   object: {
-    date: number;
-    from_id: number;
-    peer_id: number;
-    text: string;
+    message: {
+      date: number;
+      from_id: number;
+      peer_id: number;
+      text: string;
+    };
   };
 }

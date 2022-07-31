@@ -2,7 +2,7 @@ import FormData from 'form-data';
 import { randomInt32 } from '../utils';
 import { vkAxios } from './vkAxios';
 
-interface SendOptions {
+export interface SendOptions {
   peer_id: number;
   message: string;
 }
