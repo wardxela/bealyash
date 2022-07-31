@@ -16,7 +16,8 @@ export async function bot(body: BotBody | null): Promise<BotResponse> {
     return auth();
   }
 
-  await sendMessage();
+  const response = await sendMessage();
+  console.log(response);
 
   return {
     status: 200,
