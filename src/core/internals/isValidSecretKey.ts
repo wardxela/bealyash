@@ -1,3 +1,5 @@
-export function isValidSecretKey(body: any): Boolean {
+import { BotBody } from '../interfaces';
+
+export function isValidSecretKey(body: BotBody): Boolean {
   return true;
 }
