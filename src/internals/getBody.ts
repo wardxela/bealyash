@@ -1,7 +1,7 @@
 import { IncomingMessage } from 'http';
-import { BotBody } from '../interfaces';
+import { VkBody } from '../vk';
 
-export async function getBody(req: IncomingMessage): Promise<BotBody | null> {
+export async function getBody(req: IncomingMessage): Promise<VkBody | null> {
   let body = '';
 
   for await (const chunk of req) {

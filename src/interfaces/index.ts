@@ -1,3 +1,4 @@
 export { BotResponse } from './BotResponse';
 export { BotSettings } from './BotSettings';
-export { BotBody } from './BotBody';
+export { BotCommand } from './BotCommand';
+export { BotCommands } from './BotCommands';

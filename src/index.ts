@@ -1,4 +1,4 @@
-import { createBot } from './core';
+import { createBot } from './createBot';
 
 const bot = createBot();
 bot.listen(process.env.PORT || 80);
