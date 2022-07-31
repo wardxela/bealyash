@@ -15,8 +15,9 @@ export async function bot(body: BotBody | null): Promise<BotResponse> {
   if (body.type === 'confirmation') {
     return auth();
   }
+  console.log('hello');
 
-  await sendMessage();
+  // await sendMessage();
 
   return {
     status: 200,
