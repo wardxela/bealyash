@@ -6,7 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "dev": "nodemon src/index.ts",
-    "start": "tsc && node dest/index.js"
+    "postinstall": "tsc"
   },
   "keywords": [],
   "author": "Alexander Ward",
