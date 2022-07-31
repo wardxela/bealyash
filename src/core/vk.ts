@@ -1,4 +1,5 @@
 import axios from 'axios';
+import FormData from 'form-data';
 import { settings } from './settings';
 
 export const vkAxios = axios.create({
@@ -10,8 +11,13 @@ export const vkAxios = axios.create({
 });
 
 export async function sendMessage() {
-  return vkAxios.post('/method/messages.send', {
-    peer_id: 671443259,
-    message: 'hello world',
+  const form = new FormData();
+
+  form.append('peer_id', 671443259);
+  form.append('message', 'hello world');
+  form.append('random_id', 354635632);
+
+  return vkAxios.post('/method/messages.send', form, {
+    headers: form.getHeaders(),
   });
 }
