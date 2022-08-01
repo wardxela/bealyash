@@ -1,1 +1,5 @@
-export type VkMethod = 'photos.get';
+export type VkMethod =
+  | 'messages.send'
+  | 'photos.get'
+  | 'photos.getMessagesUploadServer'
+  | 'photos.saveMessagesPhoto';

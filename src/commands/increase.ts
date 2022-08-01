@@ -3,7 +3,7 @@ import {
   COMMUNITY_ID,
   getVkMediaURL,
   isVkErrorResponse,
-  loadVkData,
+  vkAxios,
 } from '../core';
 import { randomFrom } from '../utils';
 
@@ -19,7 +19,7 @@ const POSSIBLE_RESPONSES = [
 const ALBUM_ID = 285411529;
 
 export const increase: BotCommand = async () => {
-  const { data } = await loadVkData('photos.get', {
+  const { data } = await vkAxios('photos.get', {
     owner_id: -COMMUNITY_ID,
     album_id: ALBUM_ID,
   });
