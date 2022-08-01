@@ -1,4 +1,4 @@
-import { BotVerificationError } from '../../interfaces';
+import { BotVerificationError } from '../interfaces';
 
 export const VK_ERROR: BotVerificationError = {
   __type__: 'verification_error',

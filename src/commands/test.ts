@@ -1,4 +1,4 @@
-import { BotCommand } from '../interfaces';
+import { BotCommand } from '../core';
 
 export const test: BotCommand = () => {
   return {

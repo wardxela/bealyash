@@ -1,4 +1,4 @@
-import { BotCommands } from '../interfaces';
+import { BotCommands } from '../core';
 import { decrease } from './decrease';
 import { increase } from './increase';
 import { test } from './test';

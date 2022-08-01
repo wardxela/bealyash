@@ -1,6 +1,7 @@
 import { IncomingMessage } from 'http';
-import { BotVerificationError, VkBody } from '../interfaces';
+import { BotVerificationError } from './interfaces';
 import { JSON_ERROR, METHOD_ERROR, VK_ERROR } from './errors';
+import { VkBody } from './vk';
 
 export function verifyRequest(
   req: IncomingMessage,

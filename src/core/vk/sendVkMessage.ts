@@ -1,6 +1,6 @@
 import FormData from 'form-data';
-import { VkSendMessageOptions } from '../../interfaces';
 import { randomInt32 } from '../helpers';
+import { VkSendMessageOptions } from './interfaces';
 import { vkAxios } from './vkAxios';
 
 export function sendVkMessage(options: VkSendMessageOptions) {

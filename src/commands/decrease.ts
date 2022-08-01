@@ -1,4 +1,4 @@
-import { BotCommand } from '../interfaces';
+import { BotCommand } from '../core';
 import { randomFrom } from '../utils';
 
 const POSSIBLE_MESSAGES = [

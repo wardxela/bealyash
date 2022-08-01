@@ -1,7 +1,5 @@
-import { loadVkData } from '../core/vk';
-import { COMMUNITY_ID } from '../core/vk/constants';
-import { BotCommand } from '../interfaces';
-import { random, randomFrom } from '../utils';
+import { BotCommand, COMMUNITY_ID, loadVkData } from '../core';
+import { randomFrom } from '../utils';
 
 const POSSIBLE_RESPONSES = [
   'Как неожиданно и приятно',
