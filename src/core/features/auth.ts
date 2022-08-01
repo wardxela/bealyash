@@ -1,4 +1,4 @@
-import { BotResponse } from '../interfaces';
+import { BotResponse } from '../../interfaces';
 
 export function auth(): BotResponse {
   return {

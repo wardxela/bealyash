@@ -1,7 +1,6 @@
 import { IncomingMessage } from 'http';
-import { VkBody } from '../vk';
 
-export async function getBody(req: IncomingMessage): Promise<VkBody | null> {
+export async function getBody(req: IncomingMessage): Promise<any | null> {
   let body = '';
 
   for await (const chunk of req) {

@@ -1,1 +1,1 @@
-export { isError } from './isError';
+export { isVerifyingError } from './isVerifyingError';

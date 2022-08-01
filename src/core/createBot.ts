@@ -1,18 +1,18 @@
 import { createServer } from 'http';
-import { bot } from './bot';
-import { getBody } from './getBody';
-import { isError } from './predicates';
-import { sendResponse } from './sendResponse';
+import { BotCommands } from '../interfaces';
+import { isVerifyingError } from './predicates';
 import { verifyRequest } from './verifyRequest';
+import { getBody, sendResponse } from './helpers';
+import { navigator } from './navigator';
 
-export function createBot() {
+export function createBot(commands: BotCommands) {
   const server = createServer(async (req, res) => {
     const body = verifyRequest(req, await getBody(req));
-    if (isError(body)) {
+    if (isVerifyingError(body)) {
       sendResponse(res, body);
       return;
     }
-    const message = await bot(body);
+    const message = await navigator(body);
     sendResponse(res, message);
   });
 
