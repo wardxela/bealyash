@@ -1,6 +1,6 @@
 import { commands } from '../../commands';
 import { VkMessageBody } from '../../interfaces';
-import { sendVkMessage } from '../../vk';
+import { sendVkMessage } from '../vk';
 
 export async function commander(body: VkMessageBody) {
   for (const [pattern, command] of commands) {
