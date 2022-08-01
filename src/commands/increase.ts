@@ -1,4 +1,10 @@
-import { BotCommand, COMMUNITY_ID, loadVkData } from '../core';
+import {
+  BotCommand,
+  COMMUNITY_ID,
+  getVkMediaURL,
+  isVkErrorResponse,
+  loadVkData,
+} from '../core';
 import { randomFrom } from '../utils';
 
 const POSSIBLE_RESPONSES = [
@@ -20,11 +26,11 @@ export const increase: BotCommand = async () => {
 
   let attachment: string | undefined;
 
-  if (data.error) {
+  if (isVkErrorResponse(data)) {
     attachment = undefined;
   } else {
-    const photo = randomFrom(data.response.items) as any;
-    attachment = `photo${photo.owner_id}_${photo.id}`;
+    const photo = randomFrom(data.response.items);
+    attachment = getVkMediaURL('photo', photo.owner_id, photo.id);
   }
 
   return {

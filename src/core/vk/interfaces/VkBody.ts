@@ -1,5 +1,3 @@
-export type VkBodyType = 'confirmation' | 'message_new';
-
 export type VkBody = VkConfirmationBody | VkMessageBody;
 
 export interface VkConfirmationBody {
@@ -11,7 +9,6 @@ export interface VkConfirmationBody {
 export interface VkMessageBody {
   type: 'message_new';
   group_id: number;
-  event_id: string;
   v: string;
   secret: string;
   object: {
