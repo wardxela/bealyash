@@ -1,11 +1,10 @@
 import { createServer } from 'http';
-import { BotCommands } from '../interfaces';
 import { isVerifyingError } from './predicates';
 import { verifyRequest } from './verifyRequest';
 import { getBody, sendResponse } from './helpers';
 import { navigator } from './navigator';
 
-export function createBot(commands: BotCommands) {
+export function createBot() {
   const server = createServer(async (req, res) => {
     const body = verifyRequest(req, await getBody(req));
     if (isVerifyingError(body)) {

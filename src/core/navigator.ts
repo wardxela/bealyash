@@ -1,7 +1,5 @@
-import { BotResponse } from '../interfaces';
-import { VkBody } from '../vk';
-import { auth } from './features/auth';
-import { commander } from './features/commander';
+import { BotResponse, VkBody } from '../interfaces';
+import { auth, commander } from './features';
 
 export async function navigator(body: VkBody): Promise<BotResponse> {
   switch (body.type) {

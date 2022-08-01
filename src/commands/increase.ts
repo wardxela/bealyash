@@ -1,6 +1,5 @@
 import { BotCommand } from '../interfaces';
 import { randomFrom } from '../utils';
-import { sendVkMessage } from '../vk';
 
 const POSSIBLE_RESPONSES = [
   'Как неожиданно и приятно',
@@ -19,10 +18,9 @@ const POSSIBLE_PHOTOS = [
   'photo-210983855_457239029',
 ];
 
-export const increase: BotCommand = body => {
-  sendVkMessage({
-    peer_id: body.object.message.peer_id,
+export const increase: BotCommand = () => {
+  return {
     message: randomFrom(POSSIBLE_RESPONSES),
     attachment: randomFrom(POSSIBLE_PHOTOS),
-  });
+  };
 };

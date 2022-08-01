@@ -1,6 +1,5 @@
 import { IncomingMessage } from 'http';
-import { BotVerificationError } from '../interfaces';
-import { VkBody } from '../vk';
+import { BotVerificationError, VkBody } from '../interfaces';
 import { JSON_ERROR, VK_ERROR } from './errors';
 import { isValidSecretKey } from './validators';
 

@@ -1,14 +1,9 @@
 import FormData from 'form-data';
+import { VkSendMessageOptions } from '../interfaces';
 import { randomInt32 } from '../utils';
 import { vkAxios } from './vkAxios';
 
-export interface SendOptions {
-  peer_id: number;
-  message: string;
-  attachment?: string;
-}
-
-export function sendVkMessage(options: SendOptions) {
+export function sendVkMessage(options: VkSendMessageOptions) {
   const formData = new FormData();
   formData.append('random_id', randomInt32());
   formData.append('peer_id', options.peer_id);
