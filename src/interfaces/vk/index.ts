@@ -1,2 +1,2 @@
-export * from './interfaces';
+export * from './VkBody';
 export { VkSendMessageOptions } from './VkSendMessageOptions';
