@@ -8,6 +8,7 @@ export function sendVkMessage(options: VkSendMessageOptions) {
   formData.append('random_id', randomInt32());
   formData.append('peer_id', options.peer_id);
   formData.append('message', options.message);
+  formData.append('access_token', process.env.CHAT_BOT_VK_API_ACCESS_TOKEN);
 
   if (options.attachment) {
     formData.append('attachment', options.attachment);

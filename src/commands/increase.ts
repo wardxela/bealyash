@@ -1,5 +1,7 @@
+import { loadVkData } from '../core/vk';
+import { COMMUNITY_ID } from '../core/vk/constants';
 import { BotCommand } from '../interfaces';
-import { randomFrom } from '../utils';
+import { random, randomFrom } from '../utils';
 
 const POSSIBLE_RESPONSES = [
   'Как неожиданно и приятно',
@@ -10,17 +12,25 @@ const POSSIBLE_RESPONSES = [
   "That's amazing",
 ];
 
-const POSSIBLE_PHOTOS = [
-  'photo-210983855_457239025',
-  'photo-210983855_457239026',
-  'photo-210983855_457239027',
-  'photo-210983855_457239028',
-  'photo-210983855_457239029',
-];
+const ALBUM_ID = 285411529;
 
-export const increase: BotCommand = () => {
+export const increase: BotCommand = async () => {
+  const { data } = await loadVkData('photos.get', {
+    owner_id: -COMMUNITY_ID,
+    album_id: ALBUM_ID,
+  });
+
+  let attachment: string | undefined;
+
+  if (data.error) {
+    attachment = undefined;
+  } else {
+    const photo = randomFrom(data.response.items) as any;
+    attachment = `photo${photo.owner_id}_${photo.id}`;
+  }
+
   return {
     message: randomFrom(POSSIBLE_RESPONSES),
-    attachment: randomFrom(POSSIBLE_PHOTOS),
+    attachment,
   };
 };
