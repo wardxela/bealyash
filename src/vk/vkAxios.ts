@@ -1,10 +1,9 @@
 import axios from 'axios';
-import { settings } from '../settings';
 
 export const vkAxios = axios.create({
   baseURL: 'https://api.vk.com/',
   params: {
-    access_token: settings.vkApiAccessToken,
-    v: settings.vkApiVersion,
+    access_token: process.env.VK_API_ACCESS_TOKEN,
+    v: process.env.VK_API_VERSION,
   },
 });
