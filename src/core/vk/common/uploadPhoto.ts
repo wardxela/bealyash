@@ -9,7 +9,7 @@ export interface UploadServerResponse {
   hash: string;
 }
 
-export async function uploadPhotoToVk(peer_id: number, file: Readable) {
+export async function uploadPhoto(peer_id: number, file: Readable) {
   const { data: uploadServer } = await vkAxios(
     'photos.getMessagesUploadServer',
     { peer_id },

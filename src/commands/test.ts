@@ -1,6 +1,6 @@
-import { BotCommand } from '../core';
+import { Command } from '../core';
 
-export const test: BotCommand = () => {
+export const test: Command = async () => {
   return {
     message: 'test',
   };

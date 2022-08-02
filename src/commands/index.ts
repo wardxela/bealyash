@@ -1,10 +1,10 @@
-import { BotCommands } from '../core';
+import { Commands } from '../core';
 import { chan } from './chan';
 import { decrease } from './decrease';
 import { increase } from './increase';
 import { test } from './test';
 
-export const commands: BotCommands = new Map();
+export const commands: Commands = new Map();
 
 commands.set(/тест/, test);
 commands.set(/твій пісюн зменшився/, decrease);

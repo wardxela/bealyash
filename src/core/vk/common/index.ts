@@ -1,1 +1,2 @@
-export { uploadPhotoToVk } from './uploadPhotoToVk';
+export { uploadPhoto } from './uploadPhoto';
+export { sendMessage } from './sendMessage';

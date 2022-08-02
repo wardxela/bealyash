@@ -3,8 +3,8 @@ import {
   JSON_ERROR_RESPONSE,
   METHOD_ERROR_RESPONSE,
   VK_ERROR_RESPONSE,
-} from '../common_responses';
-import { BotError } from './BotError';
+} from '../bot_responses';
+import { BotError } from '../errors';
 import { getJSONBody } from './getJSONBody';
 
 export async function getBody(req: IncomingMessage) {
