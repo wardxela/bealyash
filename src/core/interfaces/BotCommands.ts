@@ -1,4 +1,4 @@
-import { VkMessageBody } from '../vk';
+import { VkNewMessageEvent } from '../vk';
 
 export interface BotCommandResponse {
   /** The message which will be sent to the client */
@@ -11,7 +11,7 @@ export interface BotCommandResponse {
 }
 
 export type BotCommand = (
-  body: VkMessageBody
+  body: VkNewMessageEvent
 ) => Promise<BotCommandResponse> | BotCommandResponse;
 
 export type BotCommands = Map<RegExp, BotCommand>;
