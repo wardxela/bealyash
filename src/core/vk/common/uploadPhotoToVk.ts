@@ -1,7 +1,6 @@
 import axios from 'axios';
 import FormData from 'form-data';
 import { Readable } from 'stream';
-import { isVkErrorResponse } from '../predicates';
 import { vkAxios } from '../vkAxios';
 
 export interface UploadServerResponse {
@@ -17,9 +16,9 @@ export async function uploadPhotoToVk(peer_id: number, file: Readable) {
     false
   );
 
-  if (isVkErrorResponse(uploadServer)) {
-    return uploadServer;
-  }
+  // if (isVkErrorResponse(uploadServer)) {
+  //   return uploadServer;
+  // }
 
   const form = new FormData();
   form.append('photo', file);

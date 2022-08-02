@@ -1,5 +1,6 @@
 import axios from 'axios';
 import FormData from 'form-data';
+import { DEFAULT_VK_API_VERSION } from './constants';
 import { VkMethod, VkRequest, VkResponse } from './interfaces';
 
 export const vkInternalAxiosInstance = axios.create({
@@ -18,15 +19,14 @@ export async function vkAxios<M extends VkMethod>(
   isUser = true
 ) {
   const form = new FormData();
-
-  form.append('v', process.env.VK_API_VERSION);
-
-  form.append(
-    'access_token',
-    isUser
+  const apiVersion = process.env.VK_API_VERSION || DEFAULT_VK_API_VERSION;
+  const accessToken =
+    (isUser
       ? process.env.USER_VK_API_ACCESS_TOKEN
-      : process.env.CHAT_BOT_VK_API_ACCESS_TOKEN
-  );
+      : process.env.CHAT_BOT_VK_API_ACCESS_TOKEN) || '';
+
+  form.append('v', apiVersion);
+  form.append('access_token', accessToken);
 
   if (payload) {
     for (const [key, value] of Object.entries(payload)) {
@@ -38,8 +38,5 @@ export async function vkAxios<M extends VkMethod>(
     }
   }
 
-  return vkInternalAxiosInstance.post<VkResponse<M>>(
-    `method/${vkMethod}`,
-    form
-  );
+  return vkInternalAxiosInstance.post(`method/${vkMethod}`, form);
 }

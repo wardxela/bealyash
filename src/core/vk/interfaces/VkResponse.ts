@@ -7,11 +7,7 @@ export interface VkResponseMap {
   'photos.saveMessagesPhoto': VkSaveMessagesPhotoResponse;
 }
 
-export type VkResponse<M extends VkMethod> = VkErrorResponse | VkResponseMap[M];
-
-export interface VkErrorResponse {
-  error: string;
-}
+export type VkResponse<M extends VkMethod> = VkResponseMap[M];
 
 export interface VkPhoto {
   owner_id: number;

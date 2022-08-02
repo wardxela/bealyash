@@ -1,1 +1,1 @@
-export { getVkPhotos } from './getVkPhotos';
+export { getPhotos } from './getPhotos';

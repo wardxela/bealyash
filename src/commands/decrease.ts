@@ -1,4 +1,6 @@
-import { BotCommand } from '../core';
+import { CommandErrorResponse } from '../common_responses';
+import { BotCommand, COMMUNITY_ID, getVkMediaURL } from '../core';
+import { getPhotos } from '../services/vk';
 import { randomFrom } from '../utils';
 
 const POSSIBLE_MESSAGES = [
@@ -10,16 +12,22 @@ const POSSIBLE_MESSAGES = [
   'Ahh, like that?',
 ];
 
-const POSSIBLE_PHOTOS = [
-  'photo-210983855_457239023',
-  'photo-210983855_457239024',
-  'photo-210983855_457239031',
-  'photo-210983855_457239030',
-];
+const ALBUM_ID = 285405543;
 
-export const decrease: BotCommand = () => {
-  return {
-    message: randomFrom(POSSIBLE_MESSAGES),
-    attachment: randomFrom(POSSIBLE_PHOTOS),
-  };
+export const decrease: BotCommand = async () => {
+  try {
+    const photos = await getPhotos({
+      owner_id: -COMMUNITY_ID,
+      album_id: ALBUM_ID,
+    });
+
+    const { owner_id, id } = randomFrom(photos.response.items);
+
+    return {
+      message: randomFrom(POSSIBLE_MESSAGES),
+      attachment: getVkMediaURL('photo', owner_id, id),
+    };
+  } catch (e) {
+    return CommandErrorResponse;
+  }
 };

@@ -1,10 +1,6 @@
-import {
-  BotCommand,
-  COMMUNITY_ID,
-  getVkMediaURL,
-  isVkErrorResponse,
-  vkAxios,
-} from '../core';
+import { CommandErrorResponse } from '../common_responses';
+import { BotCommand, COMMUNITY_ID, getVkMediaURL } from '../core';
+import { getPhotos } from '../services/vk';
 import { randomFrom } from '../utils';
 
 const POSSIBLE_RESPONSES = [
@@ -19,22 +15,19 @@ const POSSIBLE_RESPONSES = [
 const ALBUM_ID = 285411529;
 
 export const increase: BotCommand = async () => {
-  const { data } = await vkAxios('photos.get', {
-    owner_id: -COMMUNITY_ID,
-    album_id: ALBUM_ID,
-  });
+  try {
+    const photos = await getPhotos({
+      owner_id: -COMMUNITY_ID,
+      album_id: ALBUM_ID,
+    });
 
-  let attachment: string | undefined;
+    const { owner_id, id } = randomFrom(photos.response.items);
 
-  if (isVkErrorResponse(data)) {
-    attachment = undefined;
-  } else {
-    const photo = randomFrom(data.response.items);
-    attachment = getVkMediaURL('photo', photo.owner_id, photo.id);
+    return {
+      message: randomFrom(POSSIBLE_RESPONSES),
+      attachment: getVkMediaURL('photo', owner_id, id),
+    };
+  } catch (e) {
+    return CommandErrorResponse;
   }
-
-  return {
-    message: randomFrom(POSSIBLE_RESPONSES),
-    attachment,
-  };
 };
