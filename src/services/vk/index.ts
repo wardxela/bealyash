@@ -1,0 +1,1 @@
+export { getVkPhotos } from './getVkPhotos';

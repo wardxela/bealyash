@@ -1,18 +1,19 @@
 import { createServer } from 'http';
-import { isVerifyingError } from './predicates';
-import { verifyRequest } from './verifyRequest';
-import { getBody, sendResponse } from './helpers';
-import { navigator } from './navigator';
+import { BotError, getBody, sendResponse } from './internals';
+import { eventListener } from './eventListener';
+import { SERVER_ERROR_RESPONSE } from './common_responses';
 
 export function createBot() {
   const server = createServer(async (req, res) => {
-    const body = verifyRequest(req, await getBody(req));
-    if (isVerifyingError(body)) {
-      sendResponse(res, body);
-      return;
+    try {
+      const body = await getBody(req);
+      const botResponse = await eventListener(body);
+      sendResponse(res, botResponse);
+    } catch (e) {
+      const botResponse =
+        e instanceof BotError ? e.response : SERVER_ERROR_RESPONSE;
+      sendResponse(res, botResponse);
     }
-    const message = await navigator(body);
-    sendResponse(res, message);
   });
 
   return server;

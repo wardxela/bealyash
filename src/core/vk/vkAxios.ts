@@ -28,12 +28,14 @@ export async function vkAxios<M extends VkMethod>(
       : process.env.CHAT_BOT_VK_API_ACCESS_TOKEN
   );
 
-  for (const [key, value] of Object.entries(payload)) {
-    if (value === undefined) {
-      continue;
-    }
+  if (payload) {
+    for (const [key, value] of Object.entries(payload)) {
+      if (value === undefined) {
+        continue;
+      }
 
-    form.append(key, value);
+      form.append(key, value);
+    }
   }
 
   return vkInternalAxiosInstance.post<VkResponse<M>>(

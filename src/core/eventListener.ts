@@ -2,7 +2,7 @@ import { BotResponse } from './interfaces';
 import { auth, commander } from './features';
 import { VkBody } from './vk';
 
-export async function navigator(body: VkBody): Promise<BotResponse> {
+export async function eventListener(body: VkBody): Promise<BotResponse> {
   switch (body.type) {
     case 'confirmation':
       return auth();

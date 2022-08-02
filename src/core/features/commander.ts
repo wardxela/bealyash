@@ -1,6 +1,5 @@
 import { commands } from '../../commands';
-import { randomInt32 } from '../helpers';
-import { vkAxios, VkMessageBody, VkSendMessagesRequest } from '../vk';
+import { randomId, vkAxios, VkMessageBody, VkSendMessagesRequest } from '../vk';
 
 export async function commander(body: VkMessageBody) {
   for (const [pattern, command] of commands) {
@@ -8,7 +7,7 @@ export async function commander(body: VkMessageBody) {
       const payload = await command(body);
       const options: VkSendMessagesRequest = {
         ...payload,
-        random_id: randomInt32(),
+        random_id: randomId(),
         peer_id: payload.peer_id
           ? payload.peer_id
           : body.object.message.peer_id,
