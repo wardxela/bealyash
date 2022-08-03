@@ -1,7 +1,12 @@
 import axios from 'axios';
 import FormData from 'form-data';
+import { VkMethod, VkRequestParams } from './interfaces';
 
-export function vkAxios(vkMethod: string, payload: {}, isClient = true) {
+export function vkAxios<M extends VkMethod>(
+  vkMethod: M,
+  payload: VkRequestParams[M],
+  isClient = true
+) {
   const form = new FormData();
 
   const accessToken = isClient

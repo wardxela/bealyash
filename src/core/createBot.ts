@@ -2,7 +2,7 @@ import { createServer } from 'http';
 import { getBody, sendResponse } from './http';
 import { INTERNAL_SERVER_ERROR_RESPONSE } from './server-responses';
 import { Bot, BotConfig, BotCommand, BotCommands } from './interfaces';
-import { BotServerError, eventListener } from './internals';
+import { BotServerError, emitEvent } from './internals';
 import { createSendMessage } from './vk';
 
 export function createBot(config: BotConfig): Bot {
@@ -15,9 +15,9 @@ export function createBot(config: BotConfig): Bot {
   const server = createServer(async (req, res) => {
     try {
       // TODO: Validate request. Type `any` is pretty bad.
-      const body = await getBody(req);
-      const botServerResponse = await eventListener(
-        body,
+      const event = await getBody(req);
+      const botServerResponse = await emitEvent(
+        event,
         commands,
         vkSendMessage,
         config
@@ -32,9 +32,9 @@ export function createBot(config: BotConfig): Bot {
     }
   });
 
-  function add(pattern: RegExp, command: BotCommand) {
+  const add = (pattern: RegExp, command: BotCommand) => {
     commands.set(pattern, command);
-  }
+  };
 
   const listen = (port: number) => {
     return server.listen(port);

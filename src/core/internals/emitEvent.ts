@@ -1,9 +1,9 @@
 import { OK_RESPONSE } from '../server-responses';
 import { BotCommands, BotConfig, BotServerResponse } from '../interfaces';
 import { VkEvent, VkSendMessage } from '../vk';
-import { newMessageHandler } from '../events';
+import { confirmationHandler, newMessageHandler } from '../events';
 
-export async function eventListener(
+export async function emitEvent(
   event: VkEvent,
   commands: BotCommands,
   vkSendMessage: VkSendMessage,
@@ -11,13 +11,10 @@ export async function eventListener(
 ): Promise<BotServerResponse> {
   switch (event.type) {
     case 'confirmation':
-      return {
-        status: 200,
-        message: config.confirmationString,
-      };
+      return confirmationHandler(config.confirmationString);
     case 'message_new':
-      await newMessageHandler(event, commands, vkSendMessage, config);
+      return newMessageHandler(event, commands, vkSendMessage, config);
+    default:
+      return OK_RESPONSE;
   }
-
-  return OK_RESPONSE;
 }

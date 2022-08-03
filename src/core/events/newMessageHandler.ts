@@ -1,4 +1,5 @@
 import { BotCommands, BotConfig } from '../interfaces';
+import { OK_RESPONSE } from '../server-responses';
 import { VkNewMessageEvent, VkSendMessage } from '../vk';
 
 export async function newMessageHandler(
@@ -7,19 +8,20 @@ export async function newMessageHandler(
   vkSendMessage: VkSendMessage,
   config: BotConfig
 ) {
-  for (const [pattern, command] of commands) {
-    if (!pattern.test(event.object.message.text)) {
-      continue;
-    }
-    try {
+  try {
+    for (const [pattern, command] of commands) {
+      if (!pattern.test(event.object.message.text)) {
+        continue;
+      }
       const commandResponse = await command(event);
-      return vkSendMessage(commandResponse, event);
-    } catch (e) {
-      const uncaughtError = config.badCommandResponse
-        ? config.badCommandResponse
-        : { message: 'error' };
-
-      return vkSendMessage(uncaughtError, event);
+      await vkSendMessage(commandResponse, event);
     }
+  } catch (e) {
+    const badCommandResponse = config.badCommandResponse
+      ? config.badCommandResponse
+      : { message: 'error' };
+
+    await vkSendMessage(badCommandResponse, event);
   }
+  return OK_RESPONSE;
 }

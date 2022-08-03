@@ -1,4 +1,3 @@
-export { VkMethod } from './VkMethod';
-export * from './VkRequestParams';
+export * from './VkSendMessagesRequestParams';
 export * from './VkEvent';
 export { VkSendMessage } from './VkSendMessage';

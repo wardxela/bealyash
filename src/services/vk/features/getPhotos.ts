@@ -1,4 +1,4 @@
-import { VkGetPhotosRequestParams } from '../../../core';
+import { VkGetPhotosRequestParams } from '../interfaces';
 import { VkGetPhotosResponseSchema } from '../response-schemas';
 import { vkAxios } from '../vkAxios';
 

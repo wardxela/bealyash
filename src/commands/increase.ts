@@ -1,5 +1,5 @@
-import { BotAsyncCommand, getVkMediaURL } from '../core';
-import { COMMUNITY_ID, getPhotos } from '../services/vk';
+import { BotAsyncCommand } from '../core';
+import { COMMUNITY_ID, getPhotos, getVkMediaURL } from '../services/vk';
 import { randomFrom } from '../utils';
 
 const POSSIBLE_RESPONSES = [
