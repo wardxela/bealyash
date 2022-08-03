@@ -1,20 +1,14 @@
-import axios from 'axios';
 import { BotAsyncCommand, getVkMediaURL, uploadPhoto } from '../core';
-import { SFW, SFW_CATEGORIES, waifuAxios } from '../services/waifu';
-import { randomFrom } from '../utils';
+import { getRandomPicture } from '../services/waifu';
 
 export const chan: BotAsyncCommand = async body => {
-  // const response = await waifuAxios.get(`${SFW}/${randomFrom(SFW_CATEGORIES)}`);
-  // const file = await axios.get(response.data.url, { responseType: 'stream' });
-  // const uploadedPhoto = await uploadPhotoToVk(
-  //   body.object.message.peer_id,
-  //   file.data
-  // );
+  const file = await getRandomPicture('sfw');
+  const uploadedPhotos = await uploadPhoto(body.object.message.peer_id, file);
 
-  // if (isVkErrorResponse(uploadedPhoto)) {
-  //   return { message: 'Прости, но походу сервер приуныл' };
-  // }
+  const { owner_id, id, access_key } = uploadedPhotos.response[0];
 
-  // const { owner_id, id, access_key } = uploadedPhoto.response[0];
-  throw new Error();
+  return {
+    message: 'Держи красавицу',
+    attachment: getVkMediaURL('photo', owner_id, id, access_key),
+  };
 };

@@ -1,29 +1,25 @@
 import axios from 'axios';
 import FormData from 'form-data';
 import { Readable } from 'stream';
+import {
+  UploadServerResponseSchema,
+  VkGetMessagesUploadServerResponseSchema,
+  VkSaveMessagesPhotoResponseSchema,
+} from '../response-schemas';
 import { vkAxios } from '../vkAxios';
 
-export interface UploadServerResponse {
-  server: number;
-  photo: string;
-  hash: string;
-}
-
 export async function uploadPhoto(peer_id: number, file: Readable) {
-  const { data: uploadServer } = await vkAxios(
+  const { data } = await vkAxios(
     'photos.getMessagesUploadServer',
     { peer_id },
     false
   );
-
-  // if (isVkErrorResponse(uploadServer)) {
-  //   return uploadServer;
-  // }
+  const uploadServer = VkGetMessagesUploadServerResponseSchema.parse(data);
 
   const form = new FormData();
   form.append('photo', file);
 
-  const { data: uploadedPhoto } = await axios.post<UploadServerResponse>(
+  const { data: data2 } = await axios.post(
     uploadServer.response.upload_url,
     form,
     {
@@ -31,5 +27,15 @@ export async function uploadPhoto(peer_id: number, file: Readable) {
     }
   );
 
-  return (await vkAxios('photos.saveMessagesPhoto', uploadedPhoto, false)).data;
+  const photoMetadata = UploadServerResponseSchema.parse(data2);
+
+  const { data: data3 } = await vkAxios(
+    'photos.saveMessagesPhoto',
+    photoMetadata,
+    false
+  );
+
+  const photos = VkSaveMessagesPhotoResponseSchema.parse(data3);
+
+  return photos;
 }

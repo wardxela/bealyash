@@ -1,5 +1,5 @@
 export * from './interfaces';
-export * from './response_schemas';
+export * from './response-schemas';
 export * from './constants';
 export * from './helpers';
 export * from './common';
