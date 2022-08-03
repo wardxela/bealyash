@@ -1,10 +1,10 @@
-import { COMMAND_ERROR_RESPONSE } from '../command-responses';
 import { BotCommands, BotConfig } from '../interfaces';
-import { VkNewMessageEvent, sendMessage } from '../vk';
+import { VkNewMessageEvent, VkSendMessage } from '../vk';
 
 export async function newMessageHandler(
   event: VkNewMessageEvent,
   commands: BotCommands,
+  vkSendMessage: VkSendMessage,
   config: BotConfig
 ) {
   for (const [pattern, command] of commands) {
@@ -13,13 +13,13 @@ export async function newMessageHandler(
     }
     try {
       const commandResponse = await command(event);
-      return sendMessage(commandResponse, event.object);
+      return vkSendMessage(commandResponse, event);
     } catch (e) {
       const uncaughtError = config.badCommandResponse
         ? config.badCommandResponse
-        : COMMAND_ERROR_RESPONSE;
+        : { message: 'error' };
 
-      return sendMessage(uncaughtError, event.object);
+      return vkSendMessage(uncaughtError, event);
     }
   }
 }

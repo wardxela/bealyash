@@ -6,15 +6,15 @@ import {
 import { randomId } from './randomId';
 
 export function prepareVkSendMessagesRequestParams(
-  params: VkWeakSendMessagesRequestParams,
-  messageObject: VkMessageObject
+  weakParams: VkWeakSendMessagesRequestParams,
+  clientMessageObject: VkMessageObject
 ): VkSendMessagesRequestParams {
   const random_id = randomId();
-  const message = params.message;
-  const peer_id = params.peer_id
-    ? params.peer_id
-    : messageObject.message.peer_id;
-  const attachment = params.attachment;
+  const message = weakParams.message;
+  const peer_id = weakParams.peer_id
+    ? weakParams.peer_id
+    : clientMessageObject.message.peer_id;
+  const attachment = weakParams.attachment;
 
   return {
     random_id,

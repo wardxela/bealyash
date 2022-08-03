@@ -1,2 +1,2 @@
+export { getPhotos } from './getPhotos';
 export { uploadPhoto } from './uploadPhoto';
-export { sendMessage } from './sendMessage';

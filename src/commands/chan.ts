@@ -1,4 +1,5 @@
-import { BotAsyncCommand, getVkMediaURL, uploadPhoto } from '../core';
+import { BotAsyncCommand, getVkMediaURL } from '../core';
+import { uploadPhoto } from '../services/vk';
 import { getRandomPicture } from '../services/waifu';
 
 export const chan: BotAsyncCommand = async body => {

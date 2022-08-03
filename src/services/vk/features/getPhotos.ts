@@ -1,8 +1,6 @@
-import {
-  vkAxios,
-  VkGetPhotosRequestParams,
-  VkGetPhotosResponseSchema,
-} from '../../core';
+import { VkGetPhotosRequestParams } from '../../../core';
+import { VkGetPhotosResponseSchema } from '../response-schemas';
+import { vkAxios } from '../vkAxios';
 
 export async function getPhotos(payload: VkGetPhotosRequestParams) {
   const { data } = await vkAxios('photos.get', payload);

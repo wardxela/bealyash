@@ -1,0 +1,24 @@
+import axios from 'axios';
+import FormData from 'form-data';
+
+export function vkAxios(vkMethod: string, payload: {}, isClient = true) {
+  const form = new FormData();
+
+  const accessToken = isClient
+    ? process.env.USER_VK_API_ACCESS_TOKEN
+    : process.env.CHAT_BOT_VK_API_ACCESS_TOKEN;
+  const apiVersion = process.env.VK_API_VERSION;
+
+  form.append('access_token', accessToken || '');
+  form.append('v', apiVersion || '');
+
+  if (payload) {
+    for (const [key, value] of Object.entries(payload)) {
+      if (value !== undefined) {
+        form.append(key, value);
+      }
+    }
+  }
+
+  return axios.post(`https://api.vk.com/method/${vkMethod}`, form);
+}
