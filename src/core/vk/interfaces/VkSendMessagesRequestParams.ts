@@ -8,8 +8,6 @@ export interface VkWeakSendMessagesRequestParams {
   /**
    * A string containing a list of attachments in the following format:
    * `{type}_{owner_id}_{access_key}`
-   *
-   * You can use `getVkMediaURL` function in combination with `String.prototype.join` method to create such string on the fly
    */
   attachment?: string;
 }

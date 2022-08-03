@@ -7,17 +7,17 @@ export interface BotConfig {
   badCommandResponse?: BotCommandResponse;
 
   /**
-   * Special secret key that will returned on `confirmation` event
+   * Special secret key that will be returned on `confirmation` event
    */
   confirmationString: string;
 
   /**
-   * Vk API version that will be used by `vkAxios`
+   * Vk API version that will be used to send messages
    */
   vkApiVersion: string | number;
 
   /**
-   * Access token to VK API that will be used in order to send messages
+   * Access token to VK API that will be used to send messages
    */
   serverVkApiAccessToken: string;
 }
