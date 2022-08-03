@@ -1,4 +1,5 @@
-import { BotCommands, BotConfig } from '../interfaces';
+import { BotCommandResponse, BotCommands, BotConfig } from '../interfaces';
+import { countdown } from '../internals';
 import { OK_RESPONSE } from '../server-responses';
 import { VkNewMessageEvent, VkSendMessage } from '../vk';
 
@@ -13,12 +14,22 @@ export async function newMessageHandler(
       if (!pattern.test(event.object.message.text)) {
         continue;
       }
-      const commandResponse = await command(event);
-      await vkSendMessage(commandResponse, event);
+      const commandPromise = command(event);
+      let commandResponse: BotCommandResponse;
+
+      if (commandPromise instanceof Promise) {
+        commandResponse = await countdown(commandPromise, 7000);
+      } else {
+        commandResponse = commandPromise;
+      }
+
+      if (commandResponse !== null) {
+        await vkSendMessage(commandResponse, event);
+      }
     }
   } catch (e) {
-    const badCommandResponse = config.badCommandResponse
-      ? config.badCommandResponse
+    const badCommandResponse = config.uncaughtErrorResponse
+      ? config.uncaughtErrorResponse
       : { message: 'error' };
 
     await vkSendMessage(badCommandResponse, event);
