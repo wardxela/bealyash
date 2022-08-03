@@ -1,7 +1,7 @@
 import axios from 'axios';
 import FormData from 'form-data';
 import { DEFAULT_VK_API_VERSION } from './constants';
-import { VkMethod, VkRequest, VkResponse } from './interfaces';
+import { VkMethod, VkRequestParams } from './interfaces';
 
 export const vkInternalAxiosInstance = axios.create({
   baseURL: 'https://api.vk.com/',
@@ -15,7 +15,7 @@ export const vkInternalAxiosInstance = axios.create({
  */
 export async function vkAxios<M extends VkMethod>(
   vkMethod: M,
-  payload: VkRequest<M>,
+  payload: VkRequestParams<M>,
   isUser = true
 ) {
   const form = new FormData();

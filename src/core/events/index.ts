@@ -1,1 +1,1 @@
-export { eventListener } from './eventListener';
+export { newMessageHandler } from './newMessageHandler';

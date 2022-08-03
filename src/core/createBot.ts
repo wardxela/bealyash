@@ -1,23 +1,34 @@
 import { createServer } from 'http';
 import { getBody, sendResponse } from './http';
-import { eventListener } from './events';
-import { SERVER_ERROR_RESPONSE } from './bot_responses';
-import { BotConfig } from './interfaces';
-import { BotError } from './errors';
+import { INTERNAL_SERVER_ERROR_RESPONSE } from './server-responses';
+import { Bot, BotConfig, BotCommand, BotCommands } from './interfaces';
+import { BotServerError, eventListener } from './internals';
 
-export function createBot(config: BotConfig) {
+export function createBot(config: BotConfig): Bot {
+  const commands: BotCommands = new Map();
+
   const server = createServer(async (req, res) => {
     try {
       // TODO: Validate request. Type `any` is pretty bad.
       const body = await getBody(req);
-      const botResponse = await eventListener(body, config);
-      sendResponse(res, botResponse);
+      const botServerResponse = await eventListener(body, commands, config);
+      sendResponse(res, botServerResponse);
     } catch (e) {
-      const badBotResponse =
-        e instanceof BotError ? e.botResponse : SERVER_ERROR_RESPONSE;
-      sendResponse(res, badBotResponse);
+      const badBotServerResponse =
+        e instanceof BotServerError
+          ? e.serverResponse
+          : INTERNAL_SERVER_ERROR_RESPONSE;
+      sendResponse(res, badBotServerResponse);
     }
   });
 
-  return server;
+  function add(pattern: RegExp, command: BotCommand) {
+    commands.set(pattern, command);
+  }
+
+  const listen = (port: number) => {
+    return server.listen(port);
+  };
+
+  return { add, listen };
 }

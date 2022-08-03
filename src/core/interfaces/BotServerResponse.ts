@@ -1,4 +1,4 @@
-export interface BotResponse {
+export interface BotServerResponse {
   status: number;
   message: string;
 }

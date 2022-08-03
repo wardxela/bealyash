@@ -1,4 +1,4 @@
-import { Command, COMMUNITY_ID, getVkMediaURL } from '../core';
+import { BotAsyncCommand, COMMUNITY_ID, getVkMediaURL } from '../core';
 import { getPhotos } from '../services/vk';
 import { randomFrom } from '../utils';
 
@@ -13,7 +13,7 @@ const POSSIBLE_MESSAGES = [
 
 const ALBUM_ID = 285405543;
 
-export const decrease: Command = async () => {
+export const decrease: BotAsyncCommand = async () => {
   const photos = await getPhotos({
     owner_id: -COMMUNITY_ID,
     album_id: ALBUM_ID,

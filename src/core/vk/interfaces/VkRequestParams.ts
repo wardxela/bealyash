@@ -7,7 +7,7 @@ export interface VkRequestParamsMap {
   'photos.saveMessagesPhoto': VKSaveMessagesPhotoRequestParams;
 }
 
-export type VkRequest<M extends VkMethod> = VkRequestParamsMap[M];
+export type VkRequestParams<M extends VkMethod> = VkRequestParamsMap[M];
 
 export interface VkWeakSendMessagesRequestParams {
   /** The message which will be sent to the client */

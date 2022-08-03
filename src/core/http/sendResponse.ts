@@ -1,7 +1,10 @@
 import { ServerResponse } from 'http';
-import { BotResponse } from '../interfaces';
+import { BotServerResponse } from '../interfaces';
 
-export function sendResponse(res: ServerResponse, botResponse: BotResponse) {
+export function sendResponse(
+  res: ServerResponse,
+  botResponse: BotServerResponse
+) {
   res.setHeader('Content-Type', 'text/plain');
   res.statusCode = botResponse.status;
   res.end(botResponse.message);

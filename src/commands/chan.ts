@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { Command, CommandError, getVkMediaURL, uploadPhoto } from '../core';
+import { BotAsyncCommand, getVkMediaURL, uploadPhoto } from '../core';
 import { SFW, SFW_CATEGORIES, waifuAxios } from '../services/waifu';
 import { randomFrom } from '../utils';
 
-export const chan: Command = async body => {
+export const chan: BotAsyncCommand = async body => {
   // const response = await waifuAxios.get(`${SFW}/${randomFrom(SFW_CATEGORIES)}`);
   // const file = await axios.get(response.data.url, { responseType: 'stream' });
   // const uploadedPhoto = await uploadPhotoToVk(
@@ -16,6 +16,5 @@ export const chan: Command = async body => {
   // }
 
   // const { owner_id, id, access_key } = uploadedPhoto.response[0];
-
   throw new Error();
 };

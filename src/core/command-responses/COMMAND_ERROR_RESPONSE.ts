@@ -1,5 +1,5 @@
-import { CommandResponse } from '../interfaces';
+import { BotCommandResponse } from '../interfaces';
 
-export const COMMAND_ERROR_RESPONSE: CommandResponse = {
+export const COMMAND_ERROR_RESPONSE: BotCommandResponse = {
   message: 'Прости, но я немного бум бум. Обещаю в ближайшее время заработать',
 };

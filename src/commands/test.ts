@@ -1,7 +1,5 @@
-import { Command } from '../core';
+import { BotAsyncCommand } from '../core';
 
-export const test: Command = async () => {
-  return {
-    message: 'test',
-  };
+export const test: BotAsyncCommand = async () => {
+  return { message: '' };
 };
