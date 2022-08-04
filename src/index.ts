@@ -1,8 +1,7 @@
 import 'dotenv/config';
 import { createBot } from './core';
 import { config } from './config';
-import { decrease, increase, chan } from './commands';
-import { myPenis } from './commands/myPenis';
+import { decrease, increase, chan, myPenis } from './commands';
 
 const bot = createBot(config);
 bot.listen(+process.env.PORT! || 80);
