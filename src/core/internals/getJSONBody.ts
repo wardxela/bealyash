@@ -1,19 +1,16 @@
 import { IncomingMessage } from 'http';
+import { BotServerJsonError } from '../errors';
 
-export async function getJSONBody(req: IncomingMessage): Promise<any | null> {
+export async function getJSONBody(req: IncomingMessage): Promise<any> {
   let body = '';
 
   for await (const chunk of req) {
     body += chunk;
   }
 
-  if (body === '') {
-    return null;
-  }
-
   try {
     return JSON.parse(body);
   } catch (error) {
-    return null;
+    throw new BotServerJsonError();
   }
 }

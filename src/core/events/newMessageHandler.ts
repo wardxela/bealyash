@@ -1,6 +1,10 @@
+import {
+  DEFAULT_UNCAUGHT_COMMAND_ERROR_RESPONSE,
+  OK_SERVER_RESPONSE,
+} from '../constants';
+import { BotServerError } from '../errors';
 import { BotCommandResponse, BotCommands, BotConfig } from '../interfaces';
 import { countdown } from '../internals';
-import { OK_RESPONSE } from '../server-responses';
 import { VkNewMessageEvent, VkSendMessage } from '../vk';
 
 export async function newMessageHandler(
@@ -9,18 +13,21 @@ export async function newMessageHandler(
   vkSendMessage: VkSendMessage,
   config: BotConfig
 ) {
+  const { timeout, uncaughtCommandErrorResponse } = config;
+
   try {
     for (const [pattern, command] of commands) {
       if (!pattern.test(event.object.message.text)) {
         continue;
       }
-      const commandPromise = command(event);
+
+      const commandPromiseOrResponse = command(event);
       let commandResponse: BotCommandResponse;
 
-      if (commandPromise instanceof Promise) {
-        commandResponse = await countdown(commandPromise, 7000);
+      if (commandPromiseOrResponse instanceof Promise) {
+        commandResponse = await countdown(commandPromiseOrResponse, timeout);
       } else {
-        commandResponse = commandPromise;
+        commandResponse = commandPromiseOrResponse;
       }
 
       if (commandResponse !== null) {
@@ -28,11 +35,16 @@ export async function newMessageHandler(
       }
     }
   } catch (e) {
-    const badCommandResponse = config.uncaughtErrorResponse
-      ? config.uncaughtErrorResponse
-      : { message: 'error' };
+    if (e instanceof BotServerError) {
+      throw e;
+    }
+
+    const badCommandResponse = uncaughtCommandErrorResponse
+      ? uncaughtCommandErrorResponse
+      : DEFAULT_UNCAUGHT_COMMAND_ERROR_RESPONSE;
 
     await vkSendMessage(badCommandResponse, event);
   }
-  return OK_RESPONSE;
+
+  return OK_SERVER_RESPONSE;
 }

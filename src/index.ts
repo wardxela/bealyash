@@ -6,7 +6,7 @@ import { decrease, increase, chan, myPenis } from './commands';
 const bot = createBot(config);
 bot.listen(+process.env.PORT! || 80);
 
-bot.add(/твій пісюн зменшився/, decrease);
-bot.add(/твій пісюн виріс/, increase);
-bot.add(/тян/i, chan);
-bot.add(/довжина твого писюна \d+ см./, myPenis);
+bot.set(/твій пісюн зменшився/, decrease);
+bot.set(/твій пісюн виріс/, increase);
+bot.set(/тян/i, chan);
+bot.set(/довжина твого писюна \d+ см./, myPenis);

@@ -19,10 +19,12 @@ export interface BotConfig {
   /**
    * Response to be returned as a message to the chat in case of an error
    */
-  uncaughtErrorResponse?: BotCommandResponse;
+  uncaughtCommandErrorResponse?: BotCommandResponse;
 
   /**
-   * Response to be returned as a message to the chat in case of timeout error
+   * The shortest time during which the server will wait for a response from the commands.
+   * If no response will be returned during that time, server throws a `BotServerTimeoutError` error.
+   * @defaultValue 15000
    */
-  timeoutErrorResponse?: BotCommandResponse;
+  timeout?: number;
 }

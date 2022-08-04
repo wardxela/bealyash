@@ -1,9 +1,9 @@
 import { createServer } from 'http';
-import { getBody, sendResponse } from './http';
-import { INTERNAL_SERVER_ERROR_RESPONSE } from './server-responses';
 import { Bot, BotConfig, BotCommand, BotCommands } from './interfaces';
-import { BotServerError, emitEvent } from './internals';
+import { emitEvent, getBody, sendResponse } from './internals';
+import { BotServerError } from './errors';
 import { createSendMessage } from './vk';
+import { INTERNAL_SERVER_ERROR_RESPONSE } from './constants';
 
 export function createBot(config: BotConfig): Bot {
   const commands: BotCommands = new Map();
@@ -32,7 +32,7 @@ export function createBot(config: BotConfig): Bot {
     }
   });
 
-  const add = (pattern: RegExp, command: BotCommand) => {
+  const set = (pattern: RegExp, command: BotCommand) => {
     commands.set(pattern, command);
   };
 
@@ -40,5 +40,5 @@ export function createBot(config: BotConfig): Bot {
     return server.listen(port);
   };
 
-  return { add, listen };
+  return { set, listen };
 }

@@ -5,7 +5,16 @@ export function sendResponse(
   res: ServerResponse,
   botResponse: BotServerResponse
 ) {
+  const { status, message, headers } = botResponse;
+
   res.setHeader('Content-Type', 'text/plain');
-  res.statusCode = botResponse.status;
-  res.end(botResponse.message);
+
+  if (headers) {
+    for (const [name, value] of headers) {
+      res.setHeader(name, value);
+    }
+  }
+
+  res.statusCode = status;
+  res.end(message);
 }
