@@ -5,12 +5,12 @@ import {
 import { BotServerError } from '../errors';
 import { BotCommandResponse, BotCommands, BotConfig } from '../interfaces';
 import { countdown } from '../internals';
-import { VkNewMessageEvent, VkSendMessage } from '../vk';
+import { VkNewMessageEvent, VkReply } from '../vk';
 
 export async function newMessageHandler(
   event: VkNewMessageEvent,
   commands: BotCommands,
-  vkSendMessage: VkSendMessage,
+  reply: VkReply,
   config: BotConfig
 ) {
   const { timeout, uncaughtCommandErrorResponse } = config;
@@ -20,30 +20,25 @@ export async function newMessageHandler(
       if (!pattern.test(event.object.message.text)) {
         continue;
       }
-
       const commandPromiseOrResponse = command(event);
       let commandResponse: BotCommandResponse;
-
       if (commandPromiseOrResponse instanceof Promise) {
         commandResponse = await countdown(commandPromiseOrResponse, timeout);
       } else {
         commandResponse = commandPromiseOrResponse;
       }
-
       if (commandResponse !== null) {
-        await vkSendMessage(commandResponse, event);
+        await reply(commandResponse, event);
       }
     }
   } catch (e) {
     if (e instanceof BotServerError) {
       throw e;
     }
-
     const badCommandResponse = uncaughtCommandErrorResponse
       ? uncaughtCommandErrorResponse
       : DEFAULT_UNCAUGHT_COMMAND_ERROR_RESPONSE;
-
-    await vkSendMessage(badCommandResponse, event);
+    await reply(badCommandResponse, event);
   }
 
   return OK_SERVER_RESPONSE;

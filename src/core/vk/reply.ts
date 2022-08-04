@@ -1,16 +1,16 @@
 import axios from 'axios';
 import FormData from 'form-data';
 import { prepareVkSendMessagesRequestParams } from './helpers';
-import { VkSendMessage, VkSendMessagesRequestParams } from './interfaces';
+import { VkReply, VkSendMessagesRequestParams } from './interfaces';
 
-interface SendMessageConfig {
+interface ReplyConfig {
   accessToken: string;
   apiVersion: string | number;
 }
 
-export async function internalSendMessage(
+export async function internalReply(
   params: VkSendMessagesRequestParams,
-  config: SendMessageConfig
+  config: ReplyConfig
 ) {
   const form = new FormData();
   const { accessToken, apiVersion } = config;
@@ -29,12 +29,12 @@ export async function internalSendMessage(
   return axios.post(`https://api.vk.com/method/messages.send`, form);
 }
 
-export function createSendMessage(config: SendMessageConfig): VkSendMessage {
+export function createReply(config: ReplyConfig): VkReply {
   return async (weakParams, messageEvent) => {
     const params = prepareVkSendMessagesRequestParams(
       weakParams,
       messageEvent.object
     );
-    return internalSendMessage(params, config);
+    return internalReply(params, config);
   };
 }

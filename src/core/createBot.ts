@@ -2,12 +2,12 @@ import { createServer } from 'http';
 import { Bot, BotConfig, BotCommand, BotCommands } from './interfaces';
 import { emitEvent, getBody, sendResponse } from './internals';
 import { BotServerError } from './errors';
-import { createSendMessage } from './vk';
+import { createReply } from './vk';
 import { INTERNAL_SERVER_ERROR_RESPONSE } from './constants';
 
 export function createBot(config: BotConfig): Bot {
   const commands: BotCommands = new Map();
-  const vkSendMessage = createSendMessage({
+  const reply = createReply({
     accessToken: config.serverVkApiAccessToken,
     apiVersion: config.vkApiVersion,
   });
@@ -16,12 +16,7 @@ export function createBot(config: BotConfig): Bot {
     try {
       // TODO: Validate request. Type `any` is pretty bad.
       const event = await getBody(req);
-      const botServerResponse = await emitEvent(
-        event,
-        commands,
-        vkSendMessage,
-        config
-      );
+      const botServerResponse = await emitEvent(event, commands, reply, config);
       sendResponse(res, botServerResponse);
     } catch (e) {
       const badBotServerResponse =
