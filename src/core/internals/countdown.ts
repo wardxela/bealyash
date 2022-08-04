@@ -17,10 +17,16 @@ export function countdown<R>(
   const time = ms ? ms : DEFAULT_SERVER_TIMEOUT;
 
   return new Promise<R>((resolve, reject) => {
-    promise.then(value => {
-      clearTimeout(timeoutId);
-      resolve(value);
-    });
+    promise.then(
+      value => {
+        clearTimeout(timeoutId);
+        resolve(value);
+      },
+      reason => {
+        clearTimeout(timeoutId);
+        reject(reason);
+      }
+    );
     timeoutId = setTimeout(() => {
       reject(new BotServerTimeoutError(message));
     }, time);
