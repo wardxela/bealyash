@@ -1,5 +1,6 @@
 export const SFW = 'sfw';
 export const NSFW = 'nsfw';
+export const TYPES = [SFW, NSFW] as const;
 
 export const SFW_CATEGORIES = [
   'waifu',
@@ -33,6 +34,6 @@ export const SFW_CATEGORIES = [
   'poke',
   'dance',
   'cringe',
-];
+] as const;
 
-export const NSFW_CATEGORIES = ['waifu', 'neko', 'trap', 'blowjob'];
+export const NSFW_CATEGORIES = ['waifu', 'neko', 'trap', 'blowjob'] as const;
