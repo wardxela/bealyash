@@ -16,6 +16,7 @@ export function vkAxios<M extends VkMethod>(
 
   form.append('access_token', accessToken || '');
   form.append('v', apiVersion || '');
+  form.append('lang', 0);
 
   if (payload) {
     for (const [key, value] of Object.entries(payload)) {

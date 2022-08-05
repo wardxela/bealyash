@@ -17,6 +17,7 @@ export async function internalReply(
 
   form.append('v', apiVersion);
   form.append('access_token', accessToken);
+  form.append('lang', 0);
 
   for (const [key, value] of Object.entries(params)) {
     if (value === undefined) {

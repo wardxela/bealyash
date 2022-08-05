@@ -1,12 +1,16 @@
 export type VkMethod =
   | 'photos.get'
   | 'photos.getMessagesUploadServer'
-  | 'photos.saveMessagesPhoto';
+  | 'photos.saveMessagesPhoto'
+  | 'messages.getConversationMembers';
+
+export type VkCheckbox = 0 | 1;
 
 export interface VkRequestParams {
   'photos.get': VkGetPhotosRequestParams;
   'photos.getMessagesUploadServer': VkGetMessagesUploadServerRequestParams;
   'photos.saveMessagesPhoto': VKSaveMessagesPhotoRequestParams;
+  'messages.getConversationMembers': VkGetConversationMembersRequestParams;
 }
 
 export interface VkGetPhotosRequestParams {
@@ -22,4 +26,12 @@ export interface VKSaveMessagesPhotoRequestParams {
   photo: string;
   server: number;
   hash: string;
+}
+
+export interface VkGetConversationMembersRequestParams {
+  peer_id: number;
+  offset?: number;
+  count?: number;
+  extended?: VkCheckbox;
+  fields?: string;
 }

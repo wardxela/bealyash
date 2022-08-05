@@ -1,0 +1,14 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./source.db"
+}
+
+model Chat {
+  id        Int      @id
+  gay       Int?
+  updatedAt DateTime @updatedAt
+}
