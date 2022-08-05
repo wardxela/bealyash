@@ -55,7 +55,7 @@ export const gayOfTheMinute: BotAsyncCommand = async body => {
 
   let updatedAt = diff;
   let gayMemberId: number;
-  const hasOneMinutePassed = diff > MINUTE;
+  const hasOneMinutePassed = diff > -1;
   if (hasOneMinutePassed || chat.gay === null) {
     const newGayId = randomFrom(members.response.items).member_id;
     const updatedChat = await db.chat.update({
