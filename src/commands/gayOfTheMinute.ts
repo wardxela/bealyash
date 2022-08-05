@@ -51,11 +51,9 @@ export const gayOfTheMinute: BotAsyncCommand = async body => {
 
   const SECOND = 1000;
   const MINUTE = 60;
-  const diff = getDiff(chat.updatedAt) / SECOND;
-
-  let updatedAt = diff;
+  let diff = getDiff(chat.updatedAt) / SECOND;
   let gayMemberId: number;
-  const hasOneMinutePassed = diff > -1;
+  const hasOneMinutePassed = diff > MINUTE;
   if (hasOneMinutePassed || chat.gay === null) {
     const newGayId = randomFrom(members.response.items).member_id;
     const updatedChat = await db.chat.update({
@@ -66,7 +64,7 @@ export const gayOfTheMinute: BotAsyncCommand = async body => {
         gay: newGayId,
       },
     });
-    updatedAt = getDiff(updatedChat.updatedAt) / SECOND;
+    diff = getDiff(updatedChat.updatedAt) / SECOND;
     gayMemberId = newGayId;
   } else {
     gayMemberId = chat.gay;
@@ -75,7 +73,7 @@ export const gayOfTheMinute: BotAsyncCommand = async body => {
   const gayMember = memberToString(findMemberById(gayMemberId, members));
   return {
     message: `Пидор - ${gayMember}.\nТебе нужно подождать еще ${
-      60 - Math.floor(updatedAt)
+      60 - Math.floor(diff)
     } сек.`,
   };
 };
