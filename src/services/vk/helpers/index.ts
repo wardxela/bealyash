@@ -1,1 +1,0 @@
-export { getVkMediaURL } from './getVkMediaURL';

@@ -2,6 +2,7 @@ import { BotAsyncCommand, BotCommandResponse } from '../core';
 import { db } from '../services/prisma';
 import {
   getConversationMembers,
+  getVkLink,
   VkGetConversationMembersResponse,
 } from '../services/vk';
 import { randomFrom } from '../utils';
@@ -11,16 +12,6 @@ function findMemberById(id: number, members: VkGetConversationMembersResponse) {
     return members.response.groups.find(group => group.id === -id);
   }
   return members.response.profiles.find(profile => profile.id === id);
-}
-
-function memberToString(member: ReturnType<typeof findMemberById>) {
-  if (!member) {
-    return '[баг|пасхалка]: чел слился из беседы. сами ищите его.';
-  }
-  if ('first_name' in member) {
-    return `[id${member.id}|${member.first_name} ${member.last_name}]`;
-  }
-  return `[club${member.id}|${member.name}]`;
 }
 
 function getDiff(date: Date): number {
@@ -70,9 +61,11 @@ export const gayOfTheMinute: BotAsyncCommand = async body => {
     gayMemberId = chat.gay;
   }
 
-  const gayMember = memberToString(findMemberById(gayMemberId, members));
+  const gay = findMemberById(gayMemberId, members);
+
+  const name = gay ? getVkLink(gay) : 'ошибка';
   return {
-    message: `Пидор - ${gayMember}.\nТебе нужно подождать еще ${
+    message: `Пидор - ${name}.\nТебе нужно подождать еще ${
       60 - Math.floor(diff)
     } сек.`,
   };
