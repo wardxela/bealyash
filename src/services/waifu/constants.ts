@@ -33,7 +33,6 @@ export const SFW_CATEGORIES = [
   'wink',
   'poke',
   'dance',
-  'cringe',
 ] as const;
 
-export const NSFW_CATEGORIES = ['waifu', 'neko', 'trap', 'blowjob'] as const;
+export const NSFW_CATEGORIES = ['waifu', 'neko'] as const;
