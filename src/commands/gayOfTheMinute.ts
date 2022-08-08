@@ -47,7 +47,7 @@ export const gayOfTheMinute: BotAsyncCommand = async body => {
 
   if (hasOneMinutePassed || chat.gayId === null) {
     const newGayId = randomFrom(members.response.items).member_id;
-    const updatedChat = await db.chat.update({
+    const updatedChatPromise = db.chat.update({
       where: {
         id: chatId,
       },
@@ -55,7 +55,7 @@ export const gayOfTheMinute: BotAsyncCommand = async body => {
         gayId: newGayId,
       },
     });
-    await db.profile.upsert({
+    const updatedProfilePromise = db.profile.upsert({
       where: {
         userId_chatId: {
           userId: newGayId,
@@ -77,6 +77,10 @@ export const gayOfTheMinute: BotAsyncCommand = async body => {
         },
       },
     });
+    const [updatedChat] = await Promise.all([
+      updatedChatPromise,
+      updatedProfilePromise,
+    ]);
     diff = getDiff(updatedChat.updatedAt) / SECOND;
     gayMemberId = newGayId;
   } else {
