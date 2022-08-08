@@ -11,3 +11,10 @@ bot.set(/твій пісюн виріс/, increase);
 bot.set(/тян/i, chan);
 bot.set(/довжина твого писюна \d+ см./, myPenis);
 bot.set(/кто пидор/i, gayOfTheMinute);
+bot.set(/таймер/, () => {
+  return new Promise<any>(resolve => {
+    setTimeout(() => {
+      resolve({ message: 'проверка' });
+    }, 6000);
+  });
+});
