@@ -8,11 +8,7 @@ import { BotServerTimeoutError } from '../errors';
  * @param message Message to send in case of timeout error
  * @returns Promise
  */
-export function countdown<R>(
-  promise: Promise<R>,
-  ms?: number,
-  message?: string
-) {
+export function countdown<R>(promise: Promise<R>, ms?: number) {
   let timeoutId: NodeJS.Timeout;
   const time = ms ? ms : DEFAULT_SERVER_TIMEOUT;
 
@@ -28,7 +24,7 @@ export function countdown<R>(
       }
     );
     timeoutId = setTimeout(() => {
-      reject(new BotServerTimeoutError(message));
+      reject(new Error());
     }, time);
   });
 }

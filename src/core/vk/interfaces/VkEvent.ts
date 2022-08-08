@@ -1,4 +1,4 @@
-export type VkEvent = VkConfirmationEvent | VkNewMessageEvent;
+export type VkEvent = VkConfirmationEvent | VkNewMessageEvent | VkUnknownEvent;
 
 export interface VkConfirmationEvent {
   type: 'confirmation';
@@ -26,4 +26,8 @@ export interface VkNewMessageEvent {
   v: string;
   secret: string;
   object: VkMessageObject;
+}
+
+export interface VkUnknownEvent {
+  type: 'unknown';
 }
