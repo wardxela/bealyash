@@ -1,32 +1,10 @@
 import { BotAsyncCommand } from '../core';
 import { getVkMediaURL, uploadPhoto } from '../services/vk';
-import {
-  getRandomPicture,
-  PictureNsfwType,
-  PictureType,
-  TYPES,
-} from '../services/waifu';
-import { randomFrom } from '../utils';
-
-interface PictureTypeMap {
-  хентай: PictureNsfwType;
-  рандом: PictureType;
-}
+import { getRandomPicture, PictureType } from '../services/waifu';
 
 export const chan: BotAsyncCommand = async body => {
-  const match = body.object.message.text.match(/тян (хентай|рандом)/i);
-  let pictureType: PictureType;
-
-  if (match === null) {
-    pictureType = 'sfw';
-  } else {
-    const option = match[1] as keyof PictureTypeMap;
-    const pictureTypeMap: PictureTypeMap = {
-      хентай: 'nsfw',
-      рандом: randomFrom(TYPES),
-    };
-    pictureType = pictureTypeMap[option];
-  }
+  const match = /хентай/i.test(body.object.message.text);
+  let pictureType: PictureType = match ? 'nsfw' : 'sfw';
 
   const file = await getRandomPicture(pictureType);
   const uploadedPhotos = await uploadPhoto(body.object.message.peer_id, file);
