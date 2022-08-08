@@ -1,72 +1,96 @@
-import { BotAsyncCommand, BotCommandResponse } from '../core';
+import { Chat } from '@prisma/client';
+import { BotAsyncCommand } from '../core';
 import { db } from '../services/prisma';
 import {
+  findMemberById,
   getConversationMembers,
   getVkLink,
-  VkGetConversationMembersResponse,
 } from '../services/vk';
 import { randomFrom } from '../utils';
-
-function findMemberById(id: number, members: VkGetConversationMembersResponse) {
-  if (id < 0) {
-    return members.response.groups.find(group => group.id === -id);
-  }
-  return members.response.profiles.find(profile => profile.id === id);
-}
 
 function getDiff(date: Date): number {
   return new Date().getTime() - date.getTime();
 }
 
+const SECOND = 1000;
+const MINUTE = 60;
+
 export const gayOfTheMinute: BotAsyncCommand = async body => {
+  let chat: Chat;
+  let gayMemberId: number;
+  let diff: number;
   const chatId = body.object.message.peer_id;
-  const results = await Promise.all([
-    getConversationMembers(chatId),
-    db.chat.findFirst({
-      where: {
-        id: chatId,
-      },
-    }),
+
+  const membersPromise = getConversationMembers(chatId);
+  const chatPromise = db.chat.findUnique({
+    where: {
+      id: chatId,
+    },
+  });
+  const [members, chatOrNull] = await Promise.all([
+    membersPromise,
+    chatPromise,
   ]);
 
-  const members = results[0];
-  let chat = results[1];
-
-  if (!chat) {
+  if (!chatOrNull) {
     chat = await db.chat.create({
       data: {
         id: chatId,
       },
     });
+  } else {
+    chat = chatOrNull;
   }
 
-  const SECOND = 1000;
-  const MINUTE = 60;
-  let diff = getDiff(chat.updatedAt) / SECOND;
-  let gayMemberId: number;
+  diff = getDiff(chat.updatedAt) / SECOND;
   const hasOneMinutePassed = diff > MINUTE;
-  if (hasOneMinutePassed || chat.gay === null) {
+
+  if (hasOneMinutePassed || chat.gayId === null) {
     const newGayId = randomFrom(members.response.items).member_id;
     const updatedChat = await db.chat.update({
       where: {
         id: chatId,
       },
       data: {
-        gay: newGayId,
+        gayId: newGayId,
+      },
+    });
+    await db.profile.upsert({
+      where: {
+        userId_chatId: {
+          userId: newGayId,
+          chatId: chatId,
+        },
+      },
+      create: {
+        userId: newGayId,
+        chat: {
+          connect: {
+            id: chatId,
+          },
+        },
+        gayCounter: 1,
+      },
+      update: {
+        gayCounter: {
+          increment: 1,
+        },
       },
     });
     diff = getDiff(updatedChat.updatedAt) / SECOND;
     gayMemberId = newGayId;
   } else {
-    gayMemberId = chat.gay;
+    gayMemberId = chat.gayId;
   }
-
   const gay = findMemberById(gayMemberId, members);
-
   const name = gay ? getVkLink(gay) : 'ошибка';
+  const flooredDiff = Math.floor(diff);
+
+  const hintText = flooredDiff
+    ? `\nТебе нужно подождать еще ${60 - flooredDiff} сек. до следующей попытки`
+    : '';
+
   return {
-    message: `Пидор - ${name}.\nТебе нужно подождать еще ${
-      60 - Math.floor(diff)
-    } сек.`,
+    message: `Пидор - ${name}.${hintText}`,
   };
 };
