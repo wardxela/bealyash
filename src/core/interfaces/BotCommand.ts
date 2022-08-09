@@ -1,9 +1,11 @@
-import { VkNewMessageEvent } from '../vk';
+import { VkGroupEvent } from '../vk';
 import { BotCommandResponse } from './BotCommandResponse';
 
-export type BotSyncCommand = (event: VkNewMessageEvent) => BotCommandResponse;
+export type BotSyncCommand = (
+  event: VkGroupEvent<'message_new'>
+) => BotCommandResponse;
 export type BotAsyncCommand = (
-  event: VkNewMessageEvent
+  event: VkGroupEvent<'message_new'>
 ) => Promise<BotCommandResponse>;
 export type BotCommand = BotSyncCommand | BotAsyncCommand;
 

@@ -1,7 +1,7 @@
-import { VkNewMessageEvent } from './VkEvent';
+import { VkGroupEvent } from './VkEvent';
 import { VkWeakSendMessagesRequestParams } from './VkSendMessagesRequestParams';
 
 export type VkReply = (
   weakParams: VkWeakSendMessagesRequestParams,
-  messageEvent: VkNewMessageEvent
+  messageEvent: VkGroupEvent<'message_new'>
 ) => Promise<any>;

@@ -1,9 +1,16 @@
 import 'dotenv/config';
 import { createBot } from './core';
 import { config } from './config';
-import { decrease, increase, chan, myPenis, gayOfTheMinute } from './commands';
-import { statistics } from './commands/statistics';
-import { audio } from './commands/audio';
+import {
+  decrease,
+  increase,
+  chan,
+  myPenis,
+  gayOfTheMinute,
+  statistics,
+  getAudio,
+  addAudio,
+} from './commands';
 
 const bot = createBot(config);
 bot.listen(+process.env.PORT! || 80);
@@ -12,7 +19,8 @@ bot.listen(+process.env.PORT! || 80);
 bot.set(/тян/i, chan);
 bot.set(/кто пидор/i, gayOfTheMinute);
 bot.set(/беляш статистика/i, statistics);
-bot.set(/беляш трек/i, audio);
+bot.set(/беляш трек/i, getAudio);
+bot.set(/беляш добавь/i, addAudio);
 
 // Dick_Kraft_Bot | GACHI
 bot.set(/твій пісюн зменшився/, decrease);

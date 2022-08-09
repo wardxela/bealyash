@@ -1,9 +1,13 @@
-export type VkEvent = VkConfirmationEvent | VkNewMessageEvent | VkUnknownEvent;
+import { VkAttachment } from './VkAttachment';
 
-export interface VkConfirmationEvent {
-  type: 'confirmation';
-  group_id: number;
-  secret: string;
+export type VkEvent<T extends VkEventType = VkEventType> =
+  | VkConfirmationEvent
+  | VkGroupEvent<T>;
+
+export type VkEventType = 'message_new';
+
+export interface VkEventObjectMap {
+  message_new: VkMessageObject;
 }
 
 export interface VkMessageObject {
@@ -16,18 +20,22 @@ export interface VkMessageObject {
     random_id: number;
     important: boolean;
     payload: string;
+    attachments: VkAttachment[];
   };
   client_info: any;
 }
 
-export interface VkNewMessageEvent {
-  type: 'message_new';
+export interface VkConfirmationEvent {
+  type: 'confirmation';
   group_id: number;
-  v: string;
   secret: string;
-  object: VkMessageObject;
 }
 
-export interface VkUnknownEvent {
-  type: 'unknown';
+export interface VkGroupEvent<T extends VkEventType> {
+  type: T;
+  event_id: string;
+  v: string;
+  object: VkEventObjectMap[T];
+  group_id: number;
+  secret: string;
 }

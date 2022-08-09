@@ -24,3 +24,18 @@ model Profile {
 
   @@id([userId, chatId])
 }
+
+model AttachmentType {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  attachments Attachment[]
+}
+
+model Attachment {
+  id        Int            @id @default(autoincrement())
+  ownerId   Int
+  mediaId   Int
+  accessKey String?
+  typeId    Int
+  type      AttachmentType @relation(fields: [typeId], references: [id])
+}

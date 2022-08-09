@@ -1,10 +1,10 @@
 import { DEFAULT_UNCAUGHT_COMMAND_ERROR_RESPONSE } from '../constants';
 import { BotCommandResponse, BotCommands, BotConfig } from '../interfaces';
 import { countdown } from '../internals';
-import { VkNewMessageEvent, VkReply } from '../vk';
+import { VkGroupEvent, VkReply } from '../vk';
 
 export async function newMessageHandler(
-  event: VkNewMessageEvent,
+  event: VkGroupEvent<'message_new'>,
   commands: BotCommands,
   reply: VkReply,
   config: BotConfig
