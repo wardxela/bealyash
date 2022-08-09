@@ -1,5 +1,5 @@
 import { BotAsyncCommand } from '../core';
-import { getVkMediaURL, uploadPhoto } from '../services/vk';
+import { createVkMediaURL, uploadPhoto } from '../services/vk';
 import { getRandomPicture, PictureType } from '../services/waifu';
 
 export const chan: BotAsyncCommand = async body => {
@@ -13,6 +13,6 @@ export const chan: BotAsyncCommand = async body => {
 
   return {
     message: 'Держи красавицу',
-    attachment: getVkMediaURL('photo', owner_id, id, access_key),
+    attachment: createVkMediaURL('photo', owner_id, id, access_key),
   };
 };

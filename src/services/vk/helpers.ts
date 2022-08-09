@@ -13,7 +13,7 @@ interface VkClub {
 
 type VkUserOrClub = VkUser | VkClub;
 
-export function getVkMediaURL(
+export function createVkMediaURL(
   type: string,
   ownerId: string | number,
   mediaId: string | number,
@@ -22,7 +22,7 @@ export function getVkMediaURL(
   return `${type}${ownerId}_${mediaId}${accessKey ? `_${accessKey}` : ''}`;
 }
 
-export function getVkLink(member: VkUserOrClub) {
+export function createVkLink(member: VkUserOrClub) {
   if ('first_name' in member) {
     return `[id${member.id}|${member.first_name} ${member.last_name}]`;
   }

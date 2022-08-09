@@ -4,7 +4,7 @@ import { db } from '../services/prisma';
 import {
   findMemberById,
   getConversationMembers,
-  getVkLink,
+  createVkLink,
 } from '../services/vk';
 import { randomFrom } from '../utils';
 
@@ -87,7 +87,7 @@ export const gayOfTheMinute: BotAsyncCommand = async body => {
     gayMemberId = chat.gayId;
   }
   const gay = findMemberById(gayMemberId, members);
-  const name = gay ? getVkLink(gay) : 'ошибка';
+  const name = gay ? createVkLink(gay) : 'ошибка';
   const flooredDiff = Math.floor(diff);
 
   const hintText = flooredDiff

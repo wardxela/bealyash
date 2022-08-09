@@ -3,7 +3,7 @@ import {
   POSITIVE_REACTIONS,
   POSITIVE_REACTIONS_ALBUM_ID,
 } from '../services/gachi';
-import { COMMUNITY_ID, getPhotos, getVkMediaURL } from '../services/vk';
+import { COMMUNITY_ID, getPhotos, createVkMediaURL } from '../services/vk';
 import { randomFrom } from '../utils';
 
 export const increase: BotAsyncCommand = async () => {
@@ -16,6 +16,6 @@ export const increase: BotAsyncCommand = async () => {
 
   return {
     message: randomFrom(POSITIVE_REACTIONS),
-    attachment: getVkMediaURL('photo', owner_id, id),
+    attachment: createVkMediaURL('photo', owner_id, id),
   };
 };
