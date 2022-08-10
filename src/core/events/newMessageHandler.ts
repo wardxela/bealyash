@@ -25,6 +25,7 @@ export async function newMessageHandler(
       if (commandResponse !== null) {
         await reply(commandResponse, event);
       }
+      break;
     }
   } catch (e) {
     const badCommandResponse = uncaughtCommandErrorResponse
