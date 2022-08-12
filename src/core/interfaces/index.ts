@@ -5,3 +5,4 @@ export { BotConfig } from './BotConfig';
 export { Bot } from './Bot';
 export * from './BotCommand';
 export * from './BotGuards';
+export * from './BotContainer';

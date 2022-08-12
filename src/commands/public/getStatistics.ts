@@ -6,7 +6,7 @@ import {
   createVkLink,
 } from '../../services/vk';
 
-export const statistics: BotCommand = async event => {
+export const getStatistics: BotCommand = async event => {
   const profilesPromise = db.profile.findMany({
     where: {
       chatId: event.object.message.peer_id,

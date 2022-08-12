@@ -1,12 +1,12 @@
 import { Chat } from '@prisma/client';
 import { BotCommand } from '../../core';
+import { randomFrom } from '../../utils';
 import { db } from '../../services/prisma';
 import {
   findMemberById,
   getConversationMembers,
   createVkLink,
 } from '../../services/vk';
-import { randomFrom } from '../../utils';
 
 function getDiff(date: Date): number {
   return new Date().getTime() - date.getTime();

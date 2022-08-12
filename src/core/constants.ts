@@ -1,5 +1,4 @@
-import { BotServerResponse } from './interfaces';
-import { VkWeakSendMessagesRequestParams } from './vk';
+import { BotServerResponse, BotVerifiedCommandResponse } from './interfaces';
 
 export const DEFAULT_SERVER_TIMEOUT = 15000;
 
@@ -13,7 +12,7 @@ export const OK_SERVER_RESPONSE: BotServerResponse = {
   message: 'ok',
 };
 
-export const DEFAULT_UNCAUGHT_COMMAND_ERROR_RESPONSE: VkWeakSendMessagesRequestParams =
+export const DEFAULT_UNCAUGHT_COMMAND_ERROR_RESPONSE: BotVerifiedCommandResponse =
   {
     message: 'error',
   };

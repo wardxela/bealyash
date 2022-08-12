@@ -1,20 +1,19 @@
 import clc from 'cli-color';
 import { DEFAULT_UNCAUGHT_COMMAND_ERROR_RESPONSE } from '../constants';
-import { BotCommands, BotConfig, BotGuards } from '../interfaces';
+import { BotConfig, BotContainer } from '../interfaces';
 import { verifyCommandResponse, safePromise } from '../internals';
 import { doMatch } from '../utils';
 import { VkGroupEvent, VkReply } from '../vk';
 
 export async function newMessageHandler(
   event: VkGroupEvent<'message_new'>,
-  commands: BotCommands,
-  guards: BotGuards,
+  container: BotContainer,
   reply: VkReply,
   config: BotConfig
 ): Promise<void> {
   const { timeout, uncaughtCommandErrorResponse } = config;
   try {
-    for (const [pattern, guard] of guards) {
+    for (const [pattern, guard] of container.guards) {
       if (!doMatch(pattern, event.object.message.text)) {
         continue;
       }
@@ -25,7 +24,7 @@ export async function newMessageHandler(
       }
     }
     console.log(clc.green('[success] all guards passed'));
-    for (const [pattern, command] of commands) {
+    for (const [pattern, command] of container.commands) {
       if (!doMatch(pattern, event.object.message.text)) {
         continue;
       }
