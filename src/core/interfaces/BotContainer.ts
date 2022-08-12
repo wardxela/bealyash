@@ -6,9 +6,9 @@ export interface BotContainer {
   set(pattern: Pattern, command: BotCommand): void;
   protect(pattern: Pattern, command: BotGuard): void;
   group(container: BotContainer): void;
-  commands: BotCommands;
-  guards: BotGuards;
-  containers: BotContainers;
+  readonly commands: BotCommands;
+  readonly guards: BotGuards;
+  readonly containers: BotContainers;
 }
 
 export type BotContainers = BotContainer[];
