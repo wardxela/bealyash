@@ -1,21 +1,21 @@
-import { BotCommand } from '../core';
-import { db } from '../services/prisma';
+import { BotCommand } from '../../core';
+import { db } from '../../services/prisma';
 import {
   findMemberById,
   getConversationMembers,
   createVkLink,
-} from '../services/vk';
+} from '../../services/vk';
 
-export const statistics: BotCommand = async body => {
+export const statistics: BotCommand = async event => {
   const profilesPromise = db.profile.findMany({
     where: {
-      chatId: body.object.message.peer_id,
+      chatId: event.object.message.peer_id,
     },
     orderBy: {
       gayCounter: 'desc',
     },
   });
-  const membersPromise = getConversationMembers(body.object.message.peer_id);
+  const membersPromise = getConversationMembers(event.object.message.peer_id);
   const [profiles, members] = await Promise.all([
     profilesPromise,
     membersPromise,

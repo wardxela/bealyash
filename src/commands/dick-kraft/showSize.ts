@@ -1,7 +1,7 @@
-import { BotCommand } from '../core';
-import { drawDick } from '../services/gachi';
+import { BotCommand } from '../../core';
+import { drawDick } from '../../services/gachi';
 
-export const myPenis: BotCommand = event => {
+export const showSize: BotCommand = event => {
   const match = event.object.message.text.match(/(\d+) см/);
 
   if (match === null) {

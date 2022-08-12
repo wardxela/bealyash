@@ -2,31 +2,29 @@ import 'dotenv/config';
 import { createBot } from './core';
 import { config, PORT } from './config';
 import {
-  decrease,
-  increase,
-  chan,
-  myPenis,
+  getChan,
   gayOfTheMinute,
   statistics,
   getAudio,
   addAudio,
-} from './commands';
-import { onlyUsers } from './guards';
+} from './commands/public';
+import { changeSize, showSize } from './commands/dick-kraft';
+import { dickKraftRegExp, onlyDickKraft, onlyUsers } from './guards';
 
 const bot = createBot(config);
 bot.listen(PORT);
 
 // Guards
 bot.protect(/.*/, onlyUsers);
+bot.protect(dickKraftRegExp, onlyDickKraft);
 
 // Bealyash
-bot.set(/тян/i, chan);
+bot.set(/тян/i, getChan);
 bot.set(/кто пидор/i, gayOfTheMinute);
 bot.set(/беляш статистика/i, statistics);
 bot.set(/беляш трек/i, getAudio);
 bot.set(/беляш добавь/i, addAudio);
 
 // Dick_Kraft_Bot | GACHI
-bot.set(/твій пісюн зменшився/, decrease);
-bot.set(/твій пісюн виріс/, increase);
-bot.set(/довжина твого писюна \d+ см./, myPenis);
+bot.set(/твій пісюн (зменшився|виріс)/, changeSize);
+bot.set(/довжина твого писюна \d+ см/, showSize);

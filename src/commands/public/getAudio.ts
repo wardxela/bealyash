@@ -1,9 +1,9 @@
-import { BotCommand } from '../core';
-import { db } from '../services/prisma';
-import { createVkMediaURL } from '../services/vk';
-import { random } from '../utils';
+import { BotCommand } from '../../core';
+import { db } from '../../services/prisma';
+import { createVkMediaURL } from '../../services/vk';
+import { random } from '../../utils';
 
-export const getAudio: BotCommand = async event => {
+export const getAudio: BotCommand = async () => {
   const count = await db.attachment.count({
     where: {
       type: {

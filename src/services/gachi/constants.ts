@@ -18,3 +18,5 @@ export const NEGATIVE_REACTIONS = [
   'Come on college boy',
   'Ahh, like that?',
 ];
+
+export const DICK_KRAFT_BOT_ID = -193557157;
