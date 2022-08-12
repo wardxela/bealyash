@@ -10,7 +10,7 @@ export function prepareVkSendMessagesRequestParams(
   clientMessageObject: VkMessageObject
 ): VkSendMessagesRequestParams {
   const random_id = randomId();
-  const message = weakParams.message;
+  const message = weakParams.message as string;
   const peer_id = weakParams.peer_id
     ? weakParams.peer_id
     : clientMessageObject.message.peer_id;

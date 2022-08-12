@@ -2,11 +2,9 @@ import { createServer } from 'http';
 import {
   Bot,
   BotConfig,
-  BotCommand,
   BotCommands,
   BotServerResponse,
   BotGuards,
-  BotGuard,
 } from './interfaces';
 import { confirmServer, emitEvent, getBody, sendResponse } from './internals';
 import { BotServerError } from './errors';

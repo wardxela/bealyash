@@ -47,7 +47,6 @@ export const getAudio: BotCommand = async event => {
   );
 
   return {
-    message: '',
     attachment: media,
   };
 };

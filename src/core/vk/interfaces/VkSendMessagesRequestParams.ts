@@ -1,20 +1,31 @@
-export interface VkWeakSendMessagesRequestParams {
-  /** The message which will be sent to the client */
+export interface VkSendMessagesRequestParamsWithMessage {
   message: string;
-
-  /** User's/group's id to whom the message will be sent. Defaults to the sender's value */
-  peer_id?: number;
-
-  /**
-   * A string containing a list of attachments in the following format:
-   * `{type}_{owner_id}_{access_key}`
-   */
   attachment?: string;
 }
 
-export interface VkSendMessagesRequestParams {
+export interface VkSendMessagesRequestParamsWithAttachment {
+  message?: string;
+  attachment: string;
+}
+
+export interface VkWeakSendMessagesRequestParamsBase {
+  peer_id?: number;
+}
+
+export interface VkSendMessagesRequestParamsBase {
   random_id: number;
   peer_id: number;
-  message: string;
-  attachment?: string;
 }
+
+export type VkWeakSendMessagesRequestParams =
+  VkWeakSendMessagesRequestParamsBase &
+    (
+      | VkSendMessagesRequestParamsWithMessage
+      | VkSendMessagesRequestParamsWithAttachment
+    );
+
+export type VkSendMessagesRequestParams = VkSendMessagesRequestParamsBase &
+  (
+    | VkSendMessagesRequestParamsWithMessage
+    | VkSendMessagesRequestParamsWithAttachment
+  );

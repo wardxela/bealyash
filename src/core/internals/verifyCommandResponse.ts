@@ -7,5 +7,10 @@ export function verifyCommandResponse(
   if (response === null) {
     return false;
   }
+
+  if (!response.message && !response.attachment) {
+    return false;
+  }
+
   return true;
 }

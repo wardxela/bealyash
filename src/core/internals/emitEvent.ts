@@ -15,6 +15,6 @@ export async function emitEvent(
       console.log('[server] success');
     }
   } catch (e) {
-    console.error('[server] error');
+    console.error('[server] fail');
   }
 }

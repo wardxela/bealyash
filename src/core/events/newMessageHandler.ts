@@ -19,9 +19,11 @@ export async function newMessageHandler(
       }
       const success = await safePromise(guard(event), timeout);
       if (!success) {
+        console.log('[guard] fail');
         return;
       }
     }
+    console.log('[guard] success');
     for (const [pattern, command] of commands) {
       if (!doMatch(pattern, event.object.message.text)) {
         continue;
@@ -34,7 +36,7 @@ export async function newMessageHandler(
       break;
     }
   } catch (e) {
-    console.log('[command] error');
+    console.log('[command] fail');
     const badCommandResponse = uncaughtCommandErrorResponse
       ? uncaughtCommandErrorResponse
       : DEFAULT_UNCAUGHT_COMMAND_ERROR_RESPONSE;
