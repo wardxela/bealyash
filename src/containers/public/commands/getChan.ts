@@ -1,6 +1,6 @@
-import { BotCommand } from '../../core';
-import { createVkMediaURL, uploadPhoto } from '../../services/vk';
-import { getRandomPicture, PictureType } from '../../services/waifu';
+import { BotCommand } from '../../../core';
+import { createVkMediaURL, uploadPhoto } from '../../../services/vk';
+import { getRandomPicture, PictureType } from '../../../services/waifu';
 
 export const getChan: BotCommand = async event => {
   const match = /хентай/i.test(event.object.message.text);

@@ -1,12 +1,16 @@
-import { BotCommand } from '../../core';
+import { BotCommand } from '../../../core';
 import {
   NEGATIVE_REACTIONS,
   NEGATIVE_REACTIONS_ALBUM_ID,
   POSITIVE_REACTIONS,
   POSITIVE_REACTIONS_ALBUM_ID,
-} from '../../services/gachi';
-import { COMMUNITY_ID, getPhotos, createVkMediaURL } from '../../services/vk';
-import { randomFrom } from '../../utils';
+} from '../../../services/gachi';
+import {
+  COMMUNITY_ID,
+  getPhotos,
+  createVkMediaURL,
+} from '../../../services/vk';
+import { randomFrom } from '../../../utils';
 
 export const changeSize: BotCommand = async event => {
   let albumId: number;

@@ -13,6 +13,9 @@ export async function newMessageHandler(
 ): Promise<void> {
   const { timeout, uncaughtCommandErrorResponse } = config;
   try {
+    for (const nestedContainer of container.containers) {
+      await newMessageHandler(event, nestedContainer, reply, config);
+    }
     for (const [pattern, guard] of container.guards) {
       if (!doMatch(pattern, event.object.message.text)) {
         continue;

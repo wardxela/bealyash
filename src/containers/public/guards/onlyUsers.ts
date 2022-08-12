@@ -1,5 +1,5 @@
-import { BotGuard } from '../core';
-import { DICK_KRAFT_BOT_ID } from '../services/gachi';
+import { BotGuard } from '../../../core';
+import { DICK_KRAFT_BOT_ID } from '../../../services/gachi';
 
 const EXCEPTIONS = [DICK_KRAFT_BOT_ID];
 

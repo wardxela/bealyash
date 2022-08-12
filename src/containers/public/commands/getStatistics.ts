@@ -1,10 +1,10 @@
-import { BotCommand } from '../../core';
-import { db } from '../../services/prisma';
+import { BotCommand } from '../../../core';
+import { db } from '../../../services/prisma';
 import {
   findMemberById,
   getConversationMembers,
   createVkLink,
-} from '../../services/vk';
+} from '../../../services/vk';
 
 export const getStatistics: BotCommand = async event => {
   const profilesPromise = db.profile.findMany({
