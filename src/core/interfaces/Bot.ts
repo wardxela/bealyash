@@ -1,8 +1,10 @@
 import { Server } from 'http';
-import { BotAsyncCommand, BotSyncCommand } from './BotCommand';
+import { BotCommand } from './BotCommand';
+import { BotGuard } from './BotGuards';
+import { Pattern } from './Pattern';
 
 export interface Bot {
   listen(port: number): Server;
-  set(pattern: RegExp, command: BotSyncCommand): void;
-  set(pattern: RegExp, command: BotAsyncCommand): void;
+  set(pattern: Pattern, command: BotCommand): void;
+  protect(pattern: Pattern, guard: BotGuard): void;
 }

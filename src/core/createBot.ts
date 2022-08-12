@@ -5,6 +5,8 @@ import {
   BotCommand,
   BotCommands,
   BotServerResponse,
+  BotGuards,
+  BotGuard,
 } from './interfaces';
 import { confirmServer, emitEvent, getBody, sendResponse } from './internals';
 import { BotServerError } from './errors';
@@ -16,6 +18,8 @@ import {
 
 export function createBot(config: BotConfig): Bot {
   const commands: BotCommands = new Map();
+  const guards: BotGuards = new Map();
+
   const reply = createReply({
     accessToken: config.serverVkApiAccessToken,
     apiVersion: config.vkApiVersion,
@@ -31,7 +35,7 @@ export function createBot(config: BotConfig): Bot {
       } else {
         response = OK_SERVER_RESPONSE;
       }
-      emitEvent(event, commands, reply, config);
+      emitEvent(event, commands, guards, reply, config);
       sendResponse(res, response);
     } catch (e) {
       let badBotServerResponse: BotServerResponse;
@@ -44,13 +48,17 @@ export function createBot(config: BotConfig): Bot {
     }
   });
 
-  const set = (pattern: RegExp, command: BotCommand) => {
+  const set: Bot['set'] = (pattern, command) => {
     commands.set(pattern, command);
   };
 
-  const listen = (port: number) => {
+  const protect: Bot['protect'] = (pattern, guard) => {
+    guards.set(pattern, guard);
+  };
+
+  const listen: Bot['listen'] = port => {
     return server.listen(port);
   };
 
-  return { set, listen };
+  return { set, protect, listen };
 }

@@ -1,4 +1,4 @@
-import { BotAsyncCommand } from '../core';
+import { BotCommand } from '../core';
 import {
   NEGATIVE_REACTIONS,
   NEGATIVE_REACTIONS_ALBUM_ID,
@@ -6,7 +6,7 @@ import {
 import { COMMUNITY_ID, getPhotos, createVkMediaURL } from '../services/vk';
 import { randomFrom } from '../utils';
 
-export const decrease: BotAsyncCommand = async () => {
+export const decrease: BotCommand = async () => {
   const photos = await getPhotos({
     owner_id: -COMMUNITY_ID,
     album_id: NEGATIVE_REACTIONS_ALBUM_ID,

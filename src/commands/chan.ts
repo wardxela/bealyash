@@ -1,8 +1,8 @@
-import { BotAsyncCommand } from '../core';
+import { BotCommand } from '../core';
 import { createVkMediaURL, uploadPhoto } from '../services/vk';
 import { getRandomPicture, PictureType } from '../services/waifu';
 
-export const chan: BotAsyncCommand = async body => {
+export const chan: BotCommand = async body => {
   const match = /хентай/i.test(body.object.message.text);
   let pictureType: PictureType = match ? 'nsfw' : 'sfw';
 

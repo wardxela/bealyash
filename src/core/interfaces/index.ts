@@ -1,5 +1,7 @@
+export { Pattern } from './Pattern';
 export { BotServerResponse } from './BotServerResponse';
-export { BotCommandResponse } from './BotCommandResponse';
+export * from './BotCommandResponse';
 export { BotConfig } from './BotConfig';
 export { Bot } from './Bot';
 export * from './BotCommand';
+export * from './BotGuards';

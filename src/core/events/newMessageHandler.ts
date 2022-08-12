@@ -1,33 +1,40 @@
 import { DEFAULT_UNCAUGHT_COMMAND_ERROR_RESPONSE } from '../constants';
-import { BotCommandResponse, BotCommands, BotConfig } from '../interfaces';
-import { countdown } from '../internals';
+import { BotCommands, BotConfig, BotGuards } from '../interfaces';
+import { verifyCommandResponse, safePromise } from '../internals';
+import { doMatch } from '../utils';
 import { VkGroupEvent, VkReply } from '../vk';
 
 export async function newMessageHandler(
   event: VkGroupEvent<'message_new'>,
   commands: BotCommands,
+  guards: BotGuards,
   reply: VkReply,
   config: BotConfig
 ): Promise<void> {
   const { timeout, uncaughtCommandErrorResponse } = config;
   try {
-    for (const [pattern, command] of commands) {
-      if (!pattern.test(event.object.message.text)) {
+    for (const [pattern, guard] of guards) {
+      if (!doMatch(pattern, event.object.message.text)) {
         continue;
       }
-      const commandPromiseOrResponse = command(event);
-      let commandResponse: BotCommandResponse;
-      if (commandPromiseOrResponse instanceof Promise) {
-        commandResponse = await countdown(commandPromiseOrResponse, timeout);
-      } else {
-        commandResponse = commandPromiseOrResponse;
+      const success = await safePromise(guard(event), timeout);
+      if (!success) {
+        return;
       }
-      if (commandResponse !== null) {
+    }
+    for (const [pattern, command] of commands) {
+      if (!doMatch(pattern, event.object.message.text)) {
+        continue;
+      }
+      const commandResponse = await safePromise(command(event), timeout);
+      if (verifyCommandResponse(commandResponse)) {
         await reply(commandResponse, event);
       }
+      console.log('[command] success');
       break;
     }
   } catch (e) {
+    console.log('[command] error');
     const badCommandResponse = uncaughtCommandErrorResponse
       ? uncaughtCommandErrorResponse
       : DEFAULT_UNCAUGHT_COMMAND_ERROR_RESPONSE;

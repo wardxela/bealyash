@@ -1,0 +1,1 @@
+export { onlyUsers } from './onlyUsers';

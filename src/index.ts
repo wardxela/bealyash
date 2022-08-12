@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { createBot } from './core';
-import { config } from './config';
+import { config, PORT } from './config';
 import {
   decrease,
   increase,
@@ -11,9 +11,13 @@ import {
   getAudio,
   addAudio,
 } from './commands';
+import { onlyUsers } from './guards';
 
 const bot = createBot(config);
-bot.listen(+process.env.PORT! || 80);
+bot.listen(PORT);
+
+// Guards
+bot.protect(/.*/, onlyUsers);
 
 // Bealyash
 bot.set(/тян/i, chan);

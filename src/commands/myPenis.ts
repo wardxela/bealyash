@@ -1,7 +1,7 @@
-import { BotSyncCommand } from '../core';
+import { BotCommand } from '../core';
 import { drawDick } from '../services/gachi';
 
-export const myPenis: BotSyncCommand = event => {
+export const myPenis: BotCommand = event => {
   const match = event.object.message.text.match(/(\d+) см/);
 
   if (match === null) {

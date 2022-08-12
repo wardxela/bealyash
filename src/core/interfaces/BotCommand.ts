@@ -1,12 +1,9 @@
 import { VkGroupEvent } from '../vk';
 import { BotCommandResponse } from './BotCommandResponse';
+import { Pattern } from './Pattern';
 
-export type BotSyncCommand = (
+export type BotCommand = (
   event: VkGroupEvent<'message_new'>
-) => BotCommandResponse;
-export type BotAsyncCommand = (
-  event: VkGroupEvent<'message_new'>
-) => Promise<BotCommandResponse>;
-export type BotCommand = BotSyncCommand | BotAsyncCommand;
+) => BotCommandResponse | Promise<BotCommandResponse>;
 
-export type BotCommands = Map<RegExp, BotCommand>;
+export type BotCommands = Map<Pattern, BotCommand>;

@@ -1,8 +1,8 @@
-import { BotAsyncCommand } from '../core';
+import { BotCommand } from '../core';
 import { VkAttachment } from '../core/vk';
 import { db } from '../services/prisma';
 
-export const addAudio: BotAsyncCommand = async event => {
+export const addAudio: BotCommand = async event => {
   const audios = event.object.message.attachments.filter(
     attachment => attachment.type === 'audio'
   ) as VkAttachment<'audio'>[];

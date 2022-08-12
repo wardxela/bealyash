@@ -1,5 +1,5 @@
 import { Chat } from '@prisma/client';
-import { BotAsyncCommand } from '../core';
+import { BotCommand } from '../core';
 import { db } from '../services/prisma';
 import {
   findMemberById,
@@ -15,11 +15,11 @@ function getDiff(date: Date): number {
 const SECOND = 1000;
 const MINUTE = 60;
 
-export const gayOfTheMinute: BotAsyncCommand = async body => {
+export const gayOfTheMinute: BotCommand = async event => {
   let chat: Chat;
   let gayMemberId: number;
   let diff: number;
-  const chatId = body.object.message.peer_id;
+  const chatId = event.object.message.peer_id;
 
   const membersPromise = getConversationMembers(chatId);
   const chatPromise = db.chat.findUnique({

@@ -1,4 +1,4 @@
-import { BotAsyncCommand } from '../core';
+import { BotCommand } from '../core';
 import { db } from '../services/prisma';
 import {
   findMemberById,
@@ -6,7 +6,7 @@ import {
   createVkLink,
 } from '../services/vk';
 
-export const statistics: BotAsyncCommand = async body => {
+export const statistics: BotCommand = async body => {
   const profilesPromise = db.profile.findMany({
     where: {
       chatId: body.object.message.peer_id,

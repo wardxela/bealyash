@@ -9,3 +9,5 @@ export const config: BotConfig = {
       'Прости, но я немного бум бум.\nОбещаю в ближайшее время заработать',
   },
 };
+
+export const PORT = +process.env.PORT! || 80;
