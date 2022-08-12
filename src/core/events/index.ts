@@ -1,1 +1,1 @@
-export { newMessageHandler } from './newMessageHandler';
+export { emitEvent } from './emitEvent';

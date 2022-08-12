@@ -1,6 +1,7 @@
+import clc from 'cli-color';
 import { BotCommands, BotConfig, BotGuards } from '../interfaces';
 import { VkEvent, VkReply } from '../vk';
-import { newMessageHandler } from '../events';
+import { newMessageHandler } from './newMessageHandler';
 
 export async function emitEvent(
   event: VkEvent,
@@ -12,9 +13,9 @@ export async function emitEvent(
   try {
     if (event.type === 'message_new') {
       await newMessageHandler(event, commands, guards, reply, config);
-      console.log('[server] success');
+      console.log(clc.green('[success] event handler did job'));
     }
   } catch (e) {
-    console.error('[server] fail');
+    console.error(clc.red('[error] event handler failed'));
   }
 }

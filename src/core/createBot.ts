@@ -6,13 +6,14 @@ import {
   BotServerResponse,
   BotGuards,
 } from './interfaces';
-import { confirmServer, emitEvent, getBody, sendResponse } from './internals';
+import { confirmServer, getBody, sendResponse } from './internals';
 import { BotServerError } from './errors';
 import { createReply, VkEvent } from './vk';
 import {
   INTERNAL_SERVER_ERROR_RESPONSE,
   OK_SERVER_RESPONSE,
 } from './constants';
+import { emitEvent } from './events';
 
 export function createBot(config: BotConfig): Bot {
   const commands: BotCommands = new Map();
