@@ -27,7 +27,8 @@ export const statistics: BotCommand = async body => {
     }
     const link = createVkLink(user);
     const russianException =
-      [2, 3, 4].includes(profile.gayCounter % 10) && profile.gayCounter < 20;
+      ![12, 13, 14].includes(profile.gayCounter) &&
+      [2, 3, 4].includes(profile.gayCounter % 10);
     const times = russianException ? 'раза' : 'раз';
     return `${acc}${link} был пидором ${profile.gayCounter} ${times}\n`;
   }, '');
