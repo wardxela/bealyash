@@ -1,6 +1,15 @@
 import { BotGuard } from '../../core';
-import { ADMIN_ID } from '../../services/vk';
+import { CREATOR_ID } from '../../services/vk';
 
 export const onlyAdmin: BotGuard = event => {
-  return event.object.message.from_id === ADMIN_ID;
+  if (event.object.message.from_id === CREATOR_ID) {
+    return {
+      success: true,
+    };
+  }
+
+  return {
+    success: false,
+    message: 'Эта команда доступна только создателю беляша',
+  };
 };

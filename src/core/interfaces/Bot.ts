@@ -1,7 +1,7 @@
 import { Server } from 'http';
 import { BotCommand } from './BotCommand';
 import { BotContainer } from './BotContainer';
-import { BotGuard } from './BotGuards';
+import { BotGuard } from './BotGuard';
 import { Pattern } from './Pattern';
 
 export interface Bot {

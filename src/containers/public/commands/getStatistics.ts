@@ -28,7 +28,7 @@ export const getStatistics: BotCommand = async event => {
     }
     const name = createVkLink(user);
     const gayCount = ruNumberToString(profile.gayCounter);
-    return `${acc}${name} был пидором ${profile.gayCounter} ${gayCount}\n`;
+    return `${acc}${name} был пидором ${gayCount}\n`;
   }, '');
 
   return {

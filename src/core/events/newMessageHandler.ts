@@ -1,7 +1,6 @@
 import { DEFAULT_UNCAUGHT_COMMAND_ERROR_RESPONSE } from '../constants';
 import { BotConfig, BotContainer } from '../interfaces';
 import { verifyCommandResponse, safePromise } from '../internals';
-import { doMatch } from '../utils';
 import { VkGroupEvent, VkReply } from '../vk';
 
 export async function newMessageHandler(
@@ -20,13 +19,16 @@ export async function newMessageHandler(
       if (!match) {
         continue;
       }
-      for (const [pattern, guard] of container.guards) {
-        if (!doMatch(pattern, event.object.message.text)) {
+      for (const [pattern2, guard] of container.guards) {
+        const match2 = event.object.message.text.match(pattern2);
+        if (!match2) {
           continue;
         }
-        const success = await safePromise(guard(event), timeout);
-        if (!success) {
-          return;
+        const guardResponse = await safePromise(guard(event, match2), timeout);
+        if (!guardResponse.success) {
+          if (verifyCommandResponse(guardResponse)) {
+            return reply(guardResponse, event);
+          }
         }
       }
       const commandResponse = await safePromise(command(event, match), timeout);

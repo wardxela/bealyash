@@ -1,2 +1,2 @@
 export const COMMUNITY_ID = -210983855;
-export const ADMIN_ID = 671443259;
+export const CREATOR_ID = 671443259;

@@ -1,5 +1,5 @@
 import { BotCommand, BotCommands } from './BotCommand';
-import { BotGuard, BotGuards } from './BotGuards';
+import { BotGuard, BotGuards } from './BotGuard';
 import { Pattern } from './Pattern';
 
 export interface BotContainer {

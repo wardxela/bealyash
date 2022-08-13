@@ -1,4 +1,4 @@
-import { BotCommandResponse } from './BotCommandResponse';
+import { BotCommandResponse } from './BotCommand';
 
 export interface BotConfig {
   /**
