@@ -1,4 +1,3 @@
-import clc from 'cli-color';
 import { DEFAULT_UNCAUGHT_COMMAND_ERROR_RESPONSE } from '../constants';
 import { BotConfig, BotContainer } from '../interfaces';
 import { verifyCommandResponse, safePromise } from '../internals';
@@ -22,11 +21,9 @@ export async function newMessageHandler(
       }
       const success = await safePromise(guard(event), timeout);
       if (!success) {
-        console.log(clc.red("[error] one of the guards didn't pass"));
         return;
       }
     }
-    console.log(clc.green('[success] all guards passed'));
     for (const [pattern, command] of container.commands) {
       if (!doMatch(pattern, event.object.message.text)) {
         continue;
@@ -35,11 +32,9 @@ export async function newMessageHandler(
       if (verifyCommandResponse(commandResponse)) {
         await reply(commandResponse, event);
       }
-      console.log(clc.green('[success] response is sent'));
       break;
     }
   } catch (e) {
-    console.log(clc.red('[error] command failed'));
     const badCommandResponse = uncaughtCommandErrorResponse
       ? uncaughtCommandErrorResponse
       : DEFAULT_UNCAUGHT_COMMAND_ERROR_RESPONSE;

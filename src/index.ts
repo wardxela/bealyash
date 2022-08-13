@@ -10,6 +10,7 @@ import {
   onlyUsers,
 } from './containers/public';
 import { dickKraftContainer } from './containers/dick-kraft';
+import { adminContainer } from './containers/admin';
 
 const bot = createBot(config);
 bot.listen(PORT);
@@ -26,3 +27,4 @@ bot.set(/беляш добавь/i, addAudio);
 
 // Containers
 bot.group(dickKraftContainer);
+bot.group(adminContainer);

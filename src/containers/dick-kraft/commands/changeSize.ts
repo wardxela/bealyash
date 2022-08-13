@@ -26,7 +26,7 @@ export const changeSize: BotCommand = async event => {
   }
 
   const photos = await getPhotos({
-    owner_id: -COMMUNITY_ID,
+    owner_id: COMMUNITY_ID,
     album_id: albumId,
   });
 
