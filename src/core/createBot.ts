@@ -1,5 +1,5 @@
 import { createServer } from 'http';
-import { Bot, BotConfig, BotServerResponse } from './interfaces';
+import { BotConfig, BotServerResponse } from './interfaces';
 import { confirmServer, getBody, sendResponse } from './internals';
 import { BotServerError } from './errors';
 import { createReply, VkEvent } from './vk';
@@ -8,10 +8,11 @@ import {
   OK_SERVER_RESPONSE,
 } from './constants';
 import { emitEvent } from './events';
-import { createContainer } from './createContainer';
+import { createContainer, createContainerManager } from './createContainer';
 
-export function createBot(config: BotConfig): Bot {
-  const rootContainer = createContainer();
+export function createBot(config: BotConfig) {
+  const container = createContainer();
+  const containerManager = createContainerManager(container);
 
   const reply = createReply({
     accessToken: config.serverVkApiAccessToken,
@@ -28,7 +29,7 @@ export function createBot(config: BotConfig): Bot {
       } else {
         response = OK_SERVER_RESPONSE;
       }
-      emitEvent(event, rootContainer, reply, config);
+      emitEvent(event, container, reply, config);
       sendResponse(res, response);
     } catch (e) {
       let badBotServerResponse: BotServerResponse;
@@ -41,21 +42,7 @@ export function createBot(config: BotConfig): Bot {
     }
   });
 
-  const set: Bot['set'] = (pattern, command) => {
-    rootContainer.set(pattern, command);
-  };
+  server.listen(config.port);
 
-  const protect: Bot['protect'] = (pattern, guard) => {
-    rootContainer.protect(pattern, guard);
-  };
-
-  const group: Bot['group'] = container => {
-    rootContainer.group(container);
-  };
-
-  const listen: Bot['listen'] = port => {
-    return server.listen(port);
-  };
-
-  return { set, protect, group, listen };
+  return containerManager;
 }

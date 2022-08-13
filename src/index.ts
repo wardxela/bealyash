@@ -1,8 +1,6 @@
 import 'dotenv/config';
 import { createBot } from './core';
-import { config, PORT } from './config';
-import { dickKraftContainer } from './containers/dick-kraft';
-import { adminContainer } from './containers/creator';
+import { config } from './config';
 import {
   getChan,
   gayOfTheMinute,
@@ -13,9 +11,10 @@ import {
   getProfile,
   getAllRoles,
 } from './containers/public';
+import { changeSize, onlyDickKraft, showSize } from './containers/dick-kraft';
+import { giveRole, onlyAdmin } from './containers/creator';
 
 const bot = createBot(config);
-bot.listen(PORT);
 
 // Guards
 bot.protect(/.*/, onlyUsers);
@@ -29,6 +28,15 @@ bot.set(/беляш добавь/i, addAudio);
 bot.set(/беляш профиль/i, getProfile);
 bot.set(/беляш роли/i, getAllRoles);
 
-// Containers
-bot.group(dickKraftContainer);
-bot.group(adminContainer);
+// Dick_Kraft_Bot
+bot.group(builder => {
+  builder.protect(/.*/, onlyDickKraft);
+  builder.set(/твій пісюн (зменшився|виріс)/, changeSize);
+  builder.set(/довжина твого писюна \d+ см/, showSize);
+});
+
+// Private
+bot.group(builder => {
+  builder.protect(/.*/, onlyAdmin);
+  builder.set(/беляш дай роль ([а-яА-Я]+)/i, giveRole);
+});

@@ -1,6 +1,8 @@
 import { BotCommandResponse } from './BotCommand';
 
 export interface BotConfig {
+  port: number;
+
   /**
    * Special secret key that will be returned on `confirmation` event
    */
