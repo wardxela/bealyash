@@ -37,6 +37,12 @@ export const VkSaveMessagesPhotoResponseSchema = z.object({
     .array(),
 });
 
+export const VkUserSchema = z.object({
+  id: z.number(),
+  first_name: z.string(),
+  last_name: z.string(),
+});
+
 export const VkGetConversationMembersResponseSchema = z.object({
   response: z.object({
     count: z.number(),
@@ -45,13 +51,7 @@ export const VkGetConversationMembersResponseSchema = z.object({
         member_id: z.number(),
       })
       .array(),
-    profiles: z
-      .object({
-        id: z.number(),
-        first_name: z.string(),
-        last_name: z.string(),
-      })
-      .array(),
+    profiles: VkUserSchema.array(),
     groups: z
       .object({
         id: z.number(),
@@ -61,6 +61,10 @@ export const VkGetConversationMembersResponseSchema = z.object({
   }),
 });
 
-export type VkGetConversationMembersResponse = z.infer<
+export type VkGetConversationMembersResponseSchema = z.infer<
   typeof VkGetConversationMembersResponseSchema
 >;
+
+export const VkGetUserResponse = z.object({
+  response: VkUserSchema.array(),
+});

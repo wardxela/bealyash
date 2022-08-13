@@ -1,6 +1,6 @@
 import { BotCommand } from '../../../core';
 import { VkAttachment } from '../../../core/vk';
-import { db } from '../../../services/prisma';
+import { db } from '../../../services/db';
 
 export const addAudio: BotCommand = async event => {
   const audios = event.object.message.attachments.filter(

@@ -15,14 +15,31 @@ model Chat {
 }
 
 model Profile {
-  userId     Int
-  chatId     Int
-  chat       Chat     @relation(fields: [chatId], references: [id])
-  updatedAt  DateTime @updatedAt
-  createdAt  DateTime @default(now())
-  gayCounter Int      @default(0)
+  userId         Int
+  chatId         Int
+  chat           Chat              @relation(fields: [chatId], references: [id])
+  updatedAt      DateTime          @updatedAt
+  createdAt      DateTime          @default(now())
+  gayCounter     Int               @default(0)
+  rolesOnProfile RolesOnProfiles[]
 
   @@id([userId, chatId])
+}
+
+model Role {
+  id             Int               @id @default(autoincrement())
+  name           String            @unique
+  profilesOnRole RolesOnProfiles[]
+}
+
+model RolesOnProfiles {
+  userId  Int
+  chatId  Int
+  roleId  Int
+  profile Profile @relation(fields: [userId, chatId], references: [userId, chatId])
+  role    Role    @relation(fields: [roleId], references: [id])
+
+  @@id([userId, chatId, roleId])
 }
 
 model AttachmentType {

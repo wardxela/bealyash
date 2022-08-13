@@ -1,10 +1,11 @@
 import { BotCommand } from '../../../core';
-import { db } from '../../../services/prisma';
+import { db } from '../../../services/db';
 import {
   findMemberById,
   getConversationMembers,
   createVkLink,
 } from '../../../services/vk';
+import { ruNumberToString } from '../../../utils';
 
 export const getStatistics: BotCommand = async event => {
   const profilesPromise = db.profile.findMany({
@@ -25,12 +26,9 @@ export const getStatistics: BotCommand = async event => {
     if (!user) {
       return acc;
     }
-    const link = createVkLink(user);
-    const russianException =
-      ![12, 13, 14].includes(profile.gayCounter) &&
-      [2, 3, 4].includes(profile.gayCounter % 10);
-    const times = russianException ? 'раза' : 'раз';
-    return `${acc}${link} был пидором ${profile.gayCounter} ${times}\n`;
+    const name = createVkLink(user);
+    const gayCount = ruNumberToString(profile.gayCounter);
+    return `${acc}${name} был пидором ${profile.gayCounter} ${gayCount}\n`;
   }, '');
 
   return {

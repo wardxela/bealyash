@@ -1,7 +1,7 @@
 import { Chat } from '@prisma/client';
 import { BotCommand } from '../../../core';
 import { randomFrom } from '../../../utils';
-import { db } from '../../../services/prisma';
+import { db } from '../../../services/db';
 import {
   findMemberById,
   getConversationMembers,

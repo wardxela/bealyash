@@ -1,4 +1,4 @@
-import { VkGetConversationMembersResponse } from './response-schemas';
+import { VkGetConversationMembersResponseSchema } from './response-schemas';
 
 interface VkUser {
   id: number;
@@ -31,7 +31,7 @@ export function createVkLink(member: VkUserOrClub) {
 
 export function findMemberById(
   id: number,
-  members: VkGetConversationMembersResponse
+  members: VkGetConversationMembersResponseSchema
 ) {
   if (id < 0) {
     return members.response.groups.find(group => group.id === -id);

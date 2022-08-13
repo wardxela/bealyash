@@ -1,5 +1,5 @@
 import { BotCommand } from '../../../core';
-import { db } from '../../../services/prisma';
+import { db } from '../../../services/db';
 import { createVkMediaURL } from '../../../services/vk';
 import { random } from '../../../utils';
 
