@@ -3,7 +3,7 @@ import { createVkMediaURL, uploadPhoto } from '../../../services/vk';
 import { getRandomPicture, PictureType } from '../../../services/waifu';
 
 export const getChan: BotCommand = async event => {
-  const match = /хентай/i.test(event.object.message.text);
+  const match = /(хент|18\+)/i.test(event.object.message.text);
   let pictureType: PictureType = match ? 'nsfw' : 'sfw';
 
   const file = await getRandomPicture(pictureType);
