@@ -9,6 +9,7 @@ import {
   addAudio,
   onlyUsers,
   getProfile,
+  getAllRoles,
 } from './containers/public';
 import { dickKraftContainer } from './containers/dick-kraft';
 import { adminContainer } from './containers/admin';
@@ -26,6 +27,7 @@ bot.set(/беляш статистика/i, getStatistics);
 bot.set(/беляш трек/i, getAudio);
 bot.set(/беляш добавь/i, addAudio);
 bot.set(/беляш профиль/i, getProfile);
+bot.set(/беляш роли/i, getAllRoles);
 
 // Containers
 bot.group(dickKraftContainer);

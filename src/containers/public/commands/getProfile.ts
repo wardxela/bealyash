@@ -11,9 +11,6 @@ export const getProfile: BotCommand = async event => {
 
   const [profile, user] = await Promise.all([profilePromise, userPromise]);
 
-  console.log(profile.rolesOnProfile);
-  console.log(user.response[0]);
-
   if (!user.response[0]) {
     return { message: 'Не нашел' };
   }

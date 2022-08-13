@@ -1,0 +1,1 @@
+export { giveRole } from './giveRole';

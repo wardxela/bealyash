@@ -21,6 +21,10 @@ export interface VkMessageObject {
     important: boolean;
     payload: string;
     attachments: VkAttachment[];
+    reply_message?: {
+      peer_id: number;
+      from_id: number;
+    };
   };
   client_info: any;
 }

@@ -25,10 +25,11 @@ export async function newMessageHandler(
       }
     }
     for (const [pattern, command] of container.commands) {
-      if (!doMatch(pattern, event.object.message.text)) {
+      const match = event.object.message.text.match(pattern);
+      if (!match) {
         continue;
       }
-      const commandResponse = await safePromise(command(event), timeout);
+      const commandResponse = await safePromise(command(event, match), timeout);
       if (verifyCommandResponse(commandResponse)) {
         await reply(commandResponse, event);
       }
