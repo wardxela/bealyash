@@ -42,22 +42,22 @@ export const giveRole: BotCommand = async (event, match) => {
         },
       },
       role: {
-        connectOrCreate: {
-          where: {
-            name: role,
-          },
-          create: {
-            name: role,
-          },
+        connect: {
+          name: role,
         },
       },
     },
   });
 
-  const [user] = await Promise.all([userPromise, addRolePromise]);
-  const name = createVkLink(user.response[0]);
-
-  return {
-    message: `${name} получил роль ${role}`,
-  };
+  try {
+    const [user] = await Promise.all([userPromise, addRolePromise]);
+    const name = createVkLink(user.response[0]);
+    return {
+      message: `${name} получил роль ${role}`,
+    };
+  } catch (e) {
+    return {
+      message: `Ошибка: роли ${role} не существует`,
+    };
+  }
 };

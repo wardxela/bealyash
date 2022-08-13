@@ -7,7 +7,7 @@ export const getAllRoles: BotCommand = async () => {
   const message = !roles.length
     ? 'У беляша нет ролей :('
     : `У беляша существуют следующие роли:\n${roles.reduce(
-        (acc, { name }) => `${acc ? `${acc}, ` : acc}${name}`,
+        (acc, role) => `${acc}${role.name} - ${role.description}\n`,
         ''
       )}`;
 
