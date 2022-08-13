@@ -37,7 +37,7 @@ bot.group(builder => {
 // Private
 bot.group(builder => {
   builder.protect(/.*/, onlyAdmin);
-  builder.set(/^беляш дай роль ([а-яА-Я]+)$/i, giveRole);
+  builder.set(/^беляш дай роль ([а-яА-Я-_]+)$/i, giveRole);
   builder.set(/^беляш создай роль ([а-яА-Я-_]+) ([а-яА-Я-_\s]+)$/i, createRole);
 });
 
