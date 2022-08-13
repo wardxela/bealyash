@@ -1,6 +1,8 @@
 import 'dotenv/config';
 import { createBot } from './core';
 import { config, PORT } from './config';
+import { dickKraftContainer } from './containers/dick-kraft';
+import { adminContainer } from './containers/creator';
 import {
   getChan,
   gayOfTheMinute,
@@ -11,8 +13,6 @@ import {
   getProfile,
   getAllRoles,
 } from './containers/public';
-import { dickKraftContainer } from './containers/dick-kraft';
-import { adminContainer } from './containers/admin';
 
 const bot = createBot(config);
 bot.listen(PORT);

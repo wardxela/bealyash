@@ -23,9 +23,7 @@ export const getProfile: BotCommand = async event => {
         ''
       )}`;
   const gayCount = ruNumberToString(profile.gayCounter);
-  const message = `${name}, в этой беседе ты:
-был пидором ${gayCount}
-${roles}`;
+  const message = `${name}, в этой беседе ты:\nбыл пидором ${gayCount}\n${roles}`;
 
   return {
     message,
