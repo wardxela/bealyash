@@ -1,4 +1,4 @@
-export function parseCommandArgs(text: string) {
+export function safeParseArgs(text: string) {
   const keyValueRegExp = /([_a-zA-Zа-яА-Я]+):\s?([-\s\wа-яА-Я\.]+)(\n|$)/g;
   const map: Record<string, string> = {};
   for (const arr of text.matchAll(keyValueRegExp)) {

@@ -2,17 +2,14 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { z, ZodError } from 'zod';
 import { BotCommand } from '../../../../core';
 import { db } from '../../../../services/db';
-import { createWrongArgsErrorMessage } from '../../../../utils';
-import { parseCommandArgs } from '../../../../utils/parseCommandArgs';
-
-const DeleteRoleArgumentsSchema = z.object({
-  name: z.string(),
-});
+import { createWrongArgsErrorMessage, parseArgs } from '../../../../utils';
 
 export const deleteRole: BotCommand = async event => {
   try {
-    const notSafeArgs = parseCommandArgs(event.object.message.text);
-    const args = DeleteRoleArgumentsSchema.parse(notSafeArgs);
+    const args = parseArgs(
+      event.object.message.text,
+      z.object({ name: z.string() })
+    );
     const role = await db.role.delete({
       where: {
         name: args.name,
@@ -30,8 +27,6 @@ export const deleteRole: BotCommand = async event => {
         name: 'string',
       });
     }
-    return {
-      message,
-    };
+    return { message };
   }
 };

@@ -3,4 +3,4 @@ export { gayOfTheMinute } from './gayOfTheMinute';
 export { getAudio } from './getAudio';
 export { getStatistics } from './getStatistics';
 export { getProfile } from './getProfile';
-export { getAllRoles } from './getAllRoles';
+export { getRoles } from './getRoles';
