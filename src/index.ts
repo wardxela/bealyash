@@ -9,6 +9,7 @@ import {
   onlyUsers,
   getProfile,
   getRoles,
+  getHelp,
 } from './containers/public';
 import {
   createRole,
@@ -32,6 +33,7 @@ bot.set(/беляш стат(истика|а)?/i, getStatistics);
 bot.set(/беляш (трек|музыка|микс|музло)/i, getAudio);
 bot.set(/беляш профиль/i, getProfile);
 bot.set(/беляш покажи роли/i, getRoles);
+bot.set(/беляш (помощь|х(э|е)лп|дока)/i, getHelp);
 
 // Dick_Kraft_Bot
 bot.group(builder => {

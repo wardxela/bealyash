@@ -4,3 +4,4 @@ export { getAudio } from './getAudio';
 export { getStatistics } from './getStatistics';
 export { getProfile } from './getProfile';
 export { getRoles } from './getRoles';
+export { getHelp } from './getHelp';
