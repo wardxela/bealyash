@@ -1,7 +1,7 @@
 import {
   BotCommands,
   BotContainer,
-  BotContainerManager,
+  BotContainerBuilder,
   BotContainers,
   BotGuards,
 } from './interfaces';
@@ -14,21 +14,24 @@ export function createContainer(): BotContainer {
   return { commands, guards, containers };
 }
 
-export function createContainerManager(
-  container: BotContainer
-): BotContainerManager {
-  return {
+export function createContainerBuilder(container: BotContainer) {
+  const containerBuilder: BotContainerBuilder = {
     set(pattern, command) {
       container.commands.set(pattern, command);
+      return containerBuilder;
     },
     protect(pattern, guard) {
       container.guards.set(pattern, guard);
+      return containerBuilder;
     },
-    group(containerBuilder) {
+    group(containerBuilderCallback) {
       const nestedContainer = createContainer();
       container.containers.push(nestedContainer);
-      const nestedContainerManager = createContainerManager(nestedContainer);
-      containerBuilder(nestedContainerManager);
+      const nestedContainerBuilder = createContainerBuilder(nestedContainer);
+      containerBuilderCallback(nestedContainerBuilder);
+      return containerBuilder;
     },
   };
+
+  return containerBuilder;
 }

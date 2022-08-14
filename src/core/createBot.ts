@@ -8,11 +8,11 @@ import {
   OK_SERVER_RESPONSE,
 } from './constants';
 import { emitEvent } from './events';
-import { createContainer, createContainerManager } from './createContainer';
+import { createContainer, createContainerBuilder } from './createContainer';
 
 export function createBot(config: BotConfig) {
   const container = createContainer();
-  const containerManager = createContainerManager(container);
+  const containerBuilder = createContainerBuilder(container);
 
   const reply = createReply({
     accessToken: config.serverVkApiAccessToken,
@@ -44,5 +44,5 @@ export function createBot(config: BotConfig) {
 
   server.listen(config.port);
 
-  return containerManager;
+  return containerBuilder;
 }

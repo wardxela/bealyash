@@ -36,13 +36,13 @@ bot.group(builder => {
 
 // Private
 bot.group(builder => {
-  builder.protect(/.*/, onlyAdmin);
-  builder.set(/^беляш дай роль ([а-яА-Я-_]+)$/i, giveRole);
-  builder.set(/^беляш создай роль ([а-яА-Я-_]+) ([а-яА-Я-_\s]+)$/i, createRole);
+  builder
+    .protect(/.*/, onlyAdmin)
+    .set(/^беляш дай роль ([а-яА-Я-_]+)$/i, giveRole)
+    .set(/^беляш создай роль ([а-яА-Я-_]+) ([а-яА-Я-_\s]+)$/i, createRole);
 });
 
 // Content maker
 bot.group(builder => {
-  builder.protect(/.*/, onlyContentMakers);
-  builder.set(/беляш добавь трек/i, addAudio);
+  builder.protect(/.*/, onlyContentMakers).set(/беляш добавь трек/i, addAudio);
 });

@@ -10,12 +10,14 @@ export interface BotContainer {
 
 export type BotContainers = BotContainer[];
 
-export interface BotContainerManager {
-  set(pattern: Pattern, command: BotCommand): void;
-  protect(pattern: Pattern, guard: BotGuard): void;
-  group(containerBuilder: BotContainerBuilder): void;
+export interface BotContainerBuilder {
+  set(pattern: Pattern, command: BotCommand): BotContainerBuilder;
+  protect(pattern: Pattern, guard: BotGuard): BotContainerBuilder;
+  group(
+    containerBuilderCallback: BotContainerBuilderCallback
+  ): BotContainerBuilder;
 }
 
-export type BotContainerBuilder = (
-  containerManager: BotContainerManager
+export type BotContainerBuilderCallback = (
+  containerManager: BotContainerBuilder
 ) => void;
