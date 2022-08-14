@@ -10,8 +10,13 @@ import {
   getProfile,
   getAllRoles,
 } from './containers/public';
+import {
+  createRole,
+  deleteRole,
+  giveRole,
+  onlyAdmin,
+} from './containers/private';
 import { changeSize, onlyDickKraft, showSize } from './containers/dick-kraft';
-import { createRole, giveRole, onlyAdmin } from './containers/private';
 import { addAudio, onlyContentMakers } from './containers/content-maker';
 
 const bot = createBot(config);
@@ -39,7 +44,8 @@ bot.group(builder => {
   builder
     .protect(/.*/, onlyAdmin)
     .set(/^беляш дай роль ([а-яА-Я-_]+)$/i, giveRole)
-    .set(/^беляш создай роль ([а-яА-Я-_]+) ([а-яА-Я-_\s]+)$/i, createRole);
+    .set(/^беляш создай роль/i, createRole)
+    .set(/^беляш удали роль/i, deleteRole);
 });
 
 // Content maker

@@ -37,8 +37,8 @@ model RolesOnProfiles {
   userId  Int
   chatId  Int
   roleId  Int
-  profile Profile @relation(fields: [userId, chatId], references: [userId, chatId])
-  role    Role    @relation(fields: [roleId], references: [id])
+  profile Profile @relation(fields: [userId, chatId], references: [userId, chatId], onDelete: Cascade, onUpdate: Cascade)
+  role    Role    @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([userId, chatId, roleId])
 }
