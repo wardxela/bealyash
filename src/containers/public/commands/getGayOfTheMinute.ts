@@ -120,30 +120,34 @@ export const getGayOfTheMinute: BotCommand = async (event, match) => {
   const defaultName = createVkLink(gay);
   let mainText = `Пидор - ${defaultName}`;
 
+  const fromId = Math.abs(event.object.message.from_id);
+  const replyFromId = event.object.message.reply_message
+    ? Math.abs(event.object.message.reply_message.from_id)
+    : undefined;
   if (/она?/i.test(match[1])) {
-    if (event.object.message.reply_message?.from_id === gay.id) {
+    if (replyFromId === gay.id) {
       const title = match[1] === 'она' ? 'лесбиянка' : 'пидор';
-      mainText = `Да, ${createVkLink(gay, match[1])} ${title}`;
+      mainText = `Да, ${createVkLink(gay, match[1])} ${title}.`;
     } else {
-      mainText = `Нет, пидор - ${defaultName}`;
+      mainText = `Нет, пидор - ${defaultName}.`;
     }
   } else if (/(т|в)ы/i.test(match[1])) {
-    if (event.object.message.reply_message?.from_id === gay.id) {
-      mainText = `Да, ${createVkLink(gay, 'он')} пидор`;
+    if (replyFromId === gay.id) {
+      mainText = `Да, ${createVkLink(gay, 'он')} пидор.`;
     } else if (gay.id === -COMMUNITY_ID) {
-      mainText = `Да, ${createVkLink(gay, 'я')} пидор`;
+      mainText = `Да, ${createVkLink(gay, 'я')} пидор.`;
     } else {
-      mainText = `Нет, пидор - ${defaultName}`;
+      mainText = `Нет, пидор - ${defaultName}.`;
     }
   } else if (/я/i.test(match[1])) {
-    if (event.object.message.from_id === gay.id) {
-      mainText = `Да, ${createVkLink(gay, 'ты')} пидор`;
+    if (fromId === gay.id) {
+      mainText = `Да, ${createVkLink(gay, 'ты')} пидор.`;
     } else {
-      mainText = `Нет, пидор - ${defaultName}`;
+      mainText = `Нет, пидор - ${defaultName}.`;
     }
   }
 
   return {
-    message: `${mainText} .${hintText}`,
+    message: `${mainText}${hintText}`,
   };
 };
