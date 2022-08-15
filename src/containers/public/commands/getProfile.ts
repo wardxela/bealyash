@@ -31,7 +31,7 @@ export const getProfile: BotCommand = async event => {
     const boosterTime = Math.floor(
       -getTimeDiff(profile.boosterExpirationDate) / 1000 / 60
     );
-    booster = `Имеешь буст - ${profile.booster.title}. (действителен ${boosterTime} мин.)`;
+    booster = `Имеешь буст - "${profile.booster.title}" (действителен ${boosterTime} мин.)`;
   }
 
   const gayCount = `Был пидором ${ruNumberToString(profile.gayCounter)}`;

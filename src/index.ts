@@ -34,7 +34,7 @@ bot.set(/беляш (помощь|х(э|е)лп|дока)/i, getHelp);
 bot.set(/беляш стат(истика|а)?/i, getStatistics);
 bot.set(/беляш покажи роли/i, getRoles);
 bot.set(/беляш профиль/i, getProfile);
-bot.set(/беляш буст/i, getBoost);
+bot.set(/беляш (буст|баф|прокачка)/i, getBoost);
 bot.set(/тян/i, getChan);
 
 // Dick_Kraft_Bot

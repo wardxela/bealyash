@@ -17,7 +17,7 @@ export const getBoost: BotCommand = async event => {
     profile.boosterExpirationDate > new Date()
   ) {
     return {
-      message: `Пользователь ${name} уже имеет буст`,
+      message: `Пользователь ${name} уже имеет буст "${profile.booster?.title}"`,
     };
   }
 
@@ -64,6 +64,6 @@ export const getBoost: BotCommand = async event => {
   });
 
   return {
-    message: `Пользователь ${name} получил буст - ${randomBooster.title}\nОписание: ${randomBooster.description}`,
+    message: `Пользователь ${name} получил буст - "${randomBooster.title}"\nОписание: ${randomBooster.description}`,
   };
 };
