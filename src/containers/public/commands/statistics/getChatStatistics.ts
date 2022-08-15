@@ -1,13 +1,13 @@
-import { BotCommand } from '../../../core';
-import { db } from '../../../services/db';
+import { BotCommand } from '../../../../core';
+import { db } from '../../../../services/db';
 import {
   findMemberById,
   getConversationMembers,
   createVkLink,
-} from '../../../services/vk';
-import { ruNumberToString } from '../../../utils';
+} from '../../../../services/vk';
+import { ruNumberToString } from '../../../../utils';
 
-export const getStatistics: BotCommand = async event => {
+export const getChatStatistics: BotCommand = async event => {
   const profilesPromise = db.profile.findMany({
     where: {
       chatId: event.object.message.peer_id,

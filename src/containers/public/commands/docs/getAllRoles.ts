@@ -1,7 +1,7 @@
-import { BotCommand } from '../../../core';
-import { db } from '../../../services/db';
+import { BotCommand } from '../../../../core';
+import { db } from '../../../../services/db';
 
-export const getRoles: BotCommand = async () => {
+export const getAllRoles: BotCommand = async () => {
   const roles = await db.role.findMany();
 
   const message = !roles.length

@@ -1,9 +1,6 @@
 export * from './docs';
+export * from './statistics';
 export { getChan } from './getChan';
-export { gayOfTheMinute } from './gayOfTheMinute';
+export { getGayOfTheMinute } from './getGayOfTheMinute';
 export { getAudio } from './getAudio';
-export { getStatistics } from './getStatistics';
-export { getProfile } from './getProfile';
-export { getRoles } from './getRoles';
-export { gayProbabilities } from './gayProbabilities';
-export { boost } from './boost';
+export { useBoost } from './useBoost';

@@ -15,7 +15,7 @@ import {
 const SECOND = 1000;
 const MINUTE = 60;
 
-export const gayOfTheMinute: BotCommand = async event => {
+export const getGayOfTheMinute: BotCommand = async event => {
   let gayMemberId: number;
   let diff: number;
   const chatId = event.object.message.peer_id;

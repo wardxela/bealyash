@@ -1,7 +1,7 @@
-import { BotCommand } from '../../../core';
-import { findOrCreateProfile } from '../../../services/db';
-import { createVkLink, getUsers } from '../../../services/vk';
-import { getTimeDiff, ruNumberToString } from '../../../utils';
+import { BotCommand } from '../../../../core';
+import { findOrCreateProfile } from '../../../../services/db';
+import { createVkLink, getUsers } from '../../../../services/vk';
+import { getTimeDiff, ruNumberToString } from '../../../../utils';
 
 export const getProfile: BotCommand = async event => {
   const { from_id, peer_id } = event.object.message;

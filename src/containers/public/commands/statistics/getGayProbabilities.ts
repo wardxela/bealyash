@@ -1,17 +1,17 @@
-import { BotCommand } from '../../../core';
+import { BotCommand } from '../../../../core';
 import {
   db,
   GAY_COEFFICIENT,
   getBoosterCoefficient,
-} from '../../../services/db';
+} from '../../../../services/db';
 import {
   createVkLink,
   findMemberById,
   getConversationMembers,
-} from '../../../services/vk';
-import { createMap } from '../../../utils';
+} from '../../../../services/vk';
+import { createMap } from '../../../../utils';
 
-export const gayProbabilities: BotCommand = async event => {
+export const getGayProbabilities: BotCommand = async event => {
   const { peer_id } = event.object.message;
 
   const membersPromise = getConversationMembers(peer_id);

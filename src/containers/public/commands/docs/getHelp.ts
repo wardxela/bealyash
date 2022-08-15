@@ -2,7 +2,7 @@ import { BotCommand } from '../../../../core';
 import { DICK_KRAFT_BOT_ID } from '../../../../services/gachi';
 import { createVkLink } from '../../../../services/vk';
 
-export const help: BotCommand = () => {
+export const getHelp: BotCommand = () => {
   return {
     message: `Команды беляша:
 беляш помощь - показывает это сообщение

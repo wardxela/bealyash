@@ -3,7 +3,7 @@ import { db, findOrCreateProfile } from '../../../services/db';
 import { createVkLink, getUsers } from '../../../services/vk';
 import { random } from '../../../utils';
 
-export const boost: BotCommand = async event => {
+export const useBoost: BotCommand = async event => {
   const { from_id, peer_id } = event.object.message;
 
   const userPromise = getUsers(from_id);
