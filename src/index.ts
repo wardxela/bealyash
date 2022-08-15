@@ -26,24 +26,29 @@ import { addAudio, onlyContentMakers } from './containers/content-maker';
 
 const bot = createBot(config);
 
-// Guards
-bot.protect(/.*/, onlyUsers);
-
-// Main
+// Public
 bot.set(/(кто пидо?р|пид(о?р|рила) кто)/i, getGayOfTheMinute);
 bot.set(/беляш (трек|музыка|микс|музло)/i, getAudio);
 bot.set(/беляш (буст|баф)/i, useBoost);
+bot.set(/беляш профиль/i, getProfile);
 bot.set(/тян/i, getChan);
 
-// Statistics
-bot.set(/беляш стат(истика|а)?/i, getChatStatistics);
-bot.set(/беляш вероятности/i, getGayProbabilities);
-bot.set(/беляш профиль/i, getProfile);
+// Users
+bot.group(builder => {
+  // Guards
+  builder.protect(/.*/, onlyUsers);
 
-// Documentation
-bot.set(/беляш (помощь|х(э|е)лп|дока|инфа|help)/i, getHelp);
-bot.set(/беляш все (бусты|бафф?ы)/i, getAllBoosts);
-bot.set(/беляш все роли/i, getAllRoles);
+  // Documentation
+  builder
+    .set(/беляш (помощь|х(э|е)лп|дока|инфа|help)/i, getHelp)
+    .set(/беляш все (бусты|бафф?ы)/i, getAllBoosts)
+    .set(/беляш все роли/i, getAllRoles);
+
+  // Statistics
+  builder
+    .set(/беляш стат(истика|а)?/i, getChatStatistics)
+    .set(/беляш вероятности/i, getGayProbabilities);
+});
 
 // Dick_Kraft_Bot
 bot.group(builder => {

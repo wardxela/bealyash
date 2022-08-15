@@ -43,6 +43,11 @@ export const VkUserSchema = z.object({
   last_name: z.string(),
 });
 
+export const VkGroupSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+});
+
 export const VkGetConversationMembersResponseSchema = z.object({
   response: z.object({
     count: z.number(),
@@ -65,6 +70,10 @@ export type VkGetConversationMembersResponseSchema = z.infer<
   typeof VkGetConversationMembersResponseSchema
 >;
 
-export const VkGetUserResponse = z.object({
+export const VkGetUserResponseSchema = z.object({
   response: VkUserSchema.array(),
+});
+
+export const VkGetGroupsByIdResponseSchema = z.object({
+  response: VkGroupSchema.array(),
 });

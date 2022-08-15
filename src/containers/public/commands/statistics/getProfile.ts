@@ -1,21 +1,17 @@
 import { BotCommand } from '../../../../core';
 import { findOrCreateProfile } from '../../../../services/db';
-import { createVkLink, getUsers } from '../../../../services/vk';
+import { createVkLink, getGroups, getUsers } from '../../../../services/vk';
 import { getTimeDiff, ruNumberToString } from '../../../../utils';
 
 export const getProfile: BotCommand = async event => {
   const { from_id, peer_id } = event.object.message;
 
   const profilePromise = findOrCreateProfile(from_id, peer_id);
-  const userPromise = getUsers(from_id);
+  const memberPromise = from_id > 0 ? getUsers(from_id) : getGroups(-from_id);
 
-  const [profile, user] = await Promise.all([profilePromise, userPromise]);
+  const [profile, member] = await Promise.all([profilePromise, memberPromise]);
 
-  if (!user.response[0]) {
-    return { message: 'Не нашел' };
-  }
-
-  const name = createVkLink(user.response[0]);
+  const name = createVkLink(member.response[0]);
   const roles = !profile.rolesOnProfile.length
     ? 'Не имеешь ни одной роли'
     : `Имеешь роли: ${profile.rolesOnProfile.reduce(

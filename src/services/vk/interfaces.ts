@@ -3,7 +3,8 @@ export type VkMethod =
   | 'photos.getMessagesUploadServer'
   | 'photos.saveMessagesPhoto'
   | 'messages.getConversationMembers'
-  | 'users.get';
+  | 'users.get'
+  | 'groups.getById';
 
 export type VkCheckbox = 0 | 1;
 
@@ -13,6 +14,7 @@ export interface VkRequestParams {
   'photos.saveMessagesPhoto': VKSaveMessagesPhotoRequestParams;
   'messages.getConversationMembers': VkGetConversationMembersRequestParams;
   'users.get': VkGetUserRequestParams;
+  'groups.getById': VkGetGroupsByIdRequestParams;
 }
 
 export interface VkGetPhotosRequestParams {
@@ -42,4 +44,8 @@ export interface VkGetUserRequestParams {
   user_ids: string;
   name_case?: 'nom' | 'gen' | 'dat' | 'acc' | 'ins' | 'abl';
   fields?: string;
+}
+
+interface VkGetGroupsByIdRequestParams {
+  group_ids: string;
 }

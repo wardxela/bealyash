@@ -1,16 +1,16 @@
 import { BotCommand } from '../../../core';
 import { db, findOrCreateProfile } from '../../../services/db';
-import { createVkLink, getUsers } from '../../../services/vk';
+import { createVkLink, getGroups, getUsers } from '../../../services/vk';
 import { random } from '../../../utils';
 
 export const useBoost: BotCommand = async event => {
   const { from_id, peer_id } = event.object.message;
 
-  const userPromise = getUsers(from_id);
+  const memberPromise = from_id > 0 ? getUsers(from_id) : getGroups(-from_id);
   const profilePromise = findOrCreateProfile(from_id, peer_id);
-  const [user, profile] = await Promise.all([userPromise, profilePromise]);
+  const [member, profile] = await Promise.all([memberPromise, profilePromise]);
 
-  const name = createVkLink(user.response[0]);
+  const name = createVkLink(member.response[0]);
 
   if (
     profile.boosterExpirationDate &&
