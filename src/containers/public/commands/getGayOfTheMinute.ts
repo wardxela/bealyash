@@ -117,8 +117,8 @@ export const getGayOfTheMinute: BotCommand = async (event, match) => {
     ? `\nТебе нужно подождать еще ${60 - flooredDiff} сек. до следующей попытки`
     : '';
 
-  let mainText = 'Пидор - ';
   const defaultName = createVkLink(gay);
+  let mainText = `Пидор - ${defaultName}`;
 
   if (/она?/i.test(match[1])) {
     if (event.object.message.reply_message?.from_id === gay.id) {
