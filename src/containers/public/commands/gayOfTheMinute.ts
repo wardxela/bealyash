@@ -61,17 +61,11 @@ export const gayOfTheMinute: BotCommand = async event => {
     for (const member of members.response.items) {
       range +=
         GAY_COEFFICIENT + getBoosterCoefficient(profilesMap[member.member_id]);
-      console.log(
-        member.member_id,
-        GAY_COEFFICIENT + getBoosterCoefficient(profilesMap[member.member_id])
-      );
       if (randomNumber <= range) {
         newGayId = member.member_id;
         break;
       }
     }
-    console.log('Сумма', gayCoefficientSum);
-    console.log('рандом', randomNumber);
     const updatedChatPromise = db.chat.update({
       where: {
         id: chatId,
