@@ -4,4 +4,6 @@ export { getAudio } from './getAudio';
 export { getStatistics } from './getStatistics';
 export { getProfile } from './getProfile';
 export { getRoles } from './getRoles';
-export { getHelp } from './getHelp';
+export { help } from './help';
+export { gayProbabilities } from './gayProbabilities';
+export { boost } from './boost';

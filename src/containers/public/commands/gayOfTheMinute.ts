@@ -3,6 +3,7 @@ import { createMap, getTimeDiff, random } from '../../../utils';
 import {
   db,
   findOrCreateChat,
+  GAY_COEFFICIENT,
   getBoosterCoefficient,
 } from '../../../services/db';
 import {
@@ -11,7 +12,6 @@ import {
   createVkLink,
 } from '../../../services/vk';
 
-const GAY_COEFFICIENT = 10;
 const SECOND = 1000;
 const MINUTE = 60;
 
@@ -52,12 +52,12 @@ export const gayOfTheMinute: BotCommand = async event => {
     let range = 0;
     let newGayId = 0;
     const profilesMap = createMap(profiles, 'userId');
-    const gayCoefficientSum = members.response.items.reduce((a, m) => {
+    const totalOutcomes = members.response.items.reduce((a, m) => {
       return (
         a + GAY_COEFFICIENT + getBoosterCoefficient(profilesMap[m.member_id])
       );
     }, 0);
-    const randomNumber = random(1, gayCoefficientSum);
+    const randomNumber = random(1, totalOutcomes);
     for (const member of members.response.items) {
       range +=
         GAY_COEFFICIENT + getBoosterCoefficient(profilesMap[member.member_id]);

@@ -2,7 +2,6 @@ export interface ProfileWithBooster {
   userId: number;
   boosterExpirationDate: Date | null;
   booster: {
-    title: string;
     coefficient: number;
   } | null;
 }
