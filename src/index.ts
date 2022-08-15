@@ -27,7 +27,7 @@ import { addAudio, onlyContentMakers } from './containers/content-maker';
 const bot = createBot(config);
 
 // Public
-bot.set(/(кто|я|она?|ты) пидо?р/i, getGayOfTheMinute);
+bot.set(/(кто|я|ты|вы|она?) пидо?р/i, getGayOfTheMinute);
 bot.set(/беляш (трек|музыка|микс|музло)/i, getAudio);
 bot.set(/беляш (буст|баф)/i, useBoost);
 bot.set(/беляш профиль/i, getProfile);
