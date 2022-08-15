@@ -30,7 +30,7 @@ bot.protect(/.*/, onlyUsers);
 // Commands
 bot.set(/(кто пидо?р|пид(о?р|рила) кто)/i, gayOfTheMinute);
 bot.set(/беляш (трек|музыка|микс|музло)/i, getAudio);
-bot.set(/беляш (помощь|х(э|е)лп|дока)/i, getHelp);
+bot.set(/беляш (помощь|х(э|е)лп|дока|help)/i, getHelp);
 bot.set(/беляш стат(истика|а)?/i, getStatistics);
 bot.set(/беляш покажи роли/i, getRoles);
 bot.set(/беляш профиль/i, getProfile);
