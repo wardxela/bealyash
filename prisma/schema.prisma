@@ -15,13 +15,16 @@ model Chat {
 }
 
 model Profile {
-  userId         Int
-  chatId         Int
-  chat           Chat              @relation(fields: [chatId], references: [id])
-  updatedAt      DateTime          @updatedAt
-  createdAt      DateTime          @default(now())
-  gayCounter     Int               @default(0)
-  rolesOnProfile RolesOnProfiles[]
+  userId                Int
+  chatId                Int
+  chat                  Chat              @relation(fields: [chatId], references: [id])
+  updatedAt             DateTime          @updatedAt
+  createdAt             DateTime          @default(now())
+  gayCounter            Int               @default(0)
+  rolesOnProfile        RolesOnProfiles[]
+  boosterId             Int?
+  booster               Booster?          @relation(fields: [boosterId], references: [id])
+  boosterExpirationDate DateTime?
 
   @@id([userId, chatId])
 }
@@ -41,6 +44,15 @@ model RolesOnProfiles {
   role    Role    @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([userId, chatId, roleId])
+}
+
+model Booster {
+  id          Int       @id @default(autoincrement())
+  title       String    @unique
+  description String
+  duration    Int       @default(3600000)
+  coefficient Int       @default(0)
+  profiles    Profile[]
 }
 
 model AttachmentType {

@@ -20,6 +20,7 @@ import {
 } from './containers/private';
 import { changeSize, onlyDickKraft, showSize } from './containers/dick-kraft';
 import { addAudio, onlyContentMakers } from './containers/content-maker';
+import { getBoost } from './containers/public/commands/getBoost';
 
 const bot = createBot(config);
 
@@ -27,13 +28,14 @@ const bot = createBot(config);
 bot.protect(/.*/, onlyUsers);
 
 // Commands
-bot.set(/тян/i, getChan);
 bot.set(/(кто пидо?р|пид(о?р|рила) кто)/i, gayOfTheMinute);
-bot.set(/беляш стат(истика|а)?/i, getStatistics);
 bot.set(/беляш (трек|музыка|микс|музло)/i, getAudio);
-bot.set(/беляш профиль/i, getProfile);
-bot.set(/беляш покажи роли/i, getRoles);
 bot.set(/беляш (помощь|х(э|е)лп|дока)/i, getHelp);
+bot.set(/беляш стат(истика|а)?/i, getStatistics);
+bot.set(/беляш покажи роли/i, getRoles);
+bot.set(/беляш профиль/i, getProfile);
+bot.set(/беляш буст/i, getBoost);
+bot.set(/тян/i, getChan);
 
 // Dick_Kraft_Bot
 bot.group(builder => {

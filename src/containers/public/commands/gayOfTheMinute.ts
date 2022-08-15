@@ -1,7 +1,10 @@
-import { Chat } from '@prisma/client';
 import { BotCommand } from '../../../core';
-import { randomFrom } from '../../../utils';
-import { db } from '../../../services/db';
+import { createMap, random } from '../../../utils';
+import {
+  db,
+  findOrCreateChat,
+  getBoosterCoefficient,
+} from '../../../services/db';
 import {
   findMemberById,
   getConversationMembers,
@@ -12,41 +15,61 @@ function getDiff(date: Date): number {
   return new Date().getTime() - date.getTime();
 }
 
+const GAY_COEFFICIENT = 10;
 const SECOND = 1000;
 const MINUTE = 60;
 
 export const gayOfTheMinute: BotCommand = async event => {
-  let chat: Chat;
   let gayMemberId: number;
   let diff: number;
   const chatId = event.object.message.peer_id;
 
+  const chatPromise = findOrCreateChat(chatId);
   const membersPromise = getConversationMembers(chatId);
-  const chatPromise = db.chat.findUnique({
+  const profilesPromise = db.profile.findMany({
     where: {
-      id: chatId,
-    },
-  });
-  const [members, chatOrNull] = await Promise.all([
-    membersPromise,
-    chatPromise,
-  ]);
-
-  if (!chatOrNull) {
-    chat = await db.chat.create({
-      data: {
+      chat: {
         id: chatId,
       },
-    });
-  } else {
-    chat = chatOrNull;
-  }
+    },
+    select: {
+      userId: true,
+      boosterExpirationDate: true,
+      booster: {
+        select: {
+          title: true,
+          coefficient: true,
+        },
+      },
+    },
+  });
+  const [chat, members, profiles] = await Promise.all([
+    chatPromise,
+    membersPromise,
+    profilesPromise,
+  ]);
 
   diff = getDiff(chat.updatedAt) / SECOND;
   const hasOneMinutePassed = diff > MINUTE;
 
   if (hasOneMinutePassed || chat.gayId === null) {
-    const newGayId = randomFrom(members.response.items).member_id;
+    let range = 0;
+    let newGayId = 0;
+    const profilesMap = createMap(profiles, 'userId');
+    const gayCoefficientSum = members.response.items.reduce((a, m) => {
+      return (
+        a + GAY_COEFFICIENT + getBoosterCoefficient(profilesMap[m.member_id])
+      );
+    }, 0);
+    const randomNumber = random(1, gayCoefficientSum);
+    for (const member of members.response.items) {
+      range +=
+        GAY_COEFFICIENT + getBoosterCoefficient(profilesMap[member.member_id]);
+      if (randomNumber <= range) {
+        newGayId = member.member_id;
+        break;
+      }
+    }
     const updatedChatPromise = db.chat.update({
       where: {
         id: chatId,

@@ -25,7 +25,7 @@ export async function findOrCreateProfile(userId: number, chatId: number) {
     return profile;
   }
 
-  const newProfile = await db.profile.create({
+  return db.profile.create({
     data: {
       userId,
       chat: {
@@ -51,6 +51,4 @@ export async function findOrCreateProfile(userId: number, chatId: number) {
       },
     },
   });
-
-  return newProfile;
 }
