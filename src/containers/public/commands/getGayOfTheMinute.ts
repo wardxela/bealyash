@@ -10,16 +10,16 @@ import {
   findMemberById,
   getConversationMembers,
   createVkLink,
+  COMMUNITY_ID,
 } from '../../../services/vk';
 
 const SECOND = 1000;
 const MINUTE = 60;
 
-export const getGayOfTheMinute: BotCommand = async event => {
+export const getGayOfTheMinute: BotCommand = async (event, match) => {
   let gayMemberId: number;
   let diff: number;
   const chatId = event.object.message.peer_id;
-
   const chatPromise = findOrCreateChat(chatId);
   const membersPromise = getConversationMembers(chatId);
   const profilesPromise = db.profile.findMany({
@@ -106,14 +106,44 @@ export const getGayOfTheMinute: BotCommand = async event => {
     gayMemberId = chat.gayId;
   }
   const gay = findMemberById(gayMemberId, members);
-  const name = gay ? createVkLink(gay) : 'ошибка';
+  if (!gay) {
+    return {
+      message: `Пидор смылся из беседы`,
+    };
+  }
   const flooredDiff = Math.floor(diff);
 
   const hintText = flooredDiff
     ? `\nТебе нужно подождать еще ${60 - flooredDiff} сек. до следующей попытки`
     : '';
 
+  let mainText = 'Пидор - ';
+  const defaultName = createVkLink(gay);
+
+  if (/она?/i.test(match[1])) {
+    if (event.object.message.reply_message?.from_id === gay.id) {
+      const title = match[1] === 'она' ? 'лесбиянка' : 'пидор';
+      mainText = `Да, ${createVkLink(gay, match[1])} ${title}`;
+    } else {
+      mainText = `Нет, пидор - ${defaultName}`;
+    }
+  } else if (/(т|в)ы/i.test(match[1])) {
+    if (event.object.message.reply_message?.from_id === gay.id) {
+      mainText = `Да, ${createVkLink(gay, 'он')} пидор`;
+    } else if (gay.id === -COMMUNITY_ID) {
+      mainText = `Да, ${createVkLink(gay, 'я')} пидор`;
+    } else {
+      mainText = `Нет, пидор - ${defaultName}`;
+    }
+  } else if (/я/i.test(match[1])) {
+    if (event.object.message.from_id === gay.id) {
+      mainText = `Да, ${createVkLink(gay, 'ты')} пидор`;
+    } else {
+      mainText = `Нет, пидор - ${defaultName}`;
+    }
+  }
+
   return {
-    message: `Пидор - ${name}.${hintText}`,
+    message: `${mainText} .${hintText}`,
   };
 };
