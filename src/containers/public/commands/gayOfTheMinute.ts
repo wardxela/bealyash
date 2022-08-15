@@ -1,5 +1,5 @@
 import { BotCommand } from '../../../core';
-import { createMap, random } from '../../../utils';
+import { createMap, getTimeDiff, random } from '../../../utils';
 import {
   db,
   findOrCreateChat,
@@ -10,10 +10,6 @@ import {
   getConversationMembers,
   createVkLink,
 } from '../../../services/vk';
-
-function getDiff(date: Date): number {
-  return new Date().getTime() - date.getTime();
-}
 
 const GAY_COEFFICIENT = 10;
 const SECOND = 1000;
@@ -49,7 +45,7 @@ export const gayOfTheMinute: BotCommand = async event => {
     profilesPromise,
   ]);
 
-  diff = getDiff(chat.updatedAt) / SECOND;
+  diff = getTimeDiff(chat.updatedAt) / SECOND;
   const hasOneMinutePassed = diff > MINUTE;
 
   if (hasOneMinutePassed || chat.gayId === null) {
@@ -104,7 +100,7 @@ export const gayOfTheMinute: BotCommand = async event => {
       updatedChatPromise,
       updatedProfilePromise,
     ]);
-    diff = getDiff(updatedChat.updatedAt) / SECOND;
+    diff = getTimeDiff(updatedChat.updatedAt) / SECOND;
     gayMemberId = newGayId;
   } else {
     gayMemberId = chat.gayId;

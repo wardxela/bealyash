@@ -18,6 +18,11 @@ export async function findOrCreateProfile(userId: number, chatId: number) {
           },
         },
       },
+      booster: {
+        select: {
+          title: true,
+        },
+      },
     },
   });
 
@@ -47,6 +52,11 @@ export async function findOrCreateProfile(userId: number, chatId: number) {
               name: true,
             },
           },
+        },
+      },
+      booster: {
+        select: {
+          title: true,
         },
       },
     },
