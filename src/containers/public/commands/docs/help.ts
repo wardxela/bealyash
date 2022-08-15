@@ -1,6 +1,6 @@
-import { BotCommand } from '../../../core';
-import { DICK_KRAFT_BOT_ID } from '../../../services/gachi';
-import { createVkLink } from '../../../services/vk';
+import { BotCommand } from '../../../../core';
+import { DICK_KRAFT_BOT_ID } from '../../../../services/gachi';
+import { createVkLink } from '../../../../services/vk';
 
 export const help: BotCommand = () => {
   return {

@@ -12,6 +12,7 @@ import {
   boost,
   gayProbabilities,
   help,
+  allBoosts,
 } from './containers/public';
 import {
   createRole,
@@ -31,13 +32,18 @@ bot.protect(/.*/, onlyUsers);
 // Commands
 bot.set(/(кто пидо?р|пид(о?р|рила) кто)/i, gayOfTheMinute);
 bot.set(/беляш (трек|музыка|микс|музло)/i, getAudio);
-bot.set(/беляш (помощь|х(э|е)лп|дока|help)/i, help);
-bot.set(/беляш стат(истика|а)?/i, getStatistics);
-bot.set(/беляш (буст|баф|прокачка)/i, boost);
-bot.set(/беляш вероятности/i, gayProbabilities);
-bot.set(/беляш покажи роли/i, getRoles);
-bot.set(/беляш профиль/i, getProfile);
+bot.set(/беляш (буст|баф)/i, boost);
 bot.set(/тян/i, getChan);
+
+// Statistics
+bot.set(/беляш стат(истика|а)?/i, getStatistics);
+bot.set(/беляш вероятности/i, gayProbabilities);
+bot.set(/беляш профиль/i, getProfile);
+
+// Documentation
+bot.set(/беляш (помощь|х(э|е)лп|дока|инфа|help)/i, help);
+bot.set(/беляш все (бусты|бафф?ы)/i, allBoosts);
+bot.set(/беляш все роли/i, getRoles);
 
 // Dick_Kraft_Bot
 bot.group(builder => {
