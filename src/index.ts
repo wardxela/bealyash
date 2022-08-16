@@ -30,7 +30,6 @@ const bot = createBot(config);
 bot.set(/(кто|я|ты|вы|она?) пидо?р/i, getGayOfTheMinute);
 bot.set(/беляш (трек|музыка|микс|музло)/i, getAudio);
 bot.set(/беляш (буст|баф)/i, useBoost);
-bot.set(/беляш профиль/i, getProfile);
 bot.set(/тян/i, getChan);
 
 // Users
@@ -47,7 +46,8 @@ bot.group(builder => {
   // Statistics
   builder
     .set(/беляш стат(истика|а)?/i, getChatStatistics)
-    .set(/беляш вероятност(и|ь)/i, getGayProbabilities);
+    .set(/беляш вероятност(и|ь)/i, getGayProbabilities)
+    .set(/беляш профиль/i, getProfile);
 });
 
 // Dick_Kraft_Bot
