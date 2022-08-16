@@ -1,3 +1,4 @@
+import { Booster } from '@prisma/client';
 import { BotCommand } from '../../../core';
 import { db } from '../../../services/db';
 import { createVkMemberLink, getGroups, getUsers } from '../../../services/vk';
@@ -43,14 +44,35 @@ export const useBoost: BotCommand = async event => {
     };
   }
 
-  const boosterCount = await db.booster.count({
+  const coefficientSum = await db.booster.aggregate({
+    where: {
+      category: { title: 'Gay' },
+    },
+    _sum: { probabilityCoefficient: true },
+  });
+
+  if (!coefficientSum._sum.probabilityCoefficient) {
+    return { message: 'Бустов нет' };
+  }
+
+  const randomNumber = random(1, coefficientSum._sum.probabilityCoefficient);
+  const boosters = await db.booster.findMany({
     where: { category: { title: 'Gay' } },
   });
-  const boosterOffset = random(0, boosterCount - 1);
-  const randomBooster = await db.booster.findFirstOrThrow({
-    where: { category: { title: 'Gay' } },
-    skip: boosterOffset,
-  });
+
+  let range = 0;
+  let randomBooster: Booster | null = null;
+  for (const booster of boosters) {
+    range += booster.probabilityCoefficient;
+    if (randomNumber <= range) {
+      randomBooster = booster;
+      break;
+    }
+  }
+
+  if (!randomBooster) {
+    return { message: 'Внутренний алгоритм рандома сломан(' };
+  }
 
   await db.boostersOnProfiles.upsert({
     where: {
