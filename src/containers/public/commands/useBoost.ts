@@ -8,16 +8,21 @@ export const useBoost: BotCommand = async event => {
 
   const memberPromise = from_id > 0 ? getUsers(from_id) : getGroups(-from_id);
   const profilePromise = findOrCreateProfile(from_id, peer_id);
-  const [member, profile] = await Promise.all([memberPromise, profilePromise]);
+  const [memberData, profile] = await Promise.all([
+    memberPromise,
+    profilePromise,
+  ]);
 
-  const name = createVkMemberLink(member.response[0]);
+  const member = memberData.response[0];
 
   if (
     profile.boosterExpirationDate &&
     profile.boosterExpirationDate > new Date()
   ) {
     return {
-      message: `Пользователь ${name} уже имеет буст "${profile.booster?.title}"`,
+      message: `У ${createVkMemberLink(member, 'тебя')} уже есть буст "${
+        profile.booster?.title
+      }"`,
     };
   }
 
@@ -64,6 +69,8 @@ export const useBoost: BotCommand = async event => {
   });
 
   return {
-    message: `Пользователь ${name} получил буст - "${randomBooster.title}"\nОписание: ${randomBooster.description}`,
+    message: `${createVkMemberLink(member)}, ты получил новый буст - "${
+      randomBooster.title
+    }"\nОписание: ${randomBooster.description}`,
   };
 };

@@ -7,6 +7,6 @@ export const config: BotConfig = {
   serverVkApiAccessToken: process.env.CHAT_BOT_VK_API_ACCESS_TOKEN!,
   uncaughtCommandErrorResponse: {
     message:
-      'Прости, но я немного бум бум.\nОбещаю в ближайшее время заработать',
+      'Прости, но я немного заглох.\nОбещаю в ближайшее время заработать',
   },
 };

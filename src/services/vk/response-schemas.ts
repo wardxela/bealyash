@@ -57,12 +57,7 @@ export const VkGetConversationMembersResponseSchema = z.object({
       })
       .array(),
     profiles: VkUserSchema.array(),
-    groups: z
-      .object({
-        id: z.number(),
-        name: z.string(),
-      })
-      .array(),
+    groups: VkGroupSchema.array(),
   }),
 });
 
