@@ -125,12 +125,14 @@ export const getGayOfTheMinute: BotCommand = async (event, match) => {
     ? Math.abs(event.object.message.reply_message.from_id)
     : undefined;
 
-  if (/она?/i.test(match[1])) {
+  const pronoun = match[1].toLowerCase();
+
+  if (/она?/.test(pronoun)) {
     if (replyFromId === gay.id) {
-      const title = match[1] === 'она' ? 'лесбиянка' : 'пидор';
-      mainText = `Да, ${match[1]} ${title}.`;
+      const title = pronoun === 'она' ? 'лесбиянка' : 'пидор';
+      mainText = `Да, ${pronoun} ${title}.`;
     }
-  } else if (/(т|в)ы/i.test(match[1])) {
+  } else if (/(т|в)ы/.test(pronoun)) {
     if (replyFromId !== undefined) {
       if (replyFromId === gay.id) {
         mainText = `Да, он пидор.`;
@@ -140,11 +142,11 @@ export const getGayOfTheMinute: BotCommand = async (event, match) => {
         mainText = `Да, я пидор.`;
       }
     }
-  } else if (/я/i.test(match[1])) {
+  } else if (/я/.test(pronoun)) {
     if (fromId === gay.id) {
       mainText = `Да, ты пидор.`;
     }
-  } else if (/кто/i.test(match[1])) {
+  } else if (/кто/.test(pronoun)) {
     mainText = `Пидор - ${defaultName}`;
   }
 

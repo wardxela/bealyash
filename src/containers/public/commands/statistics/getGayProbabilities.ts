@@ -51,7 +51,7 @@ export const getGayProbabilities: BotCommand = async event => {
     const probability =
       Math.round((10000 * favorableOutcomes) / totalOutcomes) / 100;
     return `${a}${name} - ${probability}%\n`;
-  }, 'Беляш напряг свой искусственный мозг и подсчитал вероятность выпадения каждого члена в беседе при вызове команды `кто пидор`:\n');
+  }, 'Вероятность выпадения каждого члена в беседе при вызове команды `кто пидор`:\n');
 
   return {
     message: probabilities,
