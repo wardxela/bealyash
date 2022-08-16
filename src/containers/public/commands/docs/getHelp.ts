@@ -1,6 +1,6 @@
 import { BotCommand } from '../../../../core';
 import { DICK_KRAFT_BOT_ID } from '../../../../services/gachi';
-import { createVkLink } from '../../../../services/vk';
+import { createVkMemberLink } from '../../../../services/vk';
 
 export const getHelp: BotCommand = () => {
   return {
@@ -15,7 +15,7 @@ export const getHelp: BotCommand = () => {
 беляш буст - выдает рандомный буст, влияющий на вероятность выпадения твоего имени при вызове команды \`кто пидор\`
 беляш вероятности - показывает вероятность выпадения каждого члена беседы при вызове команды \`кто пидор\`
 
-беляш также реагирует на некоторые команды ${createVkLink({
+беляш также реагирует на некоторые команды ${createVkMemberLink({
       id: -DICK_KRAFT_BOT_ID,
       name: 'Dick_Kraft_Bot',
     })}:

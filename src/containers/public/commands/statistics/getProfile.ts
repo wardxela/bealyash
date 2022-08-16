@@ -1,6 +1,10 @@
 import { BotCommand } from '../../../../core';
 import { findOrCreateProfile } from '../../../../services/db';
-import { createVkLink, getGroups, getUsers } from '../../../../services/vk';
+import {
+  createVkMemberLink,
+  getGroups,
+  getUsers,
+} from '../../../../services/vk';
 import { getTimeDiff, ruNumberToString } from '../../../../utils';
 
 export const getProfile: BotCommand = async event => {
@@ -11,7 +15,7 @@ export const getProfile: BotCommand = async event => {
 
   const [profile, member] = await Promise.all([profilePromise, memberPromise]);
 
-  const name = createVkLink(member.response[0]);
+  const name = createVkMemberLink(member.response[0]);
   const roles = !profile.rolesOnProfile.length
     ? 'Не имеешь ни одной роли'
     : `Имеешь роли: ${profile.rolesOnProfile.reduce(

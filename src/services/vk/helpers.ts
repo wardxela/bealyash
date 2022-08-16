@@ -22,13 +22,20 @@ export function createVkMediaURL(
   return `${type}${ownerId}_${mediaId}${accessKey ? `_${accessKey}` : ''}`;
 }
 
-export function createVkLink(member: VkUserOrClub, customText?: string) {
+export function createVkMemberLink(member: VkUserOrClub, customText?: string) {
   if ('first_name' in member) {
     return `[id${member.id}|${
       customText ? customText : `${member.first_name} ${member.last_name}`
     }]`;
   }
   return `[club${member.id}|${customText ? customText : member.name}]`;
+}
+
+export function createVkMemberName(member: VkUserOrClub) {
+  if ('first_name' in member) {
+    return `${member.first_name} ${member.last_name}`;
+  }
+  return member.name;
 }
 
 export function findMemberById(

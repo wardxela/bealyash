@@ -1,6 +1,6 @@
 import { BotCommand } from '../../../core';
 import { db } from '../../../services/db';
-import { createVkLink, getUsers } from '../../../services/vk';
+import { createVkMemberLink, getUsers } from '../../../services/vk';
 
 export const giveRole: BotCommand = async (event, match) => {
   if (!event.object.message.reply_message) {
@@ -51,7 +51,7 @@ export const giveRole: BotCommand = async (event, match) => {
 
   try {
     const [user] = await Promise.all([userPromise, addRolePromise]);
-    const name = createVkLink(user.response[0]);
+    const name = createVkMemberLink(user.response[0]);
     return {
       message: `${name} получил роль ${role}`,
     };

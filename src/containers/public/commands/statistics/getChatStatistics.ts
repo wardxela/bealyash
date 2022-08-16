@@ -1,9 +1,9 @@
 import { BotCommand } from '../../../../core';
 import { db } from '../../../../services/db';
 import {
+  createVkMemberName,
   findMemberById,
   getConversationMembers,
-  createVkLink,
 } from '../../../../services/vk';
 import { ruNumberToString } from '../../../../utils';
 
@@ -26,10 +26,10 @@ export const getChatStatistics: BotCommand = async event => {
     if (!user) {
       return acc;
     }
-    const name = createVkLink(user);
+    const name = createVkMemberName(user);
     const gayCount = ruNumberToString(profile.gayCounter);
-    return `${acc}${name} был пидором ${gayCount}\n`;
-  }, '');
+    return `${acc}${name} - ${gayCount}\n`;
+  }, 'Статистика пидорения:\n');
 
   return {
     message,

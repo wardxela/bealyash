@@ -5,7 +5,7 @@ import {
   getBoosterCoefficient,
 } from '../../../../services/db';
 import {
-  createVkLink,
+  createVkMemberName,
   findMemberById,
   getConversationMembers,
 } from '../../../../services/vk';
@@ -45,7 +45,7 @@ export const getGayProbabilities: BotCommand = async event => {
 
   const probabilities = sortedMembers.reduce((a, m) => {
     const member = findMemberById(m.member_id, membersResponse)!;
-    const name = createVkLink(member);
+    const name = createVkMemberName(member);
     const favorableOutcomes =
       GAY_COEFFICIENT + getBoosterCoefficient(profilesMap[m.member_id]);
     const probability =
