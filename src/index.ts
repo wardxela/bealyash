@@ -47,7 +47,7 @@ bot.group(builder => {
   // Statistics
   builder
     .set(/беляш стат(истика|а)?/i, getChatStatistics)
-    .set(/беляш вероятности/i, getGayProbabilities);
+    .set(/беляш вероятност(и|ь)/i, getGayProbabilities);
 });
 
 // Dick_Kraft_Bot
