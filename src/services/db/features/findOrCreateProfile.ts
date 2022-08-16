@@ -18,9 +18,19 @@ export async function findOrCreateProfile(userId: number, chatId: number) {
           },
         },
       },
-      booster: {
+      boostersOnProfile: {
+        where: {
+          expirationDate: {
+            gt: new Date(),
+          },
+        },
         select: {
-          title: true,
+          booster: {
+            select: {
+              title: true,
+            },
+          },
+          expirationDate: true,
         },
       },
     },
@@ -54,9 +64,14 @@ export async function findOrCreateProfile(userId: number, chatId: number) {
           },
         },
       },
-      booster: {
+      boostersOnProfile: {
         select: {
-          title: true,
+          booster: {
+            select: {
+              title: true,
+            },
+          },
+          expirationDate: true,
         },
       },
     },

@@ -1,17 +1,15 @@
-export interface ProfileWithBooster {
-  userId: number;
-  boosterExpirationDate: Date | null;
+export interface ProfileBooster {
   booster: {
-    coefficient: number;
-  } | null;
+    coefficientOffset: number;
+  };
 }
 
-export function getBoosterCoefficient(profile: ProfileWithBooster | undefined) {
-  if (!profile || !profile.boosterExpirationDate || !profile.booster) {
-    return 0;
+const BOOSTER_COEFFICIENT_BASE = 100;
+
+export function getBoosterCoefficient(profile: ProfileBooster | undefined) {
+  if (!profile) {
+    return BOOSTER_COEFFICIENT_BASE;
   }
-  if (profile.boosterExpirationDate < new Date()) {
-    return 0;
-  }
-  return profile.booster.coefficient;
+
+  return BOOSTER_COEFFICIENT_BASE + profile.booster.coefficientOffset;
 }

@@ -22,20 +22,23 @@ export const getProfile: BotCommand = async event => {
         (acc, { role }) => `${!acc ? acc : `${acc}, `}${role.name}`,
         ''
       )}`;
-  let booster = 'Не имеешь буста';
-  if (
-    profile.booster &&
-    profile.boosterExpirationDate &&
-    profile.boosterExpirationDate > new Date()
-  ) {
-    const boosterTime = Math.floor(
-      -getTimeDiff(profile.boosterExpirationDate) / 1000 / 60
-    );
-    booster = `Имеешь буст - "${profile.booster.title}" (действителен ${boosterTime} мин.)`;
-  }
+
+  const boostersList = profile.boostersOnProfile.reduce((acc, booster) => {
+    const diff = getTimeDiff(booster.expirationDate);
+    if (diff > 0) {
+      return acc;
+    }
+    const expiresIn = Math.round(-diff / 60000);
+    return `${!acc ? acc : `${acc}, `}${
+      booster.booster.title
+    } (${expiresIn} мин.)`;
+  }, '');
+  const boosters = boostersList
+    ? `Имеешь бусты: ${boostersList}`
+    : 'Не имеешь бустов';
 
   const gayCount = `Был пидором ${ruNumberToString(profile.gayCounter)}`;
-  const message = `${name}, в этой беседе ты:\n${gayCount}\n${roles}\n${booster}`;
+  const message = `${name}, в этой беседе ты:\n${gayCount}\n${roles}\n${boosters}`;
 
   return {
     message,
