@@ -14,6 +14,7 @@ export const getAllBoosts: BotCommand = async (event, match) => {
   });
   const boostsPromise = db.booster.findMany({
     where: { category: { title: category } },
+    orderBy: { probabilityCoefficient: 'desc' },
     select: { title: true, duration: true, probabilityCoefficient: true },
   });
   const [coefficientSum, boosts] = await Promise.all([
