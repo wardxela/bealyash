@@ -8,7 +8,7 @@ import {
   getChan,
   getChatStatistics,
   getGayOfTheMinute,
-  getGayProbabilities,
+  getProbabilities,
   getHelp,
   getProfile,
   onlyUsers,
@@ -29,7 +29,7 @@ const bot = createBot(config);
 // Public
 bot.set(/(кто|я|ты|вы|она?) пидо?р/i, getGayOfTheMinute);
 bot.set(/беляш (трек|музыка|микс|музло)/i, getAudio);
-bot.set(/беляш (буст|баф)/i, useBoost);
+bot.set(/беляш буст (антигей)/i, useBoost);
 bot.set(/тян/i, getChan);
 
 // Users
@@ -40,14 +40,14 @@ bot.group(builder => {
   // Documentation
   builder
     .set(/беляш (помощь|х(э|е)лп|дока|инфа|help)/i, getHelp)
-    .set(/беляш все (бусты|бафф?ы)/i, getAllBoosts)
+    .set(/беляш бусты (антигей)/i, getAllBoosts)
     .set(/беляш все роли/i, getAllRoles);
 
   // Statistics
   builder
-    .set(/беляш стат(истика|а)?/i, getChatStatistics)
-    .set(/беляш (вероятност(и|ь)|шансы?)/i, getGayProbabilities)
-    .set(/беляш профиль/i, getProfile);
+    .set(/беляш чат/i, getChatStatistics)
+    .set(/беляш профиль/i, getProfile)
+    .set(/беляш (вероятност(и|ь)|шансы?) (опидорения)/i, getProbabilities);
 });
 
 // Dick_Kraft_Bot

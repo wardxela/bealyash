@@ -7,8 +7,17 @@ import {
 } from '../../../../services/vk';
 import { createMap } from '../../../../utils';
 
-export const getGayProbabilities: BotCommand = async event => {
+const boosterCategoryMap: Record<string, string> = {
+  опидорения: 'Gay',
+};
+const commandMap: Record<string, string> = {
+  опидорения: 'кто пидор',
+};
+
+export const getProbabilities: BotCommand = async (event, match) => {
   const { peer_id } = event.object.message;
+  const category = boosterCategoryMap[match[3]];
+  const command = commandMap[match[3]];
 
   const membersPromise = getConversationMembers(peer_id);
   const boostersPromise = db.boostersOnProfiles.findMany({
@@ -16,7 +25,7 @@ export const getGayProbabilities: BotCommand = async event => {
       chatId: peer_id,
       booster: {
         category: {
-          title: 'Gay',
+          title: category,
         },
       },
       expirationDate: {
@@ -56,7 +65,7 @@ export const getGayProbabilities: BotCommand = async event => {
     const probability =
       Math.round((10000 * favorableOutcomes) / totalOutcomes) / 100;
     return `${a}${name} - ${probability}%\n`;
-  }, 'Вероятность выпадения каждого члена в беседе при вызове команды `кто пидор`:\n');
+  }, `Вероятность выпадения каждого члена в беседе при вызове команды \`${command}\`:\n`);
 
   return {
     message: probabilities,

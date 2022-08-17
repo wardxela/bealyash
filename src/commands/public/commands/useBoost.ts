@@ -1,11 +1,15 @@
-import { Booster } from '@prisma/client';
 import { BotCommand } from '../../../core';
 import { db } from '../../../services/db';
 import { createVkMemberLink, getGroups, getUsers } from '../../../services/vk';
 import { random } from '../../../utils';
 
-export const useBoost: BotCommand = async event => {
+const boosterCategoryMap: Record<string, string> = {
+  антигей: 'Gay',
+};
+
+export const useBoost: BotCommand = async (event, match) => {
   const { from_id, peer_id } = event.object.message;
+  const category = boosterCategoryMap[match[1]];
 
   const memberPromise = from_id > 0 ? getUsers(from_id) : getGroups(-from_id);
   const boosterPromise = db.boostersOnProfiles.findFirst({
@@ -14,7 +18,7 @@ export const useBoost: BotCommand = async event => {
       chatId: peer_id,
       booster: {
         category: {
-          title: 'Gay',
+          title: category,
         },
       },
       expirationDate: {
@@ -46,7 +50,7 @@ export const useBoost: BotCommand = async event => {
 
   const coefficientSum = await db.booster.aggregate({
     where: {
-      category: { title: 'Gay' },
+      category: { title: category },
     },
     _sum: { probabilityCoefficient: true },
   });
@@ -57,7 +61,7 @@ export const useBoost: BotCommand = async event => {
 
   const randomNumber = random(1, coefficientSum._sum.probabilityCoefficient);
   const boosters = await db.booster.findMany({
-    where: { category: { title: 'Gay' } },
+    where: { category: { title: category } },
     select: {
       id: true,
       duration: true,

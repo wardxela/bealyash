@@ -1,3 +1,3 @@
-export { getGayProbabilities } from './getGayProbabilities';
+export { getProbabilities } from './getProbabilities';
 export { getProfile } from './getProfile';
 export { getChatStatistics } from './getChatStatistics';
