@@ -1,12 +1,8 @@
 import { BotCommand } from '../../../../core';
 import { db } from '../../../../services/db';
 
-const boosterCategoryMap: Record<string, string> = {
-  антигей: 'Gay',
-};
-
 export const getAllBoosts: BotCommand = async (event, match) => {
-  const category = boosterCategoryMap[match[1]];
+  const category = 'Gay';
 
   const coefficientSumPromise = db.booster.aggregate({
     where: { category: { title: category } },

@@ -29,7 +29,7 @@ const bot = createBot(config);
 // Public
 bot.set(/(кто|я|ты|вы|она?) пидо?р/i, getGayOfTheMinute);
 bot.set(/беляш (трек|музыка|микс|музло)/i, getAudio);
-bot.set(/беляш буст (антигей)/i, useBoost);
+bot.set(/беляш буст/i, useBoost);
 bot.set(/тян/i, getChan);
 
 // Users
@@ -40,7 +40,7 @@ bot.group(builder => {
   // Documentation
   builder
     .set(/беляш (помощь|х(э|е)лп|дока|инфа|help)/i, getHelp)
-    .set(/беляш бусты (антигей)/i, getAllBoosts)
+    .set(/беляш все бусты/i, getAllBoosts)
     .set(/беляш все роли/i, getAllRoles);
 
   // Statistics
