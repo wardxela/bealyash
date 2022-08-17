@@ -58,10 +58,18 @@ export const useBoost: BotCommand = async event => {
   const randomNumber = random(1, coefficientSum._sum.probabilityCoefficient);
   const boosters = await db.booster.findMany({
     where: { category: { title: 'Gay' } },
+    select: {
+      id: true,
+      duration: true,
+      probabilityCoefficient: true,
+      description: true,
+      title: true,
+      photo: true,
+    },
   });
 
   let range = 0;
-  let randomBooster: Booster | null = null;
+  let randomBooster: typeof boosters[number] | null = null;
   for (const booster of boosters) {
     range += booster.probabilityCoefficient;
     if (randomNumber <= range) {
@@ -123,5 +131,6 @@ export const useBoost: BotCommand = async event => {
     message: `${createVkMemberLink(member)}, ты получил новый буст - "${
       randomBooster.title
     }"\nОписание: ${randomBooster.description}`,
+    attachment: randomBooster.photo ? randomBooster.photo : '',
   };
 };

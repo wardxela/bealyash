@@ -13,16 +13,16 @@ import {
   getProfile,
   onlyUsers,
   useBoost,
-} from './containers/public';
+} from './commands/public';
 import {
   createRole,
   deleteRole,
   giveRole,
   onlyAdmin,
   updateRole,
-} from './containers/private';
-import { changeSize, onlyDickKraft, showSize } from './containers/dick-kraft';
-import { addAudio, onlyContentMakers } from './containers/content-maker';
+} from './commands/private';
+import { changeSize, onlyDickKraft, showSize } from './commands/dick-kraft';
+import { addAudio, onlyContentMakers } from './commands/content-maker';
 
 const bot = createBot(config);
 
@@ -46,7 +46,7 @@ bot.group(builder => {
   // Statistics
   builder
     .set(/беляш стат(истика|а)?/i, getChatStatistics)
-    .set(/беляш вероятност(и|ь)/i, getGayProbabilities)
+    .set(/беляш (вероятност(и|ь)|шансы?)/i, getGayProbabilities)
     .set(/беляш профиль/i, getProfile);
 });
 

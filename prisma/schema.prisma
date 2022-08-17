@@ -54,6 +54,7 @@ model Booster {
   profilesOnBooster      BoostersOnProfiles[]
   categoryId             Int
   category               BoosterCategory      @relation(fields: [categoryId], references: [id])
+  photo                  String?
 }
 
 model BoostersOnProfiles {
