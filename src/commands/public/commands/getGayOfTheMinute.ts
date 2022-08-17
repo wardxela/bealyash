@@ -21,7 +21,7 @@ export const getGayOfTheMinute: BotCommand = async (event, match) => {
   const chatId = event.object.message.peer_id;
   const chatPromise = findOrCreateChat(chatId);
   const membersPromise = getConversationMembers(chatId);
-  const boostersPromise = db.boostersOnProfiles.findMany({
+  const profilesPromise = db.profile.findMany({
     where: {
       chatId,
       booster: {
@@ -29,7 +29,7 @@ export const getGayOfTheMinute: BotCommand = async (event, match) => {
           title: 'Gay',
         },
       },
-      expirationDate: {
+      boosterExpirationDate: {
         gt: new Date(),
       },
     },
@@ -45,7 +45,7 @@ export const getGayOfTheMinute: BotCommand = async (event, match) => {
   const [chat, members, boosters] = await Promise.all([
     chatPromise,
     membersPromise,
-    boostersPromise,
+    profilesPromise,
   ]);
 
   diff = getTimeDiff(chat.updatedAt) / SECOND;

@@ -15,6 +15,10 @@ export const getChatStatistics: BotCommand = async event => {
     orderBy: {
       gayCounter: 'desc',
     },
+    select: {
+      userId: true,
+      gayCounter: true,
+    },
   });
   const membersPromise = getConversationMembers(event.object.message.peer_id);
   const [profiles, members] = await Promise.all([

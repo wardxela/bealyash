@@ -8,46 +8,34 @@ export const useBoost: BotCommand = async (event, match) => {
   const category = 'Gay';
 
   const memberPromise = from_id > 0 ? getUsers(from_id) : getGroups(-from_id);
-  const boosterPromise = db.boostersOnProfiles.findFirst({
+  const profilePromise = db.profile.findFirst({
     where: {
       userId: from_id,
       chatId: peer_id,
-      booster: {
-        category: {
-          title: category,
-        },
-      },
-      expirationDate: {
-        gt: new Date(),
-      },
+      booster: { category: { title: category } },
+      boosterExpirationDate: { gt: new Date() },
     },
     select: {
-      booster: {
-        select: {
-          title: true,
-        },
-      },
+      booster: { select: { title: true } },
     },
   });
-  const [memberData, booster] = await Promise.all([
+  const [memberData, profile] = await Promise.all([
     memberPromise,
-    boosterPromise,
+    profilePromise,
   ]);
 
   const member = memberData.response[0];
 
-  if (booster) {
+  if (profile && profile.booster) {
     return {
       message: `У ${createVkMemberLink(member, 'тебя')} уже есть буст "${
-        booster.booster.title
+        profile.booster.title
       }"`,
     };
   }
 
   const coefficientSum = await db.booster.aggregate({
-    where: {
-      category: { title: category },
-    },
+    where: { category: { title: category } },
     _sum: { probabilityCoefficient: true },
   });
 
@@ -82,47 +70,27 @@ export const useBoost: BotCommand = async (event, match) => {
     return { message: 'Внутренний алгоритм рандома сломан(' };
   }
 
-  await db.boostersOnProfiles.upsert({
+  await db.profile.upsert({
     where: {
-      userId_chatId_boosterId: {
+      userId_chatId: {
         userId: from_id,
         chatId: peer_id,
-        boosterId: randomBooster.id,
       },
     },
     create: {
-      profile: {
+      userId: from_id,
+      chat: {
         connectOrCreate: {
-          where: {
-            userId_chatId: {
-              userId: from_id,
-              chatId: peer_id,
-            },
-          },
-          create: {
-            userId: from_id,
-            chat: {
-              connectOrCreate: {
-                where: {
-                  id: peer_id,
-                },
-                create: {
-                  id: peer_id,
-                },
-              },
-            },
-          },
+          where: { id: peer_id },
+          create: { id: peer_id },
         },
       },
-      booster: {
-        connect: {
-          id: randomBooster.id,
-        },
-      },
-      expirationDate: new Date(Date.now() + randomBooster.duration),
+      booster: { connect: { id: randomBooster.id } },
+      boosterExpirationDate: new Date(Date.now() + randomBooster.duration),
     },
     update: {
-      expirationDate: new Date(Date.now() + randomBooster.duration),
+      booster: { connect: { id: randomBooster.id } },
+      boosterExpirationDate: new Date(Date.now() + randomBooster.duration),
     },
     select: null,
   });

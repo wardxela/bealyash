@@ -15,14 +15,16 @@ model Chat {
 }
 
 model Profile {
-  userId            Int
-  chatId            Int
-  chat              Chat                 @relation(fields: [chatId], references: [id])
-  updatedAt         DateTime             @updatedAt
-  createdAt         DateTime             @default(now())
-  gayCounter        Int                  @default(0)
-  rolesOnProfile    RolesOnProfiles[]
-  boostersOnProfile BoostersOnProfiles[]
+  userId                Int
+  chatId                Int
+  chat                  Chat              @relation(fields: [chatId], references: [id])
+  updatedAt             DateTime          @updatedAt
+  createdAt             DateTime          @default(now())
+  gayCounter            Int               @default(0)
+  rolesOnProfile        RolesOnProfiles[]
+  boosterId             Int?
+  booster               Booster?          @relation(fields: [boosterId], references: [id])
+  boosterExpirationDate DateTime?
 
   @@id([userId, chatId])
 }
@@ -45,27 +47,16 @@ model RolesOnProfiles {
 }
 
 model Booster {
-  id                     Int                  @id @default(autoincrement())
-  title                  String               @unique
+  id                     Int             @id @default(autoincrement())
+  title                  String          @unique
   description            String
-  duration               Int                  @default(3600000)
-  coefficientOffset      Int                  @default(0)
-  probabilityCoefficient Int                  @default(100)
-  profilesOnBooster      BoostersOnProfiles[]
+  duration               Int             @default(3600000)
+  coefficientOffset      Int             @default(0)
+  probabilityCoefficient Int             @default(100)
   categoryId             Int
-  category               BoosterCategory      @relation(fields: [categoryId], references: [id])
+  category               BoosterCategory @relation(fields: [categoryId], references: [id])
   photo                  String?
-}
-
-model BoostersOnProfiles {
-  userId         Int
-  chatId         Int
-  boosterId      Int
-  profile        Profile  @relation(fields: [userId, chatId], references: [userId, chatId])
-  booster        Booster  @relation(fields: [boosterId], references: [id])
-  expirationDate DateTime
-
-  @@id([userId, chatId, boosterId])
+  profiles               Profile[]
 }
 
 model BoosterCategory {
