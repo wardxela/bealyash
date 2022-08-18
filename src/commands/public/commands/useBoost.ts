@@ -1,7 +1,7 @@
 import { BotCommand } from '../../../core';
 import { db } from '../../../services/db';
 import { createVkMemberLink, getGroups, getUsers } from '../../../services/vk';
-import { random } from '../../../utils';
+import { random, randomFloat } from '../../../utils';
 
 export const useBoost: BotCommand = async (event, match) => {
   const { from_id, peer_id } = event.object.message;
@@ -34,40 +34,37 @@ export const useBoost: BotCommand = async (event, match) => {
     };
   }
 
-  const coefficientSum = await db.booster.aggregate({
-    where: { category: { title: category } },
-    _sum: { probabilityCoefficient: true },
-  });
-
-  if (!coefficientSum._sum.probabilityCoefficient) {
-    return { message: 'Бустов нет' };
-  }
-
-  const randomNumber = random(1, coefficientSum._sum.probabilityCoefficient);
   const boosters = await db.booster.findMany({
     where: { category: { title: category } },
     select: {
       id: true,
       duration: true,
-      probabilityCoefficient: true,
       description: true,
+      rarity: true,
       title: true,
       photo: true,
     },
   });
 
-  let range = 0;
+  const totalOutcomes = boosters.reduce(
+    (a, booster) => a + booster.rarity.probability,
+    0
+  );
+
+  const randomNumber = randomFloat(0, totalOutcomes);
+
+  let range = totalOutcomes;
   let randomBooster: typeof boosters[number] | null = null;
   for (const booster of boosters) {
-    range += booster.probabilityCoefficient;
-    if (randomNumber <= range) {
+    range -= booster.rarity.probability;
+    if (range <= randomNumber) {
       randomBooster = booster;
       break;
     }
   }
 
   if (!randomBooster) {
-    return { message: 'Внутренний алгоритм рандома сломан(' };
+    return { message: 'У беляша нет бустеров :(' };
   }
 
   await db.profile.upsert({
@@ -96,9 +93,11 @@ export const useBoost: BotCommand = async (event, match) => {
   });
 
   return {
-    message: `${createVkMemberLink(member)}, ты получил новый буст - "${
+    message: `${createVkMemberLink(member)}, ты получил буст "${
       randomBooster.title
-    }"\nОписание: ${randomBooster.description}`,
+    }"\nРедкость: ${randomBooster.rarity.title}\nОписание: ${
+      randomBooster.description
+    }`,
     attachment: randomBooster.photo ? randomBooster.photo : '',
   };
 };

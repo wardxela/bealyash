@@ -1,10 +1,6 @@
 import { BotCommand } from '../../../core';
-import { createMap, getTimeDiff, random } from '../../../utils';
-import {
-  db,
-  findOrCreateChat,
-  getBoosterCoefficient,
-} from '../../../services/db';
+import { createMap, getTimeDiff, random, randomFloat } from '../../../utils';
+import { db, findOrCreateChat, getBoosterValue } from '../../../services/db';
 import {
   findMemberById,
   getConversationMembers,
@@ -19,26 +15,17 @@ export const getGayOfTheMinute: BotCommand = async (event, match) => {
   let gayMemberId: number;
   let diff: number;
   const chatId = event.object.message.peer_id;
+
   const chatPromise = findOrCreateChat(chatId);
   const membersPromise = getConversationMembers(chatId);
   const profilesPromise = db.profile.findMany({
     where: {
       chatId,
-      booster: {
-        category: {
-          title: 'Gay',
-        },
-      },
-      boosterExpirationDate: {
-        gt: new Date(),
-      },
+      booster: { category: { title: 'Gay' } },
+      boosterExpirationDate: { gt: new Date() },
     },
     select: {
-      booster: {
-        select: {
-          coefficientOffset: true,
-        },
-      },
+      booster: { select: { value: true } },
       userId: true,
     },
   });
@@ -52,16 +39,16 @@ export const getGayOfTheMinute: BotCommand = async (event, match) => {
   const hasOneMinutePassed = diff > MINUTE;
 
   if (hasOneMinutePassed || chat.gayId === null) {
-    let range = 0;
     let newGayId = 0;
     const boostersMap = createMap(boosters, 'userId');
     const totalOutcomes = members.response.items.reduce((a, m) => {
-      return a + getBoosterCoefficient(boostersMap[m.member_id]);
+      return a + getBoosterValue(boostersMap[m.member_id]);
     }, 0);
-    const randomNumber = random(1, totalOutcomes);
+    let range = totalOutcomes;
+    const randomNumber = randomFloat(0, totalOutcomes);
     for (const member of members.response.items) {
-      range += getBoosterCoefficient(boostersMap[member.member_id]);
-      if (randomNumber <= range) {
+      range -= getBoosterValue(boostersMap[member.member_id]);
+      if (randomNumber >= range) {
         newGayId = member.member_id;
         break;
       }

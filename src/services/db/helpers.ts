@@ -1,15 +1,13 @@
 export interface ProfileBooster {
   booster: {
-    coefficientOffset: number;
+    value: number;
   } | null;
 }
 
-const BOOSTER_COEFFICIENT_BASE = 100;
-
-export function getBoosterCoefficient(profile: ProfileBooster | undefined) {
+export function getBoosterValue(profile: ProfileBooster | undefined) {
   if (!profile || !profile.booster) {
-    return BOOSTER_COEFFICIENT_BASE;
+    return 1;
   }
 
-  return BOOSTER_COEFFICIENT_BASE + profile.booster.coefficientOffset;
+  return profile.booster.value;
 }

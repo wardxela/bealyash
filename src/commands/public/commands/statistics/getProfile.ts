@@ -33,7 +33,7 @@ export const getProfile: BotCommand = async event => {
     const expiresIn = Math.round(
       -getTimeDiff(profile.boosterExpirationDate) / 1000 / 60
     );
-    booster = `Буст - ${profile.booster.title} (${expiresIn} мин.)`;
+    booster = `Буст - "${profile.booster.title}" (${expiresIn} мин.)`;
   }
 
   const gayCount = `Был пидором ${ruNumberToString(profile.gayCounter)}`;

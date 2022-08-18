@@ -47,22 +47,30 @@ model RolesOnProfiles {
 }
 
 model Booster {
-  id                     Int             @id @default(autoincrement())
-  title                  String          @unique
-  description            String
-  duration               Int             @default(3600000)
-  coefficientOffset      Int             @default(0)
-  probabilityCoefficient Int             @default(100)
-  categoryId             Int
-  category               BoosterCategory @relation(fields: [categoryId], references: [id])
-  photo                  String?
-  profiles               Profile[]
+  id          Int             @id @default(autoincrement())
+  value       Float           @default(1)
+  title       String          @unique
+  description String
+  photo       String?
+  duration    Int             @default(3600000)
+  rarityId    Int             @default(1)
+  rarity      Rarity          @relation(fields: [rarityId], references: [id])
+  categoryId  Int
+  category    BoosterCategory @relation(fields: [categoryId], references: [id])
+  profiles    Profile[]
 }
 
 model BoosterCategory {
   id          Int       @id @default(autoincrement())
   title       String    @unique
   description String
+  boosters    Booster[]
+}
+
+model Rarity {
+  id          Int       @id @default(autoincrement())
+  title       String
+  probability Float
   boosters    Booster[]
 }
 
