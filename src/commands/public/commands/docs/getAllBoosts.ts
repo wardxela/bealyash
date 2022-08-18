@@ -6,7 +6,7 @@ export const getAllBoosts: BotCommand = async () => {
 
   const boosters = await db.booster.findMany({
     where: { category: { title: category } },
-    orderBy: { value: 'desc' },
+    orderBy: { rarity: { probability: 'desc' } },
     select: {
       title: true,
       duration: true,
