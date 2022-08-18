@@ -13,7 +13,7 @@ const boosterCategoryMap: Record<string, string> = {
 
 export const getProbabilities: BotCommand = async (event, match) => {
   const { peer_id } = event.object.message;
-  const categoryAlias = match[2].toLocaleLowerCase();
+  const categoryAlias = match[2].toLowerCase();
 
   const category = boosterCategoryMap[categoryAlias];
 
