@@ -31,5 +31,3 @@ export function timeToString(ms: number): string {
   quotient = Math.floor(ms / SECOND);
   return `${quotient} сек.`;
 }
-
-console.log(timeToString(673523344));
