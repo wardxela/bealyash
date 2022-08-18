@@ -1,9 +1,9 @@
 import { BotCommand } from '../../../core';
 import { db } from '../../../services/db';
 import { createVkMemberLink, getGroups, getUsers } from '../../../services/vk';
-import { random, randomFloat } from '../../../utils';
+import { randomFloat } from '../../../utils';
 
-export const useBoost: BotCommand = async (event, match) => {
+export const useBoost: BotCommand = async event => {
   const { from_id, peer_id } = event.object.message;
   const category = 'Gay';
 

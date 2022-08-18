@@ -28,9 +28,9 @@ const bot = createBot(config);
 
 // Public
 bot.set(/(кто|я|ты|вы|она?) пидо?р/i, getGayOfTheMinute);
-bot.set(/беляш (трек|музыка|микс|музло)/i, getAudio);
-bot.set(/беляш буст/i, useBoost);
 bot.set(/тян/i, getChan);
+bot.set(/б(еляш)? (трек|музыка|микс|музло)/i, getAudio);
+bot.set(/б(еляш)? буст/i, useBoost);
 
 // Users
 bot.group(builder => {
@@ -39,15 +39,15 @@ bot.group(builder => {
 
   // Documentation
   builder
-    .set(/беляш (помощь|х(э|е)лп|дока|инфа|help)/i, getHelp)
-    .set(/беляш все бусты/i, getAllBoosts)
-    .set(/беляш все роли/i, getAllRoles);
+    .set(/б(еляш)? (помощь|х(э|е)лп|дока|инфа|help)/i, getHelp)
+    .set(/б(еляш)? все бусты/i, getAllBoosts)
+    .set(/б(еляш)? все роли/i, getAllRoles);
 
   // Statistics
   builder
-    .set(/беляш чат/i, getChatStatistics)
-    .set(/беляш профиль/i, getProfile)
-    .set(/беляш (вероятност(и|ь)|шансы?) (опидорения)/i, getProbabilities);
+    .set(/б(еляш)? чат/i, getChatStatistics)
+    .set(/б(еляш)? профиль/i, getProfile)
+    .set(/б(еляш)? шансы? (опидорения)/i, getProbabilities);
 });
 
 // Dick_Kraft_Bot
@@ -61,10 +61,10 @@ bot.group(builder => {
 bot.group(builder => {
   builder
     .protect(/.*/, onlyAdmin)
-    .set(/^беляш дай роль ([а-яА-Я-_]+)$/i, giveRole)
-    .set(/^беляш создай роль/i, createRole)
-    .set(/^беляш обнови роль/i, updateRole)
-    .set(/^беляш удали роль/i, deleteRole);
+    .set(/^б(еляш)? дай роль ([а-яА-Я-_]+)$/i, giveRole)
+    .set(/^б(еляш)? создай роль/i, createRole)
+    .set(/^б(еляш)? обнови роль/i, updateRole)
+    .set(/^б(еляш)? удали роль/i, deleteRole);
 });
 
 // Content maker

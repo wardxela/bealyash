@@ -13,7 +13,7 @@ export const giveRole: BotCommand = async (event, match) => {
   const { from_id } = event.object.message.reply_message;
   const { peer_id } = event.object.message;
 
-  const role = match[1];
+  const role = match[2];
 
   const userPromise = getUsers(from_id);
   const addRolePromise = db.rolesOnProfiles.create({
