@@ -5,7 +5,7 @@ import {
   getGroups,
   getUsers,
 } from '../../../../services/vk';
-import { getTimeDiff, ruNumberToString } from '../../../../utils';
+import { getTimeDiff, ruNumberToString, timeToString } from '../../../../utils';
 
 export const getProfile: BotCommand = async event => {
   const { from_id, peer_id } = event.object.message;
@@ -30,10 +30,8 @@ export const getProfile: BotCommand = async event => {
     profile.boosterExpirationDate &&
     profile.boosterExpirationDate > new Date()
   ) {
-    const expiresIn = Math.round(
-      -getTimeDiff(profile.boosterExpirationDate) / 1000 / 60
-    );
-    booster = `Буст - "${profile.booster.title}" (${expiresIn} мин.)`;
+    const expiresIn = timeToString(-getTimeDiff(profile.boosterExpirationDate));
+    booster = `Буст - "${profile.booster.title}" (${expiresIn})`;
   }
 
   const gayCount = `Был пидором ${ruNumberToString(profile.gayCounter)}`;
