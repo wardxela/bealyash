@@ -13,7 +13,7 @@ const boosterCategoryMap: Record<string, string> = {
 
 export const getProbabilities: BotCommand = async (event, match) => {
   const { peer_id } = event.object.message;
-  const category = boosterCategoryMap[match[3]];
+  const category = boosterCategoryMap[match[2]];
 
   const membersPromise = getConversationMembers(peer_id);
   const profilesPromise = db.profile.findMany({
