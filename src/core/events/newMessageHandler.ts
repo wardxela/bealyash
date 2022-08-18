@@ -14,24 +14,30 @@ export async function newMessageHandler(
     for (const nestedContainer of container.containers) {
       await newMessageHandler(event, nestedContainer, reply, config);
     }
-    for (const [pattern, command] of container.commands) {
-      const match = event.object.message.text.match(pattern);
-      if (!match) {
+    for (const [commandPattern, command] of container.commands) {
+      const commandMatch = event.object.message.text.match(commandPattern);
+      if (!commandMatch) {
         continue;
       }
-      for (const [pattern2, guard] of container.guards) {
-        const match2 = event.object.message.text.match(pattern2);
-        if (!match2) {
+      for (const [guardPattern, guard] of container.guards) {
+        const guardMatch = event.object.message.text.match(guardPattern);
+        if (!guardMatch) {
           continue;
         }
-        const guardResponse = await safePromise(guard(event, match2), timeout);
+        const guardResponse = await safePromise(
+          guard(event, guardMatch),
+          timeout
+        );
         if (!guardResponse.success) {
           if (verifyCommandResponse(guardResponse)) {
             return reply(guardResponse, event);
           }
         }
       }
-      const commandResponse = await safePromise(command(event, match), timeout);
+      const commandResponse = await safePromise(
+        command(event, commandMatch),
+        timeout
+      );
       if (verifyCommandResponse(commandResponse)) {
         return reply(commandResponse, event);
       }
