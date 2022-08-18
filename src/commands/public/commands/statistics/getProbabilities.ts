@@ -13,8 +13,9 @@ const boosterCategoryMap: Record<string, string> = {
 
 export const getProbabilities: BotCommand = async (event, match) => {
   const { peer_id } = event.object.message;
+  const categoryAlias = match[2].toLocaleLowerCase();
 
-  const category = boosterCategoryMap[match[2]];
+  const category = boosterCategoryMap[categoryAlias];
 
   const membersPromise = getConversationMembers(peer_id);
   const profilesPromise = db.profile.findMany({
@@ -52,7 +53,7 @@ export const getProbabilities: BotCommand = async (event, match) => {
     const probability =
       Math.round((10000 * favorableOutcomes) / totalOutcomes) / 100;
     return `${a}${name} - ${probability}%\n`;
-  }, `Вероятность ${match[2]}:\n`);
+  }, `Вероятность ${categoryAlias}:\n`);
 
   return {
     message: probabilities,
