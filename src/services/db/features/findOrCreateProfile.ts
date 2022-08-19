@@ -8,7 +8,7 @@ export async function findOrCreateProfile(userId: number, chatId: number) {
         chatId,
       },
     },
-    select: {
+    include: {
       rolesOnProfile: {
         select: {
           role: {
@@ -23,8 +23,6 @@ export async function findOrCreateProfile(userId: number, chatId: number) {
           title: true,
         },
       },
-      boosterExpirationDate: true,
-      gayCounter: true,
     },
   });
 
@@ -46,7 +44,7 @@ export async function findOrCreateProfile(userId: number, chatId: number) {
         },
       },
     },
-    select: {
+    include: {
       rolesOnProfile: {
         select: {
           role: {
@@ -61,8 +59,6 @@ export async function findOrCreateProfile(userId: number, chatId: number) {
           title: true,
         },
       },
-      boosterExpirationDate: true,
-      gayCounter: true,
     },
   });
 }

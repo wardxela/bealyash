@@ -13,6 +13,7 @@ import {
   getProfile,
   onlyUsers,
   useBoost,
+  getXP,
 } from './commands/public';
 import {
   createRole,
@@ -31,6 +32,7 @@ bot.set(/(кто|я|ты|вы|она?) пидо?р/i, getGayOfTheMinute);
 bot.set(/тян/i, getChan);
 bot.set(/б(еляш)? (трек|музыка|микс|музло)/i, getAudio);
 bot.set(/б(еляш)? буст/i, useBoost);
+bot.set(/б(еляш)? фарм/i, getXP);
 
 // Users
 bot.group(builder => {

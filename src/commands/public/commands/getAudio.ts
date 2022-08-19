@@ -1,7 +1,7 @@
 import { BotCommand } from '../../../core';
 import { db } from '../../../services/db';
 import { createVkMediaURL } from '../../../services/vk';
-import { random } from '../../../utils';
+import { randomInt } from '../../../utils';
 
 export const getAudio: BotCommand = async () => {
   const count = await db.attachment.count({
@@ -19,7 +19,7 @@ export const getAudio: BotCommand = async () => {
     };
   }
 
-  const skip = random(0, count - 1);
+  const skip = randomInt(0, count - 1);
 
   const attachment = await db.attachment.findFirst({
     skip: skip,

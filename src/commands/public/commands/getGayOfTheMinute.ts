@@ -1,5 +1,5 @@
 import { BotCommand } from '../../../core';
-import { createMap, getTimeDiff, random, randomFloat } from '../../../utils';
+import { createMap, getTimeDiff, randomInt, randomFloat } from '../../../utils';
 import { db, findOrCreateChat, getBoosterValue } from '../../../services/db';
 import {
   findMemberById,
