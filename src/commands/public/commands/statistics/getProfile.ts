@@ -16,6 +16,8 @@ export const getProfile: BotCommand = async event => {
   const [profile, member] = await Promise.all([profilePromise, memberPromise]);
 
   const name = createVkMemberLink(member.response[0]);
+  const xp = `Опыт - ${profile.xp} XP`;
+  const gay = `Пидор - ${ruNumberToString(profile.gayCounter)}`;
   const roles = !profile.rolesOnProfile.length
     ? 'Не имеешь ни одной роли'
     : `Имеешь роли: ${profile.rolesOnProfile.reduce(
@@ -34,8 +36,7 @@ export const getProfile: BotCommand = async event => {
     booster = `Буст - "${profile.booster.title}" (${expiresIn})`;
   }
 
-  const gayCount = `Был пидором ${ruNumberToString(profile.gayCounter)}`;
-  const message = `${name}, твоя статистика:\n${gayCount}\n${roles}\n${booster}`;
+  const message = `${name}, твоя статистика:\n${xp}\n${gay}\n${roles}\n${booster}`;
 
   return {
     message,
