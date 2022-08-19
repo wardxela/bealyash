@@ -18,7 +18,7 @@ export const getXP: BotCommand = async event => {
   const name = createVkMemberName(member.response[0]);
 
   const timeDiff = getTimeDiff(profile.xpUpdatedAt);
-  if (timeDiff < MINUTE) {
+  if (timeDiff < HOUR * 3) {
     const timeToWait = MINUTE - timeDiff;
     const timeInfo = `Приходи через ${timeToString(timeToWait)}`;
     return {
