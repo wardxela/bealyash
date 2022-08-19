@@ -19,7 +19,7 @@ export const getXP: BotCommand = async event => {
 
   const timeDiff = getTimeDiff(profile.xpUpdatedAt);
   if (timeDiff < HOUR * 3) {
-    const timeToWait = MINUTE - timeDiff;
+    const timeToWait = HOUR * 3 - timeDiff;
     const timeInfo = `Приходи через ${timeToString(timeToWait)}`;
     return {
       message: `${name}, ты уже фармил\n${timeInfo}\nОбщее кол-во опыта - ${profile.xp} XP`,
