@@ -3,16 +3,26 @@ import { BotConfig, BotContainer } from '../interfaces';
 import { verifyCommandResponse, safePromise } from '../internals';
 import { VkGroupEvent, VkReply } from '../vk';
 
+// 0 - message is sent
+// 1 - message isn't sent
 export async function newMessageHandler(
   event: VkGroupEvent<'message_new'>,
   container: BotContainer,
   reply: VkReply,
   config: BotConfig
-): Promise<void> {
+): Promise<number> {
   const { timeout, uncaughtCommandErrorResponse } = config;
   try {
     for (const nestedContainer of container.containers) {
-      await newMessageHandler(event, nestedContainer, reply, config);
+      const status = await newMessageHandler(
+        event,
+        nestedContainer,
+        reply,
+        config
+      );
+      if (status === 0) {
+        return 0;
+      }
     }
     for (const [commandPattern, command] of container.commands) {
       const commandMatch = event.object.message.text.match(commandPattern);
@@ -30,7 +40,8 @@ export async function newMessageHandler(
         );
         if (!guardResponse.success) {
           if (verifyCommandResponse(guardResponse)) {
-            return reply(guardResponse, event);
+            await reply(guardResponse, event);
+            return 0;
           }
         }
       }
@@ -39,13 +50,16 @@ export async function newMessageHandler(
         timeout
       );
       if (verifyCommandResponse(commandResponse)) {
-        return reply(commandResponse, event);
+        await reply(commandResponse, event);
+        return 0;
       }
     }
+    return 1;
   } catch (e) {
     const badCommandResponse = uncaughtCommandErrorResponse
       ? uncaughtCommandErrorResponse
       : DEFAULT_UNCAUGHT_COMMAND_ERROR_RESPONSE;
-    return reply(badCommandResponse, event);
+    await reply(badCommandResponse, event);
+    return 0;
   }
 }
