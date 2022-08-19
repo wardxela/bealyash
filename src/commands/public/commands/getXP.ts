@@ -27,7 +27,7 @@ export const getXP: BotCommand = async event => {
   }
 
   const randomNumber = randomInt(1, 75);
-  const min = -25;
+  const min = -15;
   const max = 25;
   let range = 0;
   let xpOffset = 0;
@@ -67,7 +67,7 @@ export const getXP: BotCommand = async event => {
   if (xpOffset < 0) {
     mainMessage = `прости, но фарм оказался безуспешным\nТы теряешь ${-xpOffset} XP`;
   } else if (xpOffset > 0) {
-    mainMessage = `поздравляю фарм удался\nТы получаешь ${xpOffset} XP`;
+    mainMessage = `поздравляю, фарм удался\nТы получаешь ${xpOffset} XP`;
   } else {
     mainMessage = `у тебя не получилось ничего нафармить`;
   }
