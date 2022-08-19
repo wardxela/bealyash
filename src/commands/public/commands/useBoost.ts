@@ -1,13 +1,13 @@
 import { BotCommand } from '../../../core';
 import { db } from '../../../services/db';
-import { createVkMemberLink, getGroups, getUsers } from '../../../services/vk';
+import { createVkMemberLink, getUsersOrGroups } from '../../../services/vk';
 import { randomFloat } from '../../../utils';
 
 export const useBoost: BotCommand = async event => {
   const { from_id, peer_id } = event.object.message;
   const category = 'Gay';
 
-  const memberPromise = from_id > 0 ? getUsers(from_id) : getGroups(-from_id);
+  const memberPromise = getUsersOrGroups(from_id);
   const profilePromise = db.profile.findFirst({
     where: {
       userId: from_id,

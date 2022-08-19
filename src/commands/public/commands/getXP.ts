@@ -1,6 +1,6 @@
 import { BotCommand } from '../../../core';
 import { db, findOrCreateProfile } from '../../../services/db';
-import { createVkMemberName, getUsers } from '../../../services/vk';
+import { createVkMemberName, getUsersOrGroups } from '../../../services/vk';
 import {
   getTimeDiff,
   HOUR,
@@ -13,7 +13,7 @@ export const getXP: BotCommand = async event => {
   const { from_id, peer_id } = event.object.message;
 
   const profilePromise = findOrCreateProfile(from_id, peer_id);
-  const memberPromise = getUsers(from_id);
+  const memberPromise = getUsersOrGroups(from_id);
   const [profile, member] = await Promise.all([profilePromise, memberPromise]);
   const name = createVkMemberName(member.response[0]);
 
@@ -26,9 +26,9 @@ export const getXP: BotCommand = async event => {
     };
   }
 
-  const randomNumber = randomInt(1, 75);
   const min = -15;
   const max = 25;
+  const randomNumber = randomInt(1, max * 2 + Math.abs(min));
   let range = 0;
   let xpOffset = 0;
 
