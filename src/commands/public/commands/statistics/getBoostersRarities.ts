@@ -35,7 +35,7 @@ export const getBoostersRarities: BotCommand = async () => {
       Math.round(
         (10000 * currentRarityCount * rarity.probability) / totalOutcomes
       ) / 100;
-    return `${a}${rarity.title} - ${probability}%`;
+    return `${a}${rarity.title} - ${probability}%\n`;
   }, 'Редкости:\n');
 
   return { message };
