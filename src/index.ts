@@ -14,6 +14,7 @@ import {
   onlyUsers,
   useBoost,
   getXP,
+  getBoostersRarities,
 } from './commands/public';
 import {
   createRole,
@@ -49,7 +50,8 @@ bot.group(builder => {
   builder
     .set(/б(еляш)? чат/i, getChatStatistics)
     .set(/б(еляш)? профиль/i, getProfile)
-    .set(/б(еляш)? шансы? (опидорения)/i, getProbabilities);
+    .set(/б(еляш)? шансы? (опидорения)/i, getProbabilities)
+    .set(/б(еляш)? редкости бустов/i, getBoostersRarities);
 });
 
 // Dick_Kraft_Bot
