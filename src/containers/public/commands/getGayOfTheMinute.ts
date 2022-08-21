@@ -1,5 +1,11 @@
 import { BotCommand } from '../../../core';
-import { createMap, getTimeDiff, randomInt, randomFloat } from '../../../utils';
+import {
+  createMap,
+  getTimeDiff,
+  randomFloat,
+  MINUTE,
+  SECOND,
+} from '../../../utils';
 import { db, findOrCreateChat, getBoosterValue } from '../../../services/db';
 import {
   findMemberById,
@@ -8,12 +14,7 @@ import {
   createVkMemberName,
 } from '../../../services/vk';
 
-const SECOND = 1000;
-const MINUTE = 60;
-
 export const getGayOfTheMinute: BotCommand = async (event, match) => {
-  let gayMemberId: number;
-  let diff: number;
   const chatId = event.object.message.peer_id;
 
   const chatPromise = findOrCreateChat(chatId);
@@ -35,11 +36,11 @@ export const getGayOfTheMinute: BotCommand = async (event, match) => {
     profilesPromise,
   ]);
 
-  diff = getTimeDiff(chat.updatedAt) / SECOND;
-  const hasOneMinutePassed = diff > MINUTE;
-
-  if (hasOneMinutePassed || chat.gayId === null) {
-    let newGayId = 0;
+  let gayMemberId: number | null = chat.gayId;
+  const shouldUpdate =
+    getTimeDiff(chat.updatedAt) > MINUTE || gayMemberId === null;
+  if (shouldUpdate) {
+    gayMemberId = 0;
     const boostersMap = createMap(boosters, 'userId');
     const totalOutcomes = members.response.items.reduce((a, m) => {
       return a + getBoosterValue(boostersMap[m.member_id]);
@@ -49,60 +50,41 @@ export const getGayOfTheMinute: BotCommand = async (event, match) => {
     for (const member of members.response.items) {
       range -= getBoosterValue(boostersMap[member.member_id]);
       if (randomNumber >= range) {
-        newGayId = member.member_id;
+        gayMemberId = member.member_id;
         break;
       }
     }
     const updatedChatPromise = db.chat.update({
-      where: {
-        id: chatId,
-      },
-      data: {
-        gayId: newGayId,
-      },
+      where: { id: chatId },
+      data: { gayId: gayMemberId },
     });
     const updatedProfilePromise = db.profile.upsert({
       where: {
         userId_chatId: {
-          userId: newGayId,
+          userId: gayMemberId,
           chatId: chatId,
         },
       },
       create: {
-        userId: newGayId,
-        chat: {
-          connect: {
-            id: chatId,
-          },
-        },
+        userId: gayMemberId,
+        chat: { connect: { id: chatId } },
         gayCounter: 1,
       },
-      update: {
-        gayCounter: {
-          increment: 1,
-        },
-      },
+      update: { gayCounter: { increment: 1 } },
     });
-    const [updatedChat] = await Promise.all([
-      updatedChatPromise,
-      updatedProfilePromise,
-    ]);
-    diff = getTimeDiff(updatedChat.updatedAt) / SECOND;
-    gayMemberId = newGayId;
-  } else {
-    gayMemberId = chat.gayId;
+    await Promise.all([updatedChatPromise, updatedProfilePromise]);
   }
-  const gay = findMemberById(gayMemberId, members);
-  if (!gay) {
-    return {
-      message: `Пидор смылся из беседы`,
-    };
-  }
-  const flooredDiff = Math.floor(diff);
 
-  const hintText = flooredDiff
-    ? `\nТебе нужно подождать еще ${60 - flooredDiff} сек. до следующей попытки`
-    : '';
+  const gay = findMemberById(gayMemberId!, members);
+  if (!gay) {
+    return { message: `Пидор смылся из беседы` };
+  }
+
+  const timeHintText = shouldUpdate
+    ? ''
+    : `\nТебе нужно подождать еще ${Math.floor(
+        (MINUTE - getTimeDiff(chat.updatedAt)) / SECOND
+      )} сек. до следующей попытки`;
 
   const defaultName = createVkMemberName(gay);
   let mainText = '';
@@ -141,7 +123,5 @@ export const getGayOfTheMinute: BotCommand = async (event, match) => {
     mainText = `Нет, пидор - ${defaultName}`;
   }
 
-  return {
-    message: `${mainText}${hintText}`,
-  };
+  return { message: `${mainText}${timeHintText}` };
 };

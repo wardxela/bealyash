@@ -15,16 +15,16 @@ import {
   useBoost,
   getXP,
   getBoostersRarities,
-} from './commands/public';
+} from './containers/public';
 import {
   createRole,
   deleteRole,
   giveRole,
   onlyAdmin,
   updateRole,
-} from './commands/private';
-import { changeSize, onlyDickKraft, showSize } from './commands/dick-kraft';
-import { addAudio, onlyContentMakers } from './commands/content-maker';
+} from './containers/private';
+import { changeSize, onlyDickKraft, showSize } from './containers/dick-kraft';
+import { addAudio, onlyContentMakers } from './containers/content-maker';
 
 const bot = createBot(config);
 

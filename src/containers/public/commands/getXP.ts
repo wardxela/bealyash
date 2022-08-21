@@ -1,13 +1,7 @@
 import { BotCommand } from '../../../core';
 import { db, findOrCreateProfile } from '../../../services/db';
 import { createVkMemberName, getUsersOrGroups } from '../../../services/vk';
-import {
-  getTimeDiff,
-  HOUR,
-  MINUTE,
-  randomInt,
-  timeToString,
-} from '../../../utils';
+import { getTimeDiff, HOUR, randomInt, timeToString } from '../../../utils';
 
 export const getXP: BotCommand = async event => {
   const { from_id, peer_id } = event.object.message;
