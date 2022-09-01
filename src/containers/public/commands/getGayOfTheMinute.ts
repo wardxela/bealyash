@@ -38,7 +38,7 @@ export const getGayOfTheMinute: BotCommand = async (event, match) => {
 
   let gayMemberId: number | null = chat.gayId;
   const shouldUpdate =
-    getTimeDiff(chat.updatedAt) > MINUTE || gayMemberId === null;
+    getTimeDiff(chat.updatedAt) > MINUTE || gayMemberId === null || true;
   if (shouldUpdate) {
     gayMemberId = 0;
     const boostersMap = createMap(boosters, 'userId');
