@@ -5,3 +5,4 @@ export { getGayOfTheMinute } from './getGayOfTheMinute';
 export { getAudio } from './getAudio';
 export { useBoost } from './useBoost';
 export { getXP } from './getXP';
+export { getGirlPicture } from './getGirlPicture';
