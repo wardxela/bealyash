@@ -35,7 +35,7 @@ bot.set(/тян/i, getChan);
 bot.set(/б(еляш)? (трек|музыка|микс|музло)/i, getAudio);
 bot.set(/б(еляш)? буст/i, useBoost);
 bot.set(/б(еляш)? фарм/i, getXP);
-bot.set(/б(еляш)? пикча/i, getGirlPicture);
+bot.set(/б(еляш)? пикча( \d+)?/i, getGirlPicture);
 
 // Users
 bot.group(builder => {
