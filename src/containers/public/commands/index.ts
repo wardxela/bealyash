@@ -6,3 +6,4 @@ export { getAudio } from './getAudio';
 export { useBoost } from './useBoost';
 export { getXP } from './getXP';
 export { getGirlPicture } from './getGirlPicture';
+export { pizda } from './pizda';

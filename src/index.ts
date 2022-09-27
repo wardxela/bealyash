@@ -16,6 +16,7 @@ import {
   getXP,
   getBoostersRarities,
   getGirlPicture,
+  pizda,
 } from './containers/public';
 import {
   createRole,
@@ -36,6 +37,7 @@ bot.set(/б(еляш)? (трек|музыка|микс|музло)/i, getAudio);
 bot.set(/б(еляш)? буст/i, useBoost);
 bot.set(/б(еляш)? фарм/i, getXP);
 bot.set(/б(еляш)? пикча( \d+)?/i, getGirlPicture);
+bot.set(/да/i, pizda);
 
 // Users
 bot.group(builder => {
