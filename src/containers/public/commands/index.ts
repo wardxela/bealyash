@@ -7,3 +7,4 @@ export { useBoost } from './useBoost';
 export { getXP } from './getXP';
 export { getGirlPicture } from './getGirlPicture';
 export { pizda } from './pizda';
+export { getKun } from './getKun';

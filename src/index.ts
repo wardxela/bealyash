@@ -17,6 +17,7 @@ import {
   getBoostersRarities,
   getGirlPicture,
   pizda,
+  getKun,
 } from './containers/public';
 import {
   createRole,
@@ -33,11 +34,12 @@ const bot = createBot(config);
 // Public
 bot.set(/(кто|я|ты|вы|она?) пидо?р/i, getGayOfTheMinute);
 bot.set(/тян/i, getChan);
+bot.set(/кун/i, getKun);
 bot.set(/б(еляш)? (трек|музыка|микс|музло)/i, getAudio);
 bot.set(/б(еляш)? буст/i, useBoost);
 bot.set(/б(еляш)? фарм/i, getXP);
 bot.set(/б(еляш)? пикча( \d+)?/i, getGirlPicture);
-bot.set(/да/i, pizda);
+bot.set(/^да/i, pizda);
 
 // Users
 bot.group(builder => {
