@@ -33,8 +33,6 @@ export const addKun: BotCommand = async event => {
     })
   );
   return {
-    message: `Добавил ${length} ${
-      length === 1 ? 'кун' : length < 5 ? 'куна' : 'кунов'
-    }`,
+    message: `Добавил ${length} ${length < 5 ? 'куна' : 'кунов'}`,
   };
 };
