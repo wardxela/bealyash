@@ -17,7 +17,7 @@ export function createVkMediaURL(
   type: string,
   ownerId: string | number,
   mediaId: string | number,
-  accessKey?: string
+  accessKey?: string | null
 ) {
   return `${type}${ownerId}_${mediaId}${accessKey ? `_${accessKey}` : ''}`;
 }

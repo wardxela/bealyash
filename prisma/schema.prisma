@@ -89,4 +89,11 @@ model Attachment {
   accessKey String?
   typeId    Int
   type      AttachmentType @relation(fields: [typeId], references: [id])
+  kuns      Kun[]
+}
+
+model Kun {
+  id       Int        @id @default(autoincrement())
+  photo    Attachment @relation(fields: [photo_id], references: [id])
+  photo_id Int
 }

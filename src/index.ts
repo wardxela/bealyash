@@ -27,7 +27,11 @@ import {
   updateRole,
 } from './containers/private';
 import { changeSize, onlyDickKraft, showSize } from './containers/dick-kraft';
-import { addAudio, onlyContentMakers } from './containers/content-maker';
+import {
+  addAudio,
+  addKun,
+  onlyContentMakers,
+} from './containers/content-maker';
 
 const bot = createBot(config);
 
@@ -79,5 +83,8 @@ bot.group(builder => {
 
 // Content maker
 bot.group(builder => {
-  builder.protect(/.*/, onlyContentMakers).set(/беляш добавь трек/i, addAudio);
+  builder
+    .protect(/.*/, onlyContentMakers)
+    .set(/^б(еляш)? добавь куна/i, addKun)
+    .set(/^б(еляш)? добавь трек/i, addAudio);
 });
