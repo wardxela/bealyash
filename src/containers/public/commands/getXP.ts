@@ -8,8 +8,8 @@ export const getXP: BotCommand = async event => {
 
   const profilePromise = findOrCreateProfile(from_id, peer_id);
   const memberPromise = getUsersOrGroups(from_id);
-  const [profile, member] = await Promise.all([profilePromise, memberPromise]);
-  const name = createVkMemberName(member.response[0]);
+  const [profile, members] = await Promise.all([profilePromise, memberPromise]);
+  const name = createVkMemberName(members[0]);
 
   const timeDiff = getTimeDiff(profile.xpUpdatedAt);
   if (timeDiff < HOUR * 3) {

@@ -24,7 +24,7 @@ export const useBoost: BotCommand = async event => {
     profilePromise,
   ]);
 
-  const member = memberData.response[0];
+  const member = memberData[0];
 
   if (profile && profile.booster) {
     return {

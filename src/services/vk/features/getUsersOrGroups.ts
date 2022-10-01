@@ -1,15 +1,25 @@
+import * as R from 'rambda';
+import { z } from 'zod';
+import {
+  VkGetGroupsByIdResponseSchema,
+  VkGetUserResponseSchema,
+} from '../response-schemas';
 import { getGroups } from './getGroups';
 import { getUsers } from './getUsers';
 
-export function getUsersOrGroups(members_ids: number | number[]) {
+export async function getUsersOrGroups(
+  members_ids: number | number[]
+): Promise<
+  z.infer<
+    typeof VkGetUserResponseSchema | typeof VkGetGroupsByIdResponseSchema
+  >['response']
+> {
   if (Array.isArray(members_ids)) {
-    if (members_ids.every(m => m > 0)) {
-      return getUsers(members_ids);
-    }
-    if (members_ids.every(m => m < 0)) {
-      return getGroups(-members_ids);
-    }
-    throw new Error('Every member id must be either less or greater than zero');
+    return R.flatten(
+      await Promise.all(members_ids.map(id => getUsersOrGroups(id)))
+    ) as any;
   }
-  return members_ids > 0 ? getUsers(members_ids) : getGroups(-members_ids);
+  return members_ids > 0
+    ? (await getUsers(members_ids)).response
+    : (await getGroups(-members_ids)).response;
 }
