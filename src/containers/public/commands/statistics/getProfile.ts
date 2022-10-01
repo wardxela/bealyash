@@ -57,7 +57,7 @@ export const getProfile: BotCommand = async event => {
     profile.boosterExpirationDate > new Date()
   ) {
     const expiresIn = timeToString(-getTimeDiff(profile.boosterExpirationDate));
-    booster = `Буст - "${profile.booster.title}" (${expiresIn})`;
+    booster = `"${profile.booster.title}" (${expiresIn})`;
   }
 
   const message = `&#128202; ${createVkMemberLink(
