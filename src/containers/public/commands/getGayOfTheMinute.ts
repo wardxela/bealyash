@@ -1,3 +1,4 @@
+import * as R from 'rambda';
 import { BotCommand } from '../../../core';
 import {
   createMap,
@@ -6,13 +7,18 @@ import {
   MINUTE,
   SECOND,
 } from '../../../utils';
-import { db, findOrCreateChat, getBoosterValue } from '../../../services/db';
+import { db, findOrCreateChat } from '../../../services/db';
 import {
   findMemberById,
   getConversationMembers,
   COMMUNITY_ID,
   createVkMemberName,
 } from '../../../services/vk';
+import {
+  calcTotalOutcomes,
+  createCoefficientMap,
+  getCoefficient,
+} from '../../../utils/probabilities';
 
 export const getGayOfTheMinute: BotCommand = async (event, match) => {
   const chatId = event.object.message.peer_id;
@@ -30,7 +36,7 @@ export const getGayOfTheMinute: BotCommand = async (event, match) => {
       userId: true,
     },
   });
-  const [chat, members, boosters] = await Promise.all([
+  const [chat, members, profiles] = await Promise.all([
     chatPromise,
     membersPromise,
     profilesPromise,
@@ -38,17 +44,19 @@ export const getGayOfTheMinute: BotCommand = async (event, match) => {
 
   let gayMemberId: number | null = chat.gayId;
   const shouldUpdate =
-    getTimeDiff(chat.updatedAt) > MINUTE || gayMemberId === null || true;
+    getTimeDiff(chat.updatedAt) > MINUTE || gayMemberId === null;
   if (shouldUpdate) {
     gayMemberId = 0;
-    const boostersMap = createMap(boosters, 'userId');
-    const totalOutcomes = members.response.items.reduce((a, m) => {
-      return a + getBoosterValue(boostersMap[m.member_id]);
-    }, 0);
-    let range = totalOutcomes;
-    const randomNumber = randomFloat(0, totalOutcomes);
+    const ids = R.pluck('member_id', members.response.items);
+    const coefficientMap = createCoefficientMap(
+      profiles,
+      'userId',
+      'booster.value'
+    );
+    let range = calcTotalOutcomes(coefficientMap, ids);
+    const randomNumber = randomFloat(0, range);
     for (const member of members.response.items) {
-      range -= getBoosterValue(boostersMap[member.member_id]);
+      range -= getCoefficient(coefficientMap, member.member_id);
       if (randomNumber >= range) {
         gayMemberId = member.member_id;
         break;
