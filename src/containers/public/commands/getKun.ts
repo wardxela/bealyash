@@ -1,28 +1,18 @@
 import { BotCommand } from '../../../core';
 import { db } from '../../../services/db';
 import { createVkMediaURL } from '../../../services/vk';
-import { randomFrom, randomInt } from '../../../utils';
+import { randomFrom, randomRange } from '../../../utils';
 
-export const getKun: BotCommand = async (event, match) => {
-  let count = match[1].includes('ы') ? 10 : parseInt(match[2]) || 1;
-  const totalCount = await db.kun.count();
-  let offset = randomInt(0, totalCount - 1);
-  const tail = offset + count - totalCount;
-  if (tail > 0) {
-    offset -= tail;
-  }
-  if (offset < 0) {
-    count += offset;
-    offset = 0;
-  }
+export const getKun: BotCommand = async (_, match) => {
+  const n = parseInt(match[2]);
+  const length = n ? n : match[1].includes('ы') ? 10 : 1;
+  const [skip, take] = randomRange(await db.kun.count(), length);
   const kuns = await db.kun.findMany({
-    skip: offset,
-    take: count,
+    skip,
+    take,
     include: {
       photo: {
-        include: {
-          type: true,
-        },
+        include: { type: true },
       },
     },
   });
