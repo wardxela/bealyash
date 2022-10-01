@@ -9,7 +9,6 @@ import { getTimeDiff, ruNumberToString, timeToString } from '../../../../utils';
 
 export const getProfile: BotCommand = async event => {
   const { from_id, peer_id } = event.object.message;
-
   const profilePromise = findOrCreateProfile(from_id, peer_id);
   const memberPromise = from_id > 0 ? getUsers(from_id) : getGroups(-from_id);
 

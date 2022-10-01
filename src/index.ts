@@ -38,7 +38,7 @@ const bot = createBot(config);
 // Public
 bot.set(/(кто|я|ты|вы|она?) пидо?р/i, getGayOfTheMinute);
 bot.set(/тян/i, getChan);
-bot.set(/кун/i, getKun);
+bot.set(/(куны?)( \d+)?/i, getKun);
 bot.set(/б(еляш)? (трек|музыка|микс|музло)/i, getAudio);
 bot.set(/б(еляш)? буст/i, useBoost);
 bot.set(/б(еляш)? фарм/i, getXP);
@@ -85,6 +85,6 @@ bot.group(builder => {
 bot.group(builder => {
   builder
     .protect(/.*/, onlyContentMakers)
-    .set(/^б(еляш)? добавь куна/i, addKun)
+    .set(/^б(еляш)? добавь (куна|кунов)/i, addKun)
     .set(/^б(еляш)? добавь трек/i, addAudio);
 });
