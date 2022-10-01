@@ -1,7 +1,7 @@
 import { BotCommand } from '../../../core';
 import { db } from '../../../services/db';
 import { createVkMemberLink, getUsersOrGroups } from '../../../services/vk';
-import { randomFloat } from '../../../utils';
+import { randomFloat, timeToString } from '../../../utils';
 
 export const useBoost: BotCommand = async event => {
   const { from_id, peer_id } = event.object.message;
@@ -95,9 +95,10 @@ export const useBoost: BotCommand = async event => {
   return {
     message: `${createVkMemberLink(member)}, ты получил буст "${
       randomBooster.title
-    }"\nРедкость: ${randomBooster.rarity.title}\nОписание: ${
-      randomBooster.description
-    }`,
+    }"
+    Редкость: ${randomBooster.rarity.title}
+    Время действия: ${timeToString(randomBooster.duration)}
+    Описание: ${randomBooster.description}`,
     attachment: randomBooster.photo ? randomBooster.photo : '',
   };
 };
