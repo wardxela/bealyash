@@ -63,13 +63,13 @@ export const getProfile: BotCommand = async event => {
   const message = `&#128202; ${createVkMemberLink(
     member.response[0]
   )}, твой профиль:
-  &#11088; Опыт - ${profile.xp} XP
-  &#127987;&#65039;&#8205;&#127752; Пидор - ${ruNumberToString(
+&#11088; Опыт - ${profile.xp} XP
+&#127987;&#65039;&#8205;&#127752; Пидор - ${ruNumberToString(
     profile.gayCounter
   )}
-  &#128101; Роли - ${roles}
-  &#9889; Буст - ${booster}
-  &#128175; Шанс опидорения - ${calcProbability(
+&#128101; Роли - ${roles}
+&#9889; Буст - ${booster}
+&#128175; Шанс опидорения - ${calcProbability(
     coefficientMap,
     ids,
     profile.userId

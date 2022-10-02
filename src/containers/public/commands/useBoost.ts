@@ -95,10 +95,9 @@ export const useBoost: BotCommand = async event => {
   return {
     message: `${createVkMemberLink(member)}, ты получил буст "${
       randomBooster.title
-    }"
-    Редкость: ${randomBooster.rarity.title}
-    Время действия: ${timeToString(randomBooster.duration)}
-    Описание: ${randomBooster.description}`,
+    }"Редкость: ${randomBooster.rarity.title}
+Время действия: ${timeToString(randomBooster.duration)}
+Описание: ${randomBooster.description}`,
     attachment: randomBooster.photo ? randomBooster.photo : '',
   };
 };
