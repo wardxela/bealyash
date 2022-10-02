@@ -1,7 +1,7 @@
 import { BotCommand } from '../../../core';
 import { db } from '../../../services/db';
 import { createVkMemberLink, getUsersOrGroups } from '../../../services/vk';
-import { randomFloat, timeToString } from '../../../utils';
+import { getTimeDiff, randomFloat, timeToString } from '../../../utils';
 
 export const useBoost: BotCommand = async event => {
   const { from_id, peer_id } = event.object.message;
@@ -28,9 +28,10 @@ export const useBoost: BotCommand = async event => {
 
   if (profile && profile.booster) {
     return {
-      message: `У ${createVkMemberLink(member, 'тебя')} уже есть буст "${
+      message: `${createVkMemberLink(member)}, у тебя уже есть буст "${
         profile.booster.title
-      }"`,
+      }"
+Приходи ещё через ${timeToString(-getTimeDiff(new Date()))}`,
     };
   }
 
