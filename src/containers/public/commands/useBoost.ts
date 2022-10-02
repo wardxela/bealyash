@@ -16,6 +16,7 @@ export const useBoost: BotCommand = async event => {
       boosterExpirationDate: { gt: new Date() },
     },
     select: {
+      boosterExpirationDate: true,
       booster: { select: { title: true } },
     },
   });
@@ -31,7 +32,9 @@ export const useBoost: BotCommand = async event => {
       message: `${createVkMemberLink(member)}, у тебя уже есть буст "${
         profile.booster.title
       }"
-Приходи ещё через ${timeToString(-getTimeDiff(new Date()))}`,
+Приходи ещё через ${timeToString(
+        -getTimeDiff(profile.boosterExpirationDate || new Date())
+      )}`,
     };
   }
 
@@ -96,7 +99,8 @@ export const useBoost: BotCommand = async event => {
   return {
     message: `${createVkMemberLink(member)}, ты получил буст "${
       randomBooster.title
-    }"Редкость: ${randomBooster.rarity.title}
+    }"
+Редкость: ${randomBooster.rarity.title}
 Время действия: ${timeToString(randomBooster.duration)}
 Описание: ${randomBooster.description}`,
     attachment: randomBooster.photo ? randomBooster.photo : '',
