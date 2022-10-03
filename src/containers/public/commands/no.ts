@@ -26,5 +26,5 @@ export const no: BotCommand = async event => {
     },
   });
 
-  return { attachment: 'photo-210983855_457240426' };
+  return { message: '+1', attachment: 'photo-210983855_457240426' };
 };
