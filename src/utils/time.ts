@@ -1,4 +1,11 @@
-import { DAY, HOUR, MINUTE, SECOND } from './constants';
+export const SECOND = 1000;
+export const MINUTE = SECOND * 60;
+export const HOUR = MINUTE * 60;
+export const DAY = HOUR * 24;
+
+export function getTimeDiff(date: Date): number {
+  return new Date().getTime() - date.getTime();
+}
 
 export function timeToString(ms: number): string {
   let quotient: number;
