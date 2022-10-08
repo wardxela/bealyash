@@ -1,9 +1,9 @@
 import { BotCommand } from '../../../core';
 import { createVkMediaURL } from '../../../services/vk';
 
-export const echo: BotCommand = event => {
+export const echo: BotCommand = (event, match) => {
   return {
-    message: event.object.message.text,
+    message: event.object.message.text.replace(match[0], '').trim(),
     attachment: event.object.message.attachments
       .map(attachment => {
         switch (attachment.type) {
