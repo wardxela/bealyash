@@ -20,6 +20,7 @@ import {
   getTopGays,
   yes,
   no,
+  echo,
 } from './containers/public';
 import {
   createRole,
@@ -48,6 +49,7 @@ bot.set(/б(еляш)? пикча( \d+)?/i, getGirlPicture);
 bot.set(/б(еляш)? топ/i, getTopGays);
 bot.set(/^да$/i, yes);
 bot.set(/^нет$/i, no);
+bot.set(/б(еляш)? эхо/i, echo);
 
 // Users
 bot.group(builder => {

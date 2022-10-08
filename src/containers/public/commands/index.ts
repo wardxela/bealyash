@@ -10,3 +10,4 @@ export { yes } from './yes';
 export { getKun } from './getKun';
 export { getTopGays } from './getTopGays';
 export { no } from './no';
+export { echo } from './echo';
