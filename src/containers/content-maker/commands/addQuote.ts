@@ -12,6 +12,8 @@ const POSSIBLE_RESPONSES = [
 ];
 
 export const addQuote: BotCommand = async (_, match) => {
-  await db.quote.create({ data: { text: match[1] } });
+  await db.quote.create({
+    data: { text: match[0].replace('вцк добавь ', '') },
+  });
   return { message: randomFrom(POSSIBLE_RESPONSES) };
 };

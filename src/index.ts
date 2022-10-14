@@ -96,5 +96,5 @@ bot.group(builder => {
     .protect(/.*/, onlyContentMakers)
     .set(/^б(еляш)? добавь (куна|кунов)/i, addKun)
     .set(/^б(еляш)? добавь трек/i, addAudio)
-    .set(/вцк добавь (.+)/i, addQuote);
+    .set(/вцк добавь/i, addQuote);
 });
