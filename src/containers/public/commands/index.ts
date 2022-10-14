@@ -11,3 +11,4 @@ export { getKun } from './getKun';
 export { getTopGays } from './getTopGays';
 export { no } from './no';
 export { echo } from './echo';
+export { getGreatQuote } from './getGreatQuote';

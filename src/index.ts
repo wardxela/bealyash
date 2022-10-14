@@ -21,6 +21,7 @@ import {
   yes,
   no,
   echo,
+  getGreatQuote,
 } from './containers/public';
 import {
   createRole,
@@ -33,6 +34,7 @@ import { changeSize, onlyDickKraft, showSize } from './containers/dick-kraft';
 import {
   addAudio,
   addKun,
+  addQuote,
   onlyContentMakers,
 } from './containers/content-maker';
 
@@ -50,6 +52,7 @@ bot.set(/б(еляш)? топ/i, getTopGays);
 bot.set(/^да$/i, yes);
 bot.set(/^нет$/i, no);
 bot.set(/б(еляш)? эхо/i, echo);
+bot.set(/^вцк$/i, getGreatQuote);
 
 // Users
 bot.group(builder => {
@@ -92,5 +95,6 @@ bot.group(builder => {
   builder
     .protect(/.*/, onlyContentMakers)
     .set(/^б(еляш)? добавь (куна|кунов)/i, addKun)
-    .set(/^б(еляш)? добавь трек/i, addAudio);
+    .set(/^б(еляш)? добавь трек/i, addAudio)
+    .set(/вцк добавь (.+)/i, addQuote);
 });

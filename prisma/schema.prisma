@@ -97,3 +97,8 @@ model Kun {
   photo    Attachment @relation(fields: [photo_id], references: [id])
   photo_id Int
 }
+
+model Quote {
+  id   Int    @id @default(autoincrement())
+  text String
+}
