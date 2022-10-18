@@ -26,11 +26,7 @@ export async function findOrCreateProfile(userId: number, chatId: number) {
     },
   });
 
-  if (profile) {
-    return profile;
-  }
-
-  return db.profile.create({
+  return profile ? profile : db.profile.create({
     data: {
       userId,
       chat: {
